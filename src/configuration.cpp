@@ -103,7 +103,7 @@ QVariant CConfiguration::getParameter(QString const& sKey) const
     auto it = m_mapParam.find(sKey);
     if (it != m_mapParam.end())
         return it.value();
-    return QString();
+    return QVariant();
 }
 
 
