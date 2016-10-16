@@ -62,5 +62,4 @@ private:
 	QVector<QDateTime> m_arr_data;
 };
 
-
 #endif //__CVECTOR___

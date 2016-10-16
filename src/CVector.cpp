@@ -21,7 +21,6 @@ int CIntData::GetCount() const
 	return m_arr_data.size();
 }
 
-
 // 
 // CDoubleData implementation
 //

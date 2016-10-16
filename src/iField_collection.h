@@ -4,7 +4,14 @@
 class QVariant;
 class QString;
 class QDateTime;
+class CIntData;
+class CDoubleData;
+class CDateTimeData;
+class CStringData;
+class QStringList;
 
+typedef QString Field;
+typedef QStringList FieldList;
 // *
 //  Declaration of interfaces `
 //  IVector
@@ -39,7 +46,7 @@ public:
 	virtual double GetAt(int index) const = 0;
 };
 
-class IDateTime : public IVector
+class IDateTimeVector : public IVector
 {
 public:
 	virtual QDateTime GetAt(int index) const = 0;
@@ -59,13 +66,13 @@ public:
     //Returns field name
     virtual Field GetField() const = 0;
     //Returns whole field in vector<int>
-    virtual IIntVector GetIntData() const = 0;
+    virtual CIntData GetIntData() const = 0;
     //Returns whole field in vector<double>
-    virtual IDoubleVector GetDoubleData() const = 0;
+    virtual CDoubleData GetDoubleData() const = 0;
     //Returns whole field in vector<string>
-    virtual IStringVector GetStringData() const = 0;
+    virtual CStringData GetStringData() const = 0;
     //Returns whole field in vector<QDateTime>
-    virtual IDateTime GetDateTimeData() const = 0;
+    virtual CDateTimeData GetDateTimeData() const = 0;
 };
 
 class IFieldCollection
