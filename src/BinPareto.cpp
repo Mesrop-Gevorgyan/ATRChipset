@@ -1,6 +1,6 @@
 #include "BinPareto.h"
 
-BinPareto::BinPAreto()
+BinPareto::BinPAreto():m_view(new QWidget())
 {}
 
 void BinPareto::setConfig(const Configuration & config)
@@ -15,12 +15,11 @@ void BinPareto::setData(const DataSelection &)
 
 QWidget * BinPareto::getView()const
 {
-
+	return m_view->window();
 }
 
 void BinPareto::run()const
 {
-
 }
 
 BinPAreto::~BinPareto()
