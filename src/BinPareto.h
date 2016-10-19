@@ -13,6 +13,7 @@ public:
 private:
 	Configuration m_config;
 	DataSelection m_data;
+	QWidget *m_view;
 };
 
 #endif //BinPareto_H
