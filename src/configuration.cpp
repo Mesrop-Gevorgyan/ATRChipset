@@ -11,16 +11,16 @@
 
 
 QString const CConfiguration::sConfigDescription = QString("configDescription");
-QString const CConfiguration::sConfigParameters = QString("configparameters");
-QString const CConfiguration::sConfigName = QString("configname");
-QString const CConfiguration::sConfigType = QString("configtype");
-QString const CConfiguration::sConfigVersion = QString("configversion");
+QString const CConfiguration::sConfigParameters = QString("configParameters");
+QString const CConfiguration::sConfigName = QString("configName");
+QString const CConfiguration::sConfigType = QString("configType");
+QString const CConfiguration::sConfigVersion = QString("configVersion");
 
 
 CConfiguration::CConfiguration()
     : m_sName(),
       m_sType(),
-      m_nVersion(0),
+      m_nVersion(0.0),
       m_mapParam()
 {
 
@@ -48,6 +48,11 @@ CConfiguration CConfiguration::loadConfigFromFile(QString const & sPath)
 	CConfiguration oConfig;
 	oConfig.load(sPath);
 	return oConfig;
+}
+
+QString CConfiguration::getFileFormat()
+{
+	return QString(".json");
 }
 
 
@@ -103,7 +108,7 @@ QVariant CConfiguration::getParameter(QString const& sKey) const
     auto it = m_mapParam.find(sKey);
     if (it != m_mapParam.end())
         return it.value();
-    return QVariant();
+    return QString();
 }
 
 
@@ -131,7 +136,7 @@ void CConfiguration::reset()
 {
     m_sName.clear();
     m_sType.clear();
-    m_nVersion = 0;
+    m_nVersion = 0.0;
     m_mapParam.clear();
 }
 
@@ -145,7 +150,8 @@ void CConfiguration::clearParameters()
 void CConfiguration::load(QString const& sPath)
 {
 	reset();
-    QFile configFile(sPath);
+	QString fileFullPath = sPath + m_sName + getFileFormat();
+	QFile configFile(fileFullPath);
     // Open file only for reading
     if (configFile.open(QFile::ReadOnly | QFile::Text))
     {
@@ -177,7 +183,8 @@ void CConfiguration::load(QString const& sPath)
 
 void CConfiguration::save(QString const& sPath) const
 {
-    QFile configFile(sPath);
+	QString fileFullPath = sPath + m_sName + getFileFormat();
+    QFile configFile(fileFullPath);
     // Open file only for writing
     if (configFile.open(QFile::WriteOnly | QFile::Text))
     {

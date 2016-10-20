@@ -2,6 +2,7 @@
 #define CONFIGURATION_H
 
 
+
 // Forward seclaration
 #include <QString>
 #include <QVariant>
@@ -17,6 +18,8 @@ public:
 	// Static functions
 	// Load configuration from file
 	static CConfiguration loadConfigFromFile(QString const& sPath);
+	// Get file format
+	static QString getFileFormat();
 
 public:
     // Default constructor
@@ -40,7 +43,7 @@ public:
 
     // Get/Set config parameters
     void setParameter(QString const& sKey, const QVariant& value);
-    QVariant getParameter(QString const& sKey) const;
+	QVariant getParameter(QString const& sKey) const;
 
     int getParamCount() const;
     bool isEmpty() const;
@@ -74,7 +77,7 @@ private:
     int								m_nVersion;
 
     // Config parameters
-    QVariantHash					m_mapParam;
+	QVariantHash					m_mapParam;
 };
 //////////////////////////////////////////////////////////////////////////
 
