@@ -1,37 +1,53 @@
 
-
 #ifndef WAFER_CONFIG_EDITOR_H
 #define WAFER_CONFIG_EDITOR_H
 
 
-#include <QtGui\QWidget>
-#include <QtGui\QListWidget>
-#include <QtGui\QRadioButton>
+#include <QWidget>
+#include <QListWidget>
+#include <QRadioButton>
 
 
+// Wafer run mode
+enum class WaferMode { MF, Yield };
+// Bin type
+enum class BinType { HBin, SBin };
 
+
+//! Class CWaferConfigEditor, this is a window for parameter selection
+//  Parameters used to run wafer analysis
 class CWaferConfigEditor : public QWidget
 {
 public:
+	// Default constructor
 	CWaferConfigEditor(QWidget* parent = nullptr);
+	// Destructor
 	~CWaferConfigEditor();
+
+	// Set wafer list s string list
+	void setWafers(QStringList const& aWafer);
+	// Get selected wafers(names)
+	QStringList getSelectedWafers() const;
+	// Get Wafer analysis mode
+	WaferMode getMode() const;
+	// Get Bin type
+	BinType getBinType() const;
 
 protected:
 	void setupUi();
 
 private:
 	// List of wafers
-	QListWidget*			m_pWafers;
+	QListWidget*			m_pLstWafer;
 	// Bin type
-	QRadioButton*			m_pHBin;
-	QRadioButton*			m_pSBin;
+	QRadioButton*			m_pBtnHBin;
+	QRadioButton*			m_pBtnSBin;
 	// Wafer mode
-	QRadioButton*			m_pMF;
-	QRadioButton*			m_pYield;
+	QRadioButton*			m_pBtnMF;
+	QRadioButton*			m_pBtnYield;
 };
 
 
 
 
 #endif //WAFER_CONFIG_EDITOR_H
-
