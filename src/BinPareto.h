@@ -5,9 +5,13 @@ class BinPareto :public IAnalyser
 {
 public:
 	BinPareto();
+	//set configuration
 	void setConfig(const Configuration &);
+	//set data selection
 	void setData(const DataSelection &);
+	//shows the window of result
 	QWidget *getView()const;
+	//runs the analyse 
 	void run()const;
 	~BinPareto();
 private:
@@ -17,3 +21,4 @@ private:
 };
 
 #endif //BinPareto_H
+
