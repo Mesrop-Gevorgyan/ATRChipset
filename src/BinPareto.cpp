@@ -15,7 +15,7 @@ void BinPareto::setData(const DataSelection &)
 
 QWidget * BinPareto::getView()const
 {
-	return m_view->window();
+	//return m_view->window();
 }
 
 void BinPareto::run()const
