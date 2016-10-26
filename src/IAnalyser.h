@@ -10,7 +10,7 @@ public:
 	virtual void setConfig(const Configuration &) = 0;
 	//set data selection
 	virtual void setData(const DataSelection &) = 0;
-	//shows the result of analyse
+	//shows the window of result
 	QWidget *getView()const = 0;
 	//runs the analyse 
 	void run()const = 0;
