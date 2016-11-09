@@ -4,6 +4,7 @@
 #include <QString>
 #include <QVector>
 #include <QMap>
+#include <QDateTime>
 #include "iField_collection.h"
 
 //
@@ -25,21 +26,55 @@ private:
 	QString m_device;
 };
 
+// 
+// This enum use for representation Test Conditions
+// Initially we have only temperature,but we can add others
+// 
+enum TestCondition
+{
+	Temperature,
+};
+
+//
+// This enum use for represent file type
+//
+enum FileType
+{
+	BinData,
+	BinDefinition,
+	ParameterDefinition,
+	ParameterData,
+	ParameterLimits,
+};
+
+//
+// Use this struct for represent file
+// struct or class ??? struct is more comfortable
+//
+struct FileInfo
+{
+	Context m_context;
+	QDateTime m_date;
+	TestCondition m_testCondition;
+	FileType m_fileType;
+	QString m_fileName;
+};
+
 //
 // MainData declaration
 //
 // This class will be used for declaring each file content,with context and binData 
-// Context is ID of file
-// With context can access to file content
+// FileInfo is ID of file
+// With FileInfo can access to file content
 //
 class MainData
 {
 public:
 	MainData();
-	void add(Context, QVector<QVector<IVector*>>);
-	QVector<QVector<IVector*>> getBinData(const Context&) const throw();
+	void add(FileInfo, QVector<IVector*>);
+    QVector<IVector*> getBinData(const FileInfo&) const throw();
 private:
-	QMap<Context, QVector<QVector<IVector*>>> m_data;
+	QMap<FileInfo, QVector<IVector*>> m_data;
 };
 
 #endif //__MAINDATA__

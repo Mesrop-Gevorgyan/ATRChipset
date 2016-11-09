@@ -4,6 +4,7 @@
 #include <QVector>
 #include <QString>
 #include <QDateTime>
+#include <QVariant>
 #include "IField_collection.h"
 
 // 
@@ -16,6 +17,7 @@ public:
 	CIntData(QVector<int>);
 	int GetAt(int) const override;
 	int GetCount() const override;
+	QVariant GetValue(int index) const override;
 private:
 	QVector<int> m_arr_data;
 };
@@ -30,6 +32,7 @@ public:
 	CDoubleData(QVector<double>);
 	double GetAt(int) const override;
 	int GetCount() const override;
+	QVariant GetValue(int index) const override;
 private:
 	QVector<double> m_arr_data;
 };
@@ -44,6 +47,7 @@ public:
 	CStringData(QVector<QString>);
 	QString GetAt(int) const override;
 	int GetCount() const override;
+	QVariant GetValue(int index) const override;
 private:
 	QVector<QString> m_arr_data;
 };
@@ -58,6 +62,7 @@ public:
 	CDateTimeData(QVector<QDateTime>);
 	QDateTime GetAt(int) const override;
 	int GetCount() const override;
+	QVariant GetValue(int index) const override;
 private:
 	QVector<QDateTime> m_arr_data;
 };
