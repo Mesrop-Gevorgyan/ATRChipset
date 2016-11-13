@@ -5,26 +5,7 @@
 #include <QVector>
 #include <QMap>
 #include <QDateTime>
-#include "iField_collection.h"
-
-//
-// Context declaration
-//
-// This class will be used for declaring each file context (lot,wafer,device)
-//
-class Context
-{
-public:
-	Context();
-	Context(QString, QString, QString);
-	QString GetLot() const;
-	QString GetWafer() const;
-	QString GetDevice() const;
-private:
-	QString m_lot;
-	QString m_wafer;
-	QString m_device;
-};
+#include "IVector.h"
 
 // 
 // This enum use for representation Test Conditions
