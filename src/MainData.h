@@ -6,19 +6,13 @@
 #include <QMap>
 #include <QDateTime>
 #include "IVector.h"
+#include "Context.h"
 
-// 
-// This enum use for representation Test Conditions
-// Initially we have only temperature,but we can add others
-// 
 enum TestCondition
 {
 	Temperature,
 };
 
-//
-// This enum use for represent file type
-//
 enum FileType
 {
 	BinData,
@@ -28,10 +22,6 @@ enum FileType
 	ParameterLimits,
 };
 
-//
-// Use this struct for represent file
-// struct or class ??? struct is more comfortable
-//
 struct FileInfo
 {
 	Context m_context;
@@ -41,19 +31,12 @@ struct FileInfo
 	QString m_fileName;
 };
 
-//
-// MainData declaration
-//
-// This class will be used for declaring each file content,with context and binData 
-// FileInfo is ID of file
-// With FileInfo can access to file content
-//
 class MainData
 {
 public:
 	MainData();
 	void add(FileInfo, QVector<IVector*>);
-    QVector<IVector*> getBinData(const FileInfo&) const throw();
+    QVector<IVector*> getBinData(const FileInfo&) const;
 private:
 	QMap<FileInfo, QVector<IVector*>> m_data;
 };

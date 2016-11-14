@@ -1,8 +1,10 @@
 #ifndef __IFIELDCOLLECTION__
 #define __IFIELDCOLLECTION__
 
+class QString;
+
 typedef QString Field;
-class IFieldData
+class IFieldData;
 
 class IFieldCollection
 {

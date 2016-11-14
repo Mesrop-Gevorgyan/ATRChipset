@@ -2,26 +2,26 @@
 #define __CONTEXT__
 
 #include <QString>
-#include <QVector>
+#include <QMap>
 
-//
-// Context declaration
-//
-// This class will be used for declaring each file context (lot,wafer,device)
-//
+typedef QString Field;
+typedef QString Value;
+
 
 class Context
 {
 public:
 	Context();
-	Context(QString, QString, QString);
+	Context(QMap<Field, Value>);
 	QString GetLot() const;
 	QString GetWafer() const;
 	QString GetDevice() const;
+	QString GetTechnology() const;
+	QString GetTestProgram() const;
+	QString GetStep() const;
+	QString GetDate() const;
 private:
-	QString m_lot;
-	QString m_wafer;
-	QString m_device;
+	QMap <Field,Value> m_context;
 };
 
 #endif //__CONTEXT__

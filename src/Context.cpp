@@ -1,39 +1,61 @@
 #include "Context.h"
 
-Context::Context() : m_lot(), m_wafer(), m_device() {}
+Context::Context() : m_context() {}
 
-Context::Context(QString lot, QString wafer, QString device)
-	: m_lot(lot), m_wafer(wafer), m_device(device) {}
+Context::Context(QMap<QString,QString> context)  : m_context(context) {}
 
 QString Context::GetLot() const
 {
-	return m_lot;
+	if (m_context.find("Lot") != m_context.end())
+		return m_context["Lot"];
+	else
+		return QString();
 }
 
 QString Context::GetWafer() const
 {
-	return m_wafer;
+	if (m_context.find("Wafer") != m_context.end())
+		return m_context["Wafer"];
+	else
+		return QString();
 }
 
 QString Context::GetDevice() const
 {
-	return m_device;
+	if (m_context.find("Device") != m_context.end())
+		return m_context["Device"];
+	else
+		return QString();
 }
 
-//
-// Operator < for context class
-// Without this cant insert Context to map
-//
-bool operator<(const Context& context1, const Context& context2)
+QString Context::GetTechnology() const
 {
-	if (context1.GetLot() < context2.GetLot())
-		return true;
+	if (m_context.find("Technology") != m_context.end())
+		return m_context["Technology"];
 	else
-		if (context1.GetWafer() < context2.GetWafer())
-			return true;
-		else
-			if (context1.GetDevice() < context2.GetDevice())
-				return true;
-			else
-				return false;
+		return QString();
+}
+
+QString Context::GetTestProgram() const
+{
+	if (m_context.find("TestProgram") != m_context.end())
+		return m_context["TestProgram"];
+	else
+		return QString();
+}
+
+QString Context::GetStep() const
+{
+	if (m_context.find("Step") != m_context.end())
+		return m_context["Step"];
+	else
+		return QString();
+}
+
+QString Context::GetDate() const
+{
+	if (m_context.find("Date") != m_context.end())
+		return m_context["Date"];
+	else
+		return QString();
 }
