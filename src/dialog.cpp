@@ -51,19 +51,10 @@ Dialog::~Dialog()
 {
     delete ui;
 }
-#include <iostream>
+
 void Dialog::on_comboBox_currentIndexChanged(const QString &arg1)
 {
     QVector<QString> choices;
-    std::cout<<arg1.toStdString()<<std::endl;
-   //for (int i = 0; i< CheckBoxVec.size(); ++i)
-    //{
-        //CheckBoxVec[i]->hide();
-        //delete CheckBoxVec[i];
-    //}
-    //CheckBoxVec.resize(0);
-    //std::cout<<CheckBoxVec.size()<<std::endl;
-
     if (arg1 == "   Yield" || arg1 == "   Bin Summary")
     {
         QVector<QString> current_choices;
@@ -83,39 +74,12 @@ void Dialog::on_comboBox_currentIndexChanged(const QString &arg1)
         current_choices.push_back("Kurtosis");
         choices = current_choices;
     }
-        //QCheckBox * pchb = new QCheckBox();
-        //pchb->setText("HBIN");
-        //QCheckBox * pchb_1 = new QCheckBox();
-        //pchb_1->setText("SBIN");
-        //CheckBoxVec.push_back(pchb);
-        //CheckBoxVec.push_back(pchb_1);
-        //pchb->show();
-        //pchb_1->show();
 
-    //}
-    //std::cout<<CheckBoxVec.size()<<std::endl;
-
-    /*if (arg1 == "   Yield" || arg1 == "   Bin Summary")
-    {
-        //HBIN and SBIN
-    }
-    else
-    {
-        //MIN MAX MEDIAN ...
-    }*/
-
-    //remove layout contant
+    //remove all layout items
     QLayoutItem *child;
     while ((child = ui->verticalLayout->takeAt(0)) != 0)  {
         delete child->widget();
     }
-
-    /*QList<QWidget *> widgets = ui->verticalLayout->findChildren<QWidget *>();
-    foreach(QWidget * child, widgets)
-    {
-        ui->verticalLayout->removeWidget(child);
-        delete child;
-    }*/
 
     QFont font = ui->label->font();
     font.setPointSize(16);
@@ -125,7 +89,6 @@ void Dialog::on_comboBox_currentIndexChanged(const QString &arg1)
         QCheckBox * c_b = new QCheckBox(choices[i],this);
         c_b->setFont(font);
         c_b->setStyleSheet("QCheckBox {color : #007fff; }");
-        std::cout<<choices[i].toStdString()<<std::endl;
         ui->verticalLayout->addWidget(c_b);
     }
 }
