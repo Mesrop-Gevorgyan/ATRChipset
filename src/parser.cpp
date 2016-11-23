@@ -2,13 +2,12 @@
 
 parser::parser(const QString& name)
 {
-    m_file.m_fileName = name;
+    m_file.m_filePath = name;
 }
 
 FileInfo parser::scanner()
 {
-    QFile f(m_file.m_fileName);
-    QMap<Field, Value> context;
+    QFile f(m_file.m_filePath);
     if (f.open(QIODevice::ReadOnly | QIODevice::Text))
     {
         QTextStream in(&f);
@@ -22,7 +21,7 @@ FileInfo parser::scanner()
                 continue;
             }
             in>>word;
-            if(word == "BinDefinition")
+            if (word == "BinDefinition")
             {
                 m_file.m_fileType=BinDefinition;
                 in.readLine();
@@ -32,87 +31,143 @@ FileInfo parser::scanner()
                 {
                     if (word != "@Context" && word != "")
                     {
-                        QString key = word;
+                        word.remove(':');
+                        Field fieldName(word);
                         in>>word;
-                        key.remove(':');
-                        context[key] = word;
+                        FieldValue val(word,Context);
+                        m_file.m_fileContext.add(fieldName,val);
                     }
                     in>>word;
                 }
                 break;
             }
-            if(word == "BinData")
+            if (word == "BinData")
             {
                 m_file.m_fileType=BinData;
                 in.readLine();
                 in.readLine();
                 in>>word;
+                FieldType ft;
                 while(word != "@Data")
                 {
-                    if (word != "@Context" && word != "@TestConditions" && word != "")
-                    {
-                        QString key = word;
-                        word = in.readLine();
-                        key.remove(':');
-                        context[key] = word.remove(' ');
-                    }
+                    if (word == "@Context")
+                        ft = Context;
+                    else
+                        if (word == "@TestConditions")
+                            ft = TestCondition;
+                        else
+                            if (word != "")
+                            {
+                                if (word == "Date:")
+                                {
+                                    in>>word;
+                                    m_file.m_date.setDate(QDate::fromString(word,"dd/MM/yyyy"));
+                                    in>>word;
+                                    m_file.m_date.setTime(QTime::fromString(word));
+                                }
+                                else
+                                {
+                                    word.remove(':');
+                                    Field fieldName(word);
+                                    in>>word;
+                                    FieldValue val(word,ft);
+                                    m_file.m_fileContext.add(fieldName,val);
+                                };
+                            }
                     in>>word;
                 }
                 break;
             }
-            if(word == "ParameterDefinition")
+            if (word == "ParameterDefinition")
             {
                 m_file.m_fileType=ParameterDefinition;
                 in.readLine();
                 in.readLine();
                 in>>word;
-                while(word !=  "@Data")
+                while (word !=  "@Data")
                 {
                     if (word != "@Context" && word != "")
                     {
-                        QString key = word;
+                        word.remove(':');
+                        Field fieldName(word);
                         in>>word;
-                        key.remove(':');
-                        context[key] = word;
+                        FieldValue val(word,Context);
+                        m_file.m_fileContext.add(fieldName,val);
                     }
                     in>>word;
                 }
                 break;
             }
-            if(word == "ParameterData")
+            if (word == "ParameterData")
             {
                 m_file.m_fileType=ParameterData;
                 in.readLine();
                 in.readLine();
                 in>>word;
-                while(word != "@Data")
+                FieldType ft;
+                while (word != "@Data")
                 {
-                    if (word != "@Context" && word != "@TestConditions" && word != "")
-                    {
-                        QString key = word;
-                        word = in.readLine();
-                        key.remove(':');
-                        context[key] = word.remove(' ');
-                    }
+                    if (word == "@Context")
+                        ft = Context;
+                    else
+                        if (word == "@TestConditions")
+                            ft = TestCondition;
+                        else
+                            if (word != "")
+                            {
+                                if (word == "Date:")
+                                {
+                                    in>>word;
+                                    m_file.m_date.setDate(QDate::fromString(word,"dd/MM/yyyy"));
+                                    in>>word;
+                                    m_file.m_date.setTime(QTime::fromString(word));
+                                }
+                                else
+                                {
+                                    word.remove(':');
+                                    Field fieldName(word);
+                                    in>>word;
+                                    FieldValue val(word,ft);
+                                    m_file.m_fileContext.add(fieldName,val);
+                                };
+                            }
                     in>>word;
                 }
                 break;
             }
-            if(word == "ParameterLimits")
+            if (word == "ParameterLimits")
             {
                 m_file.m_fileType=ParameterLimits;
                 in.readLine();
                 in.readLine();
                 in>>word;
-                while(word != "@Data")
+                FieldType ft;
+                while (word != "@Data")
                 {
-                    if (word != "@Context" && word != "@TestConditions" && word != "")
-                    {
-                        QString key = word;
-                        word = in.readLine();
-                        key.remove(':');
-                        context[key] = word.remove(' ');
-                    }
+                    if (word == "@Context")
+                        ft = Context;
+                    else
+                        if (word == "@TestConditions")
+                            ft = TestCondition;
+                        else
+                            if (word != "")
+                            {
+                                if (word == "Date:")
+                                {
+                                    in>>word;
+                                    m_file.m_date.setDate(QDate::fromString(word,"dd/MM/yyyy"));
+                                    in>>word;
+                                    m_file.m_date.setTime(QTime::fromString(word));
+                                }
+                                else
+                                {
+                                    word.remove(':');
+                                    Field fieldName(word);
+                                    in>>word;
+                                    FieldValue val(word,ft);
+                                    m_file.m_fileContext.add(fieldName,val);
+                                };
+                            }
                     in>>word;
                 }
                 break;
@@ -121,6 +176,193 @@ FileInfo parser::scanner()
         }
         f.close();
     }
-    m_file.m_context.SetContext(context);
     return m_file;
+}
+
+QPair<FileInfo, CVectorCollection> parser::loader()
+{
+    scanner();
+    FileType ft = m_file.m_fileType;
+    QVector<IVector*> data;
+    QFile f(m_file.m_filePath);
+    if (f.open(QIODevice::ReadOnly | QIODevice::Text))
+    {
+        QTextStream in(&f);
+        if (ft == BinDefinition)
+        {
+            QVector<QString>  Bin,BinType,BinName,PassFail;
+            QString word;
+            in>>word;
+            while (word != "@Data")
+            {
+                in.readLine();
+                in>>word;
+            }
+            in.readLine();
+            in.readLine();
+            while (!in.atEnd() )
+            {
+                in>>word;
+                QStringList sl = word.split(";");
+                Bin.push_back(sl[0]);
+                BinType.push_back(sl[1]);
+                BinName.push_back(sl[2]);
+                PassFail.push_back(sl[3]);
+            }
+            CStringData* bin = new CStringData(Bin);
+            CStringData* type = new CStringData(BinType);
+            CStringData*  name= new CStringData(BinName);
+            CStringData* pass = new CStringData(PassFail);
+            data.push_back(bin);
+            data.push_back(type);
+            data.push_back(name);
+            data.push_back(pass);
+        }
+        else
+            if (ft == BinData)
+            {
+                QVector<QString> Bin,BinType;
+                QVector<int> DieX,DieY;
+                QString word;
+                in>>word;
+                while (word != "@Data")
+                {
+                    in.readLine();
+                    in>>word;
+                }
+                in.readLine();
+                in.readLine();
+                while (!in.atEnd() )
+                {
+                    int x;
+                    char ch;
+                    in>>x>>ch;
+                    DieX.push_back(x);
+                    in>>x>>ch;
+                    DieY.push_back(x);
+                    in>>word;
+                    QStringList sl = word.split(";");
+                    Bin.push_back(sl[0]);
+                    BinType.push_back(sl[1]);
+                }
+                CIntData* diex = new CIntData(DieX);
+                CIntData* diey = new CIntData(DieY);
+                CStringData* bin= new CStringData(Bin);
+                CStringData* bintype = new CStringData(BinType);
+                data.push_back(diex);
+                data.push_back(diey);
+                data.push_back(bin);
+                data.push_back(bintype);
+            }
+        else
+                if (ft == ParameterDefinition)
+                {
+                    QVector<QString> Parameter,ParameterUnit;
+                    QVector<int> TestNumber;
+                    QString word;
+                    in>>word;
+                    while (word != "@Data")
+                    {
+                        in.readLine();
+                        in>>word;
+                    }
+                    in.readLine();
+                    in.readLine();
+                    while (!in.atEnd() )
+                    {
+                       in>>word;
+                       QStringList sl = word.split(";");
+                       Parameter.push_back(sl[0]);
+                       TestNumber.push_back(sl[1].toInt());
+                       ParameterUnit.push_back(sl[2]);
+                    }
+                    CStringData* parameter= new CStringData(Parameter);
+                    CIntData* testnumber = new CIntData(TestNumber);
+                    CStringData* parameterunit = new CStringData(ParameterUnit);
+                    data.push_back(parameter);
+                    data.push_back(testnumber);
+                    data.push_back(parameterunit);
+                }
+        else
+                    if (ft == ParameterData)
+                    {
+                        QVector<int> DieX,DieY,TestNumber;
+                        QVector<double> Last;
+                        QVector<QString> TestPass;
+                        QString word;
+                        in>>word;
+                        while (word != "@Data")
+                        {
+                            in.readLine();
+                            in>>word;
+                        }
+                        in.readLine();
+                        in.readLine();
+                        while (!in.atEnd() )
+                        {
+                            int iv;
+                            double dv;
+                            char ch;
+                            in>>iv>>ch;
+                            DieX.push_back(iv);
+                            in>>iv>>ch;
+                            DieY.push_back(iv);
+                            in>>iv>>ch;
+                            TestNumber.push_back(iv);
+                            in>>dv>>ch;
+                            Last.push_back(dv);
+                            in>>word;
+                            TestPass.push_back(word);
+                        }
+                        CIntData* diex = new CIntData(DieX);
+                        CIntData* diey = new CIntData(DieY);
+                        CIntData* testnumber = new CIntData(TestNumber);
+                        CDoubleData* last = new CDoubleData(Last);
+                        CStringData* testpass = new CStringData(TestPass);
+                        data.push_back(diex);
+                        data.push_back(diey);
+                        data.push_back(testnumber);
+                        data.push_back(last);
+                        data.push_back(testpass);
+                    }
+        else
+                        if (ft == ParameterLimits)
+                        {
+                                QVector<int> TestNumber;
+                                QVector<double> LSL,USL,Target;
+                                QString word;
+                                in>>word;
+                                while (word != "@Data")
+                                {
+                                    in.readLine();
+                                    in>>word;
+                                }
+                                in.readLine();
+                                in.readLine();
+                                while (!in.atEnd() )
+                                {
+                                    int iv;
+                                    double dv;
+                                    char ch;
+                                    in>>iv>>ch;
+                                    TestNumber.push_back(iv);
+                                    in>>dv>>ch;
+                                    LSL.push_back(dv);
+                                    in>>dv>>ch;
+                                    USL.push_back(dv);
+                                    in>>dv>>ch;
+                                    Target.push_back(dv);
+                                }
+                                CIntData* testnumber = new CIntData(TestNumber);
+                                CDoubleData* lsl = new CDoubleData(LSL);
+                                CDoubleData* usl = new CDoubleData(USL);
+                                CDoubleData* target = new CDoubleData(Target);
+                                data.push_back(testnumber);
+                                data.push_back(lsl);
+                                data.push_back(usl);
+                                data.push_back(target);
+                        }
+    }
+    QPair<FileInfo,CVectorCollection> CData(m_file,data);
+    return CData;
 }
