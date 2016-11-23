@@ -2,7 +2,8 @@
 #define PARSER_H
 
 #include <QString>
-#include <MainData.h>
+#include <DataStore.h>
+#include "cvector.h"
 #include <QFile>
 #include <QTextStream>
 
@@ -13,7 +14,8 @@ private:
 public:
     parser(const QString&);
     FileInfo scanner();
-    //FileData loader();
+    QPair<FileInfo,CVectorCollection> loader();
 };
 
 #endif // PARSER_H
+
