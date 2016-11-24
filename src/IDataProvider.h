@@ -17,6 +17,8 @@ class IDataProvider
 public:
 	// Set field data selection
 	virtual void setSelection(CSelection const& oSelection) = 0;
+	//
+	virtual void setDataDirectory(IDataDirectory* pDataDir) = 0;
 	// Get Data corresponding of selection
 	virtual IFieldCollectionPtr GetData(FieldList const& lstField) = 0;
 };
