@@ -99,3 +99,28 @@ QVariant CDateTimeData::GetValue(int index) const
 {
 	return QVariant(m_arr_data[index]);
 }
+
+//
+//CBoolData implementation
+//
+CBoolData::CBoolData() : m_arr_data() {}
+
+CBoolData::CBoolData(QVector<bool> arr_data) : m_arr_data(arr_data) {}
+
+bool  CBoolData::GetAt(int index) const throw()
+{
+	if (index >= m_arr_data.size() || index < 0)
+		throw std::out_of_range("Going out of range of array !\n");
+	else
+		return m_arr_data[index];
+}
+
+int CBoolData::GetCount() const
+{
+	return m_arr_data.size();
+}
+
+QVariant CBoolData::GetValue(int index) const
+{
+	return QVariant(m_arr_data[index]);
+}
