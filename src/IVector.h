@@ -45,4 +45,10 @@ public:
 	virtual QDateTime GetAt(int index) const = 0;
 };
 
+class IBoolVector : public IVector
+{
+public:
+	virtual bool GetAt(int index) const = 0;
+};
+
 #endif //__IVECTOR__
