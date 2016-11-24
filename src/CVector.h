@@ -67,4 +67,19 @@ private:
 	QVector<QDateTime> m_arr_data;
 };
 
+//
+// CBoolData declaration
+//
+class CBoolData : public IBoolVector
+{
+public:
+	CBoolData();
+	CBoolData(QVector<bool>);
+	bool GetAt(int) const override;
+	int GetCount() const override;
+	QVariant GetValue(int index) const override;
+private:
+	QVector<bool> m_arr_data;
+};
+
 #endif //__CVECTOR___
