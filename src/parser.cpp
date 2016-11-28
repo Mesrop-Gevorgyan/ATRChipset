@@ -190,7 +190,8 @@ QPair<FileInfo, CVectorCollection> parser::loader()
         QTextStream in(&f);
         if (ft == BinDefinition)
         {
-            QVector<QString>  Bin,BinType,BinName,PassFail;
+            QVector<QString>  Bin,BinType,BinName;
+            QVector<bool> PassFail;
             QString word;
             in>>word;
             while (word != "@Data")
@@ -207,12 +208,15 @@ QPair<FileInfo, CVectorCollection> parser::loader()
                 Bin.push_back(sl[0]);
                 BinType.push_back(sl[1]);
                 BinName.push_back(sl[2]);
-                PassFail.push_back(sl[3]);
+                if (sl[3] == "true")
+                    PassFail.push_back(true);
+                else
+                    PassFail.push_back(false);
             }
             CStringData* bin = new CStringData(Bin);
             CStringData* type = new CStringData(BinType);
             CStringData*  name= new CStringData(BinName);
-            CStringData* pass = new CStringData(PassFail);
+            CBoolData* pass = new CBoolData(PassFail);
             data.push_back(bin);
             data.push_back(type);
             data.push_back(name);
@@ -288,7 +292,7 @@ QPair<FileInfo, CVectorCollection> parser::loader()
                     {
                         QVector<int> DieX,DieY,TestNumber;
                         QVector<double> Last;
-                        QVector<QString> TestPass;
+                        QVector<bool> TestPass;
                         QString word;
                         in>>word;
                         while (word != "@Data")
@@ -312,13 +316,16 @@ QPair<FileInfo, CVectorCollection> parser::loader()
                             in>>dv>>ch;
                             Last.push_back(dv);
                             in>>word;
-                            TestPass.push_back(word);
+                            if (word == "true")
+                                TestPass.push_back(true);
+                            else
+                                TestPass.push_back(false);
                         }
                         CIntData* diex = new CIntData(DieX);
                         CIntData* diey = new CIntData(DieY);
                         CIntData* testnumber = new CIntData(TestNumber);
                         CDoubleData* last = new CDoubleData(Last);
-                        CStringData* testpass = new CStringData(TestPass);
+                        CBoolData* testpass = new CBoolData(TestPass);
                         data.push_back(diex);
                         data.push_back(diey);
                         data.push_back(testnumber);
