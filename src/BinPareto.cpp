@@ -8,11 +8,6 @@ void BinPareto::setConfig(const Configuration & config)
 	m_config = config;
 }
 
-void BinPareto::setData(const DataSelection &)
-{
-	m_data = data;
-}
-
 QWidget * BinPareto::getView()const
 {
 	//return m_view->window();
