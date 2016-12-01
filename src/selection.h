@@ -6,7 +6,6 @@
 #include <QtCore\QVariantList>
 #include <QtCore\QString>
 #include <QtCore\QVector>
-#include <QtCore\QHash>
 
 
 typedef QString Field;
@@ -84,20 +83,29 @@ public:
 	bool isContains(Field const& oID) const;
 	int getCount() const;
 	void clear();
-
+	
+	// Get field value selection by ID
+	SFieldValueSelection getAt(int nIndex) const;
 	// Get field value selection by ID
 	SFieldValueSelection getFieldValueSelection(Field const& oID) const;
 	// Append field value selection,
 	// if there is a selection for that field then replaces it
 	void addFieldValueSelection(SFieldValueSelection const& oSel);
 	// remove field value selection
+	void remove(int nIndex);
 	void remove(Field const& oID);
+
+protected:
+	//
+	// Implemetation
+	//
+	int getIndexFromFieldID(Field const& oID) const;
 
 private:
 	//
 	// Content
 	//
-	QHash<Field, SFieldValueSelection>		mapSelection;
+	QVector<SFieldValueSelection>		vecSelection;
 };
 ////////////////////////////////////////////////////////////////
 
