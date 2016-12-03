@@ -3,13 +3,12 @@
 #define SELECTION_H
 
 
+// Qt includes
 #include <QtCore\QVariantList>
 #include <QtCore\QString>
 #include <QtCore\QVector>
 
-
-typedef QString Field;
-typedef QStringList FieldList;
+#include "global.h"
 
 
 enum class EFieldType
