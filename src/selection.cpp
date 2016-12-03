@@ -35,8 +35,7 @@ SFieldValueSelection CSelection::getAt(int nIndex) const
 {
 	if (nIndex >= 0 && nIndex < vecSelection.size())
 		return vecSelection[nIndex];
-	else
-		SFieldValueSelection(); // Invalid selection
+	return SFieldValueSelection(); // Invalid selection
 }
 
 
@@ -45,8 +44,7 @@ SFieldValueSelection CSelection::getFieldValueSelection(Field const& oID) const
 	int nIndex = getIndexFromFieldID(oID);
 	if (nIndex != -1)
 		return vecSelection[nIndex];
-	else
-		return SFieldValueSelection(); // Invalid selection
+	return SFieldValueSelection(); // Invalid selection
 }
 
 
