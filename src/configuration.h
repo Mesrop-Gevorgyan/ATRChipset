@@ -3,7 +3,7 @@
 
 
 
-// Forward declaration
+// Forward seclaration
 #include <QString>
 #include <QVariant>
 
@@ -15,9 +15,7 @@
 class CConfiguration
 {
 public:
-	//
 	// Static functions
-	//
 	// Load configuration from file
 	static CConfiguration loadConfigFromFile(QString const& sPath);
 	// Get file format
@@ -70,7 +68,7 @@ private:
 
 private:
     //
-    // content
+    // members
     //
 
     // Config description

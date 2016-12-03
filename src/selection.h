@@ -1,4 +1,5 @@
 
+
 #ifndef SELECTION_H
 #define SELECTION_H
 
@@ -108,4 +109,4 @@ private:
 };
 ////////////////////////////////////////////////////////////////
 
-#endif // SELECTION_H
+#endif // SELECTION_H#pragma once

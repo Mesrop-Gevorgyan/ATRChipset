@@ -3,15 +3,16 @@
 #define WAFER_CONFIG_EDITOR_H
 
 
+// Qt includes
 #include <QWidget>
 #include <QListWidget>
 #include <QRadioButton>
 
+#include "global.h"
+
 
 // Wafer run mode
 enum class WaferMode { MF, Yield };
-// Bin type
-enum class BinType { HBin, SBin };
 
 
 //! Class CWaferConfigEditor, this is a window for parameter selection
