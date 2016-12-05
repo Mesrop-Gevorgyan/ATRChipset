@@ -1,16 +1,16 @@
 #include "parser.h"
 
-parser::parser(const QString& name)
+parser::parser(const QString& filePath)
 {
-    m_file.m_filePath = name;
+    m_file.m_filePath = filePath;
 }
 
 FileInfo parser::scanner()
 {
-    QFile f(m_file.m_filePath);
-    if (f.open(QIODevice::ReadOnly | QIODevice::Text))
+    QFile file(m_file.m_filePath);
+    if (file.open(QIODevice::ReadOnly | QIODevice::Text))
     {
-        QTextStream in(&f);
+        QTextStream in(&file);
         while (!in.atEnd())
         {
             QString word;
@@ -47,14 +47,14 @@ FileInfo parser::scanner()
                 in.readLine();
                 in.readLine();
                 in>>word;
-                FieldType ft;
+                FieldType fieldType;
                 while(word != "@Data")
                 {
                     if (word == "@Context")
-                        ft = Context;
+                        fieldType = Context;
                     else
                         if (word == "@TestConditions")
-                            ft = TestCondition;
+                            fieldType = TestCondition;
                         else
                             if (word != "")
                             {
@@ -70,7 +70,7 @@ FileInfo parser::scanner()
                                     word.remove(':');
                                     Field fieldName(word);
                                     in>>word;
-                                    FieldValue val(word,ft);
+                                    FieldValue val(word,fieldType);
                                     m_file.m_fileContext.add(fieldName,val);
                                 };
                             }
@@ -104,14 +104,14 @@ FileInfo parser::scanner()
                 in.readLine();
                 in.readLine();
                 in>>word;
-                FieldType ft;
+                FieldType fieldType;
                 while (word != "@Data")
                 {
                     if (word == "@Context")
-                        ft = Context;
+                        fieldType = Context;
                     else
                         if (word == "@TestConditions")
-                            ft = TestCondition;
+                            fieldType = TestCondition;
                         else
                             if (word != "")
                             {
@@ -127,7 +127,7 @@ FileInfo parser::scanner()
                                     word.remove(':');
                                     Field fieldName(word);
                                     in>>word;
-                                    FieldValue val(word,ft);
+                                    FieldValue val(word,fieldType);
                                     m_file.m_fileContext.add(fieldName,val);
                                 };
                             }
@@ -141,14 +141,14 @@ FileInfo parser::scanner()
                 in.readLine();
                 in.readLine();
                 in>>word;
-                FieldType ft;
+                FieldType fieldType;
                 while (word != "@Data")
                 {
                     if (word == "@Context")
-                        ft = Context;
+                        fieldType = Context;
                     else
                         if (word == "@TestConditions")
-                            ft = TestCondition;
+                            fieldType = TestCondition;
                         else
                             if (word != "")
                             {
@@ -164,7 +164,7 @@ FileInfo parser::scanner()
                                     word.remove(':');
                                     Field fieldName(word);
                                     in>>word;
-                                    FieldValue val(word,ft);
+                                    FieldValue val(word,fieldType);
                                     m_file.m_fileContext.add(fieldName,val);
                                 };
                             }
@@ -174,7 +174,7 @@ FileInfo parser::scanner()
             }
 
         }
-        f.close();
+        file.close();
     }
     return m_file;
 }
@@ -182,13 +182,13 @@ FileInfo parser::scanner()
 QPair<FileInfo, CVectorCollection> parser::loader()
 {
     scanner();
-    FileType ft = m_file.m_fileType;
+    FileType fieldType = m_file.m_fileType;
     QVector<IVector*> data;
-    QFile f(m_file.m_filePath);
-    if (f.open(QIODevice::ReadOnly | QIODevice::Text))
+    QFile file(m_file.m_filePath);
+    if (file.open(QIODevice::ReadOnly | QIODevice::Text))
     {
-        QTextStream in(&f);
-        if (ft == BinDefinition)
+        QTextStream in(&file);
+        if (fieldType == BinDefinition)
         {
             QVector<QString>  Bin,BinType,BinName;
             QVector<bool> PassFail;
@@ -204,11 +204,11 @@ QPair<FileInfo, CVectorCollection> parser::loader()
             while (!in.atEnd() )
             {
                 in>>word;
-                QStringList sl = word.split(";");
-                Bin.push_back(sl[0]);
-                BinType.push_back(sl[1]);
-                BinName.push_back(sl[2]);
-                if (sl[3] == "true")
+                QStringList words = word.split(";");
+                Bin.push_back(words[0]);
+                BinType.push_back(words[1]);
+                BinName.push_back(words[2]);
+                if (words[3] == "true")
                     PassFail.push_back(true);
                 else
                     PassFail.push_back(false);
@@ -223,7 +223,7 @@ QPair<FileInfo, CVectorCollection> parser::loader()
             data.push_back(pass);
         }
         else
-            if (ft == BinData)
+            if (fieldType == BinData)
             {
                 QVector<QString> Bin,BinType;
                 QVector<int> DieX,DieY;
@@ -245,9 +245,9 @@ QPair<FileInfo, CVectorCollection> parser::loader()
                     in>>x>>ch;
                     DieY.push_back(x);
                     in>>word;
-                    QStringList sl = word.split(";");
-                    Bin.push_back(sl[0]);
-                    BinType.push_back(sl[1]);
+                    QStringList words = word.split(";");
+                    Bin.push_back(words[0]);
+                    BinType.push_back(words[1]);
                 }
                 CIntData* diex = new CIntData(DieX);
                 CIntData* diey = new CIntData(DieY);
@@ -259,7 +259,7 @@ QPair<FileInfo, CVectorCollection> parser::loader()
                 data.push_back(bintype);
             }
         else
-                if (ft == ParameterDefinition)
+                if (fieldType == ParameterDefinition)
                 {
                     QVector<QString> Parameter,ParameterUnit;
                     QVector<int> TestNumber;
@@ -275,10 +275,10 @@ QPair<FileInfo, CVectorCollection> parser::loader()
                     while (!in.atEnd() )
                     {
                        in>>word;
-                       QStringList sl = word.split(";");
-                       Parameter.push_back(sl[0]);
-                       TestNumber.push_back(sl[1].toInt());
-                       ParameterUnit.push_back(sl[2]);
+                       QStringList words = word.split(";");
+                       Parameter.push_back(words[0]);
+                       TestNumber.push_back(words[1].toInt());
+                       ParameterUnit.push_back(words[2]);
                     }
                     CStringData* parameter= new CStringData(Parameter);
                     CIntData* testnumber = new CIntData(TestNumber);
@@ -288,7 +288,7 @@ QPair<FileInfo, CVectorCollection> parser::loader()
                     data.push_back(parameterunit);
                 }
         else
-                    if (ft == ParameterData)
+                    if (fieldType == ParameterData)
                     {
                         QVector<int> DieX,DieY,TestNumber;
                         QVector<double> Last;
@@ -333,7 +333,7 @@ QPair<FileInfo, CVectorCollection> parser::loader()
                         data.push_back(testpass);
                     }
         else
-                        if (ft == ParameterLimits)
+                        if (fieldType == ParameterLimits)
                         {
                                 QVector<int> TestNumber;
                                 QVector<double> LSL,USL,Target;
