@@ -1,7 +1,7 @@
 #ifndef BinPareto_H
 #define BinPareto_H
 
-class BinPareto :public IAnalyser
+class CBinPareto :public IAnalyser
 {
 public:
 	BinPareto();
