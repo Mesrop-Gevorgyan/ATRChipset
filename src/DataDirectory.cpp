@@ -14,7 +14,7 @@ DataDirectory::DataDirectory(QString path)
         m_type_file.insert(file_info.m_fileType, file_info);
 
         if (file_info.m_fileType == BinData ||
-                file_info.m_fileType == ParameterData)
+                file_info.m_fileType == ParameterData)                //for dataSElecetor
         {
             m_wafers.insert(file_info.m_fileContext.GetValue("Wafer").toString());
             m_lots.insert(file_info.m_fileContext.GetValue("Lot").toString());
@@ -22,7 +22,6 @@ DataDirectory::DataDirectory(QString path)
         }
         m_devices.insert(file_info.m_fileContext.GetValue("Device").toString());
     }
-
 
 }
 
@@ -46,10 +45,10 @@ bool operator==(const FileContext& context1,const FileContext& context2)
 }
 
 
-QList<FileInfo> DataDirectory::getFiles(const QList<FileType> &fileTypes, const QList<FileContext> &contextList) const
+QList<FileInfo> DataDirectory::getFiles(const QSet<FileType> &fileTypes, const QList<FileContext> &contextList) const
 {
     QList<FileInfo> FilesCorrespondingTypes;
-    for(QList<FileType>::const_iterator it = fileTypes.begin(); it != fileTypes.end(); ++it)
+    for(QSet<FileType>::const_iterator it = fileTypes.begin(); it != fileTypes.end(); ++it)
     {
         FilesCorrespondingTypes.append(m_type_file.values(*it));
     }
