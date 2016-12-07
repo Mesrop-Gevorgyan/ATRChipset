@@ -17,5 +17,5 @@ void CBinPareto::run()const
 {
 }
 
-BinPAreto::~BinPareto()
+CBinPAreto::~CBinPareto()
 {}
