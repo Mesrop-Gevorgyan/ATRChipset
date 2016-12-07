@@ -1,19 +1,19 @@
-#include "BinPareto.h"
+#include "CBinPareto.h"
 
-BinPareto::BinPAreto():m_view(new QWidget())
+CBinPareto::CBinPAreto():m_view(new QWidget())
 {}
 
-void BinPareto::setConfig(const Configuration & config)
+void CBinPareto::setConfig(const Configuration & config)
 {
 	m_config = config;
 }
 
-QWidget * BinPareto::getView()const
+QWidget * CBinPareto::getView()const
 {
 	//return m_view->window();
 }
 
-void BinPareto::run()const
+void CBinPareto::run()const
 {
 }
 
