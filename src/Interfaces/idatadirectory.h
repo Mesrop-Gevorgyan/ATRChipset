@@ -22,7 +22,7 @@ public:
 	// Get values as QVariant of field
 	virtual QVariantList getFieldValues(Field const& oID) const = 0;
 	//Get information corresponding files
-	virtual QList<FileInfo> getFiles(const QList<FileType>&)const = 0;
+	virtual QList<FileInfo> getFiles(const QSet<FileType>&)const = 0;
 };
 ///////////////////////////////////////////////////////////////////////////////
 
