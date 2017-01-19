@@ -6,18 +6,8 @@
 #include <QVariant>
 #include <QPair>
 #include <QList>
-
-// Represent Field type in FileContext directory 
-enum FieldType
-{
-	Context,
-	TestCondition,
-};
-
-typedef QList<QString> FieldList;
-typedef QString Field;
-typedef QVariant Value; 
-typedef QPair<Value,FieldType>  FieldValue; 
+#include "global.h"
+#include <QDateTime>
 
 class FileContext
 {

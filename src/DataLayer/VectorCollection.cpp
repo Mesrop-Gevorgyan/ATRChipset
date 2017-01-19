@@ -1,4 +1,4 @@
-#include "CVectorCollection.h"
+#include "VectorCollection.h"
 
 CVectorCollection::CVectorCollection(QVector<IVector*> collection) : m_collection(collection) {}
 

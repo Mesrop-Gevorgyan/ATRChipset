@@ -7,23 +7,16 @@
 #include <QDateTime>
 #include "IVector.h"
 #include "FileContext.h"
-#include <CVectorCollection.h>
+#include "VectorCollection.h"
+#include "global.h"
 
-enum FileType
-{
-	BinData,
-	BinDefinition,
-	ParameterDefinition,
-	ParameterData,
-	ParameterLimits,
-};
-
+// Contains info of single file
 struct FileInfo
 {
-	FileContext m_fileContext;
-	QDateTime m_date;
-	FileType m_fileType;
-	QString m_filePath;
+        FileContext m_fileContext;
+        QDateTime m_date;
+        FileType m_fileType;
+        QString m_filePath;
 };
 
 class DataStore

@@ -1,7 +1,7 @@
 #ifndef __CVECTORCOLLECTION__
 #define __CVECTORCOLLECTION__
 
-#include <IVector.h>
+#include "IVector.h"
 #include <Qvector>
 
 class CVectorCollection

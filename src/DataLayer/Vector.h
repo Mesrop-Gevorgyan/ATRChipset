@@ -5,7 +5,7 @@
 #include <QString>
 #include <QDateTime>
 #include <QVariant>
-#include "IVector.h"
+#include "VectorCollection.h"
 
 // 
 // CIntData declaration
