@@ -10,7 +10,7 @@
 #include "VectorCollection.h"
 #include "global.h"
 
-// Contains info of single file
+// Contains info about single file
 struct FileInfo
 {
         FileContext m_fileContext;

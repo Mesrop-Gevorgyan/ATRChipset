@@ -19,23 +19,38 @@ FieldType FileContext::GetFieldType(Field field) const
 	return m_directory[field].second;
 }
 
-Field FileContext::GetField(FieldType fieldType) const
+/*
+*   Returns a list of values of the specified fieldType 
+*   ex: if we pass filedType as "Context",this function returns 
+*   a list of file Context values
+*/
+QVariantList FileContext::GetValues(FieldType fieldType) const
 {
-	for (auto key : m_directory.keys())
-	{
-		if (m_directory[key].second == fieldType)
-			return key;
-	}
-	return Field();
+        QVariantList result;
+
+        for (auto value : m_directory.values())
+        {
+                if (value.second == fieldType)
+                        result.append(value.first);
+        }
+        return QVariantList();
 }
 
-QVariantList FileContext::GetValues(FieldList selection) const
+/*
+*   Returns a FieldList of values of the specified fieldType
+*   ex: if we pass filedType as "Context",this function returns
+*   a FieldList of file Context
+*/
+FieldList FileContext::GetFields(FieldType fieldType) const
 {
-	QVariantList result;
-	for (auto field : selection)
-	{
+        FieldList result;
 
-	}
-
-	return QVariantList();
+        for (auto key : m_directory.keys())
+        {
+                if (m_directory[key].second == fieldType)
+                        result.append(key);
+        }
+        return result;
 }
+
+

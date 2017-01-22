@@ -16,8 +16,8 @@ public:
 	void add(Field,FieldValue);
 	QVariant GetValue(Field) const;
 	FieldType GetFieldType(Field) const;
-	Field GetField(FieldType) const;
-	QVariantList GetValues(FieldList) const; // ? purpose of this 
+        QVariantList GetValues(FieldType ) const; 
+        FieldList GetFields(FieldType) const;
 private:
 	QMap <Field, FieldValue> m_directory;
 };

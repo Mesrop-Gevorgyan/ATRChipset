@@ -4,7 +4,7 @@ CVectorCollection::CVectorCollection(QVector<IVector*> collection) : m_collectio
 
 CVectorCollection::CVectorCollection() : m_collection() {}
 
-IVector * CVectorCollection::operator[](int index)
+IVector* CVectorCollection::operator[](int index)
 {
 	return m_collection[index];
 }
