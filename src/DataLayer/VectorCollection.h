@@ -9,7 +9,7 @@ class CVectorCollection
 public:
 	CVectorCollection(QVector<IVector*>);
 	CVectorCollection();
-	IVector* operator[](int);
+	IVector* operator[](unsigned);
 	int size() const;
 	int capacity() const;
 private:

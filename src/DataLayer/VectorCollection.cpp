@@ -4,8 +4,10 @@ CVectorCollection::CVectorCollection(QVector<IVector*> collection) : m_collectio
 
 CVectorCollection::CVectorCollection() : m_collection() {}
 
-IVector* CVectorCollection::operator[](int index)
+IVector* CVectorCollection::operator[](unsigned index)
 {
+        if (index >= this->size())
+                return nullptr;
 	return m_collection[index];
 }
 
@@ -16,5 +18,5 @@ int CVectorCollection::size() const
 
 int CVectorCollection::capacity() const
 {
-	return m_collection.size();
+	return m_collection.capacity();
 }
