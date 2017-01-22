@@ -17,38 +17,38 @@ class QDateTime;
 class IVector
 {
 public:
-	virtual  QVariant GetValue(int index) const = 0;
+	virtual  QVariant GetValue(unsigned index) const = 0;
 	virtual  int GetCount() const = 0;
 };
 
 class IIntVector : public IVector
 {
 public:
-	virtual int GetAt(int index) const = 0;
+	virtual int GetAt(unsigned index) const = 0;
 };
 
 class IStringVector : public IVector
 {
 public:
-	virtual QString GetAt(int index) const = 0;
+	virtual QString GetAt(unsigned index) const = 0;
 };
 
 class IDoubleVector : public IVector
 {
 public:
-	virtual double GetAt(int index) const = 0;
+	virtual double GetAt(unsigned index) const = 0;
 };
 
 class IDateTimeVector : public IVector
 {
 public:
-	virtual QDateTime GetAt(int index) const = 0;
+	virtual QDateTime GetAt(unsigned index) const = 0;
 };
 
 class IBoolVector : public IVector
 {
 public:
-	virtual bool GetAt(int index) const = 0;
+	virtual bool GetAt(unsigned index) const = 0;
 };
 
 #endif //__IVECTOR__
