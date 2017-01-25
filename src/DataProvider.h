@@ -15,6 +15,7 @@ private:
     DataStore m_dataStore;
     CSelection m_selection;
     QSet<FileType> getFieldTypes(const FieldList&);
+    QList<FileContext> getContextsList();
 };
 
 #endif // DATAPROVIDER_H
