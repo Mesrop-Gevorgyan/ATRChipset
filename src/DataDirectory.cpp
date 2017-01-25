@@ -113,3 +113,24 @@ QVariantList DataDirectory::getFieldValues(Field const& oID)const
     }
     return result;
 }
+
+QSet<QString> DataDirectory::getWafers()const
+{
+    return m_wafers;
+}
+
+QSet<QString> DataDirectory::getDevices()const
+{
+    return m_devices;
+}
+
+QSet<QString> DataDirectory::getLots()const
+{
+    return m_lots;
+}
+
+QSet<QDateTime> DataDirectory::getDates()const
+{
+    return m_dates;
+}
+
