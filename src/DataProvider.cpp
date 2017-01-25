@@ -37,6 +37,16 @@ IFieldCollectionPtr DataProvider::GetData(FieldList const& lstField)
 
 
 }
+QList<FileContext> DataProvider::getContextsList()
+{
+    if (m_selection.isEmpty())
+        std::cout<<"empty selection"<<std::endl;
+    SFieldValueSelection deviceSelection = m_selection.getFieldValueSelection("Device");
+    SFieldValueSelection waferSelection = m_selection.getFieldValueSelection("Wafer");
+    SFieldValueSelection lotSelection = m_selection.getFieldValueSelection("Lot");
+    SFieldValueSelection dateSelection = m_selection.getFieldValueSelection("Date");
+    
+}
 
 QSet<FileType> DataProvider::getFieldTypes(const FieldList& fields)
 {
