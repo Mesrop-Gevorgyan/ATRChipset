@@ -3,7 +3,7 @@
 
 #include <QString>
 #include <DataStore.h>
-#include "cvector.h"
+#include "vector.h"
 #include <QFile>
 #include <QTextStream>
 
@@ -11,6 +11,7 @@ class parser
 {
 private:
     FileInfo m_file;
+    static int NumberOfFiles;
 public:
     parser(const QString&);
     FileInfo scanner();
@@ -18,4 +19,3 @@ public:
 };
 
 #endif // PARSER_H
-
