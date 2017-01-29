@@ -1,8 +1,9 @@
 #include "parser.h"
-
+int parser::NumberOfFiles = 0;
 parser::parser(const QString& filePath)
 {
     m_file.m_filePath = filePath;
+    NumberOfFiles++;
 }
 
 FileInfo parser::scanner()
@@ -176,6 +177,7 @@ FileInfo parser::scanner()
         }
         file.close();
     }
+    m_file.ID = NumberOfFiles;
     return m_file;
 }
 
