@@ -8,7 +8,7 @@ CIntData::CIntData() : m_arr_data() {}
 
 CIntData::CIntData(QVector<int> arr_data) : m_arr_data(arr_data) {}
 
-int  CIntData::GetAt(unsigned index) const throw()
+int  CIntData::GetAt(unsigned index) const throw(std::out_of_range)
 {
 	if (index >= m_arr_data.size())
 		throw std::out_of_range("Going out of range of array !\n");
@@ -21,7 +21,7 @@ int CIntData::GetCount() const
 	return m_arr_data.size();
 }
 
-QVariant CIntData::GetValue(unsigned index) const
+QVariant CIntData::GetValue(unsigned index) const throw(std::out_of_range)
 {
         if (index >= m_arr_data.size())
                 throw std::out_of_range("Going out of range of array !\n");
@@ -36,7 +36,7 @@ CDoubleData::CDoubleData() : m_arr_data() {}
 
 CDoubleData::CDoubleData(QVector<double> arr_data) : m_arr_data(arr_data) {}
 
-double  CDoubleData::GetAt(unsigned index) const throw()
+double  CDoubleData::GetAt(unsigned index) const throw(std::out_of_range)
 {
 	if (index >= m_arr_data.size())
 		throw std::out_of_range("Going out of range of array !\n");
@@ -49,7 +49,7 @@ int CDoubleData::GetCount() const
 	return m_arr_data.size();
 }
 
-QVariant CDoubleData::GetValue(unsigned index) const
+QVariant CDoubleData::GetValue(unsigned index) const throw(std::out_of_range)
 {
         if (index >= m_arr_data.size() || index < 0)
                 throw std::out_of_range("Going out of range of array !\n");
@@ -64,7 +64,7 @@ CStringData::CStringData() : m_arr_data() {}
 
 CStringData::CStringData(QVector<QString> arr_data) : m_arr_data(arr_data) {}
 
-QString  CStringData::GetAt(unsigned index) const throw()
+QString  CStringData::GetAt(unsigned index) const throw(std::out_of_range)
 {
 	if (index >= m_arr_data.size())
 		throw std::out_of_range("Going out of range of array !\n");
@@ -77,7 +77,7 @@ int CStringData::GetCount() const
 	return m_arr_data.size();
 }
 
-QVariant CStringData::GetValue(unsigned index) const
+QVariant CStringData::GetValue(unsigned index) const throw(std::out_of_range)
 {
 
         if (index >= m_arr_data.size())
@@ -92,7 +92,7 @@ CDateTimeData::CDateTimeData() : m_arr_data() {}
 
 CDateTimeData::CDateTimeData(QVector<QDateTime> arr_data) : m_arr_data(arr_data) {}
 
-QDateTime  CDateTimeData::GetAt(unsigned index) const throw()
+QDateTime  CDateTimeData::GetAt(unsigned index) const throw(std::out_of_range)
 {
 	if (index >= m_arr_data.size())
 		throw std::out_of_range("Going out of range of array !\n");
@@ -105,7 +105,7 @@ int CDateTimeData::GetCount() const
 	return m_arr_data.size();
 }
 
-QVariant CDateTimeData::GetValue(unsigned index) const
+QVariant CDateTimeData::GetValue(unsigned index) const throw(std::out_of_range)
 {
 
         if (index >= m_arr_data.size())
