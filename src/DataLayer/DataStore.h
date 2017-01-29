@@ -1,24 +1,10 @@
 #ifndef __DataStore__
 #define __DataStore__
 
-#include <QString>
-#include <QVector>
 #include <QMap>
-#include <QDateTime>
-#include "IVector.h"
-#include "FileContext.h"
 #include "VectorCollection.h"
 #include "global.h"
-
-// Contains info about single file
-struct FileInfo
-{
-        int ID;
-        FileContext m_fileContext;
-        QDateTime m_date;
-        FileType m_fileType;
-        QString m_filePath;
-};
+#include "FileInfo.h"   
 
 class DataStore
 {
