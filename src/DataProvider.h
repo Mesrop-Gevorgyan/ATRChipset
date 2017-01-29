@@ -3,6 +3,8 @@
 
 #include "IDataProvider.h"
 #include "loader.h"
+#include <QRegExp>
+#include "FileInfoList.h"
 
 class DataProvider:public IDataProvider
 {
@@ -15,6 +17,7 @@ private:
     DataStore m_dataStore;
     CSelection m_selection;
     QSet<FileType> getFieldTypes(const FieldList&);
+    CFileInfoList getContextsList();
 };
 
 #endif // DATAPROVIDER_H
