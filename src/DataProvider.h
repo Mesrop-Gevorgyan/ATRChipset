@@ -1,8 +1,7 @@
-#ifndef DATAPROVIDER_H
-#define DATAPROVIDER_H
-
 #include "IDataProvider.h"
 #include "loader.h"
+#include <QRegExp>
+#include "FileInfoList.h"
 
 class DataProvider:public IDataProvider
 {
@@ -15,7 +14,7 @@ private:
     DataStore m_dataStore;
     CSelection m_selection;
     QSet<FileType> getFieldTypes(const FieldList&);
-    QList<FileContext> getContextsList();
+    CFileInfoList getContextsList();
 };
 
 #endif // DATAPROVIDER_H
