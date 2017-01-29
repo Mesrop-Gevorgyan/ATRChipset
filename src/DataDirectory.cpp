@@ -45,28 +45,28 @@ bool operator==(const FileContext& context1,const FileContext& context2)
 }
 
 
-QList<FileInfo> DataDirectory::getFiles(const QSet<FileType> &fileTypes, const QList<FileContext> &contextList) const
+CFileInfoList DataDirectory::getFiles(const QSet<FileType> &fileTypes, const CFileInfoList &contextList) const
 {
-    QList<FileInfo> FilesCorrespondingTypes;
+    CFileInfoList FilesCorrespondingTypes;
     for(QSet<FileType>::const_iterator it = fileTypes.begin(); it != fileTypes.end(); ++it)
     {
-        FilesCorrespondingTypes.append(m_type_file.values(*it));
+        CFileInfoList CurrentList(m_type_file.values(*it));
+        for (int i = 0; i < CurrentList.count(); ++i)
+            FilesCorrespondingTypes.append(CurrentList[i]);
     }
 
-    QList<FileInfo> result;
+    CFileInfoList result;
 
-    for(QList<FileContext>::const_iterator itContext = contextList.begin();
-        itContext != contextList.end(); ++itContext)
+    for(int i = 0 ; i < contextList.count(); ++i)
     {
-        QList<FileInfo>::iterator itInfo = FilesCorrespondingTypes.begin();
-        while (itInfo != FilesCorrespondingTypes.end())
+        for(int j = 0; j < FilesCorrespondingTypes.count(); ++j)
         {
-            if ((*itInfo).m_fileContext == *itContext)
-                result.append(*itInfo);
-            if ((*itInfo).m_fileContext.GetValue("Device")
-                    == (*itContext).GetValue("Device"))
-                result.append(*itInfo);
-            ++itInfo;
+            if (FilesCorrespondingTypes[j].m_fileContext == contextList[i].m_fileContext &&
+                    FilesCorrespondingTypes[j].m_date == contextList[i].m_date)
+                result.append(FilesCorrespondingTypes[j]);
+            if (FilesCorrespondingTypes[j].m_fileContext.GetValue("Device")
+                    == contextList[i].m_fileContext.GetValue("Device"))
+                result.append(FilesCorrespondingTypes[j]);
         }
     }
     return result;
