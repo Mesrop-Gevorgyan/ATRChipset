@@ -13,6 +13,7 @@
 // Contains info about single file
 struct FileInfo
 {
+        int ID;
         FileContext m_fileContext;
         QDateTime m_date;
         FileType m_fileType;
