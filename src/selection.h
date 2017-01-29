@@ -34,7 +34,7 @@ struct SFieldInfo
 };
 
 
-enum class ESelectionPatten
+enum class ESelectionPattern
 {
 	// No selection
 	NoSelection,
