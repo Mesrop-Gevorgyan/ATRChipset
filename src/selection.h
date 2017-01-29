@@ -49,7 +49,7 @@ enum class ESelectionPattern
 struct SFieldValueSelection
 {
 	Field					oFieldID;
-	ESelectionPatten    	eSelectionType;
+	ESelectionPattern    	eSelectionType;
 	QString					sPattern;
 	QVariantList        	aSelectedValues;
 
