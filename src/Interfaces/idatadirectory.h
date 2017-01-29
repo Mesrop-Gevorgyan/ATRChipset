@@ -1,29 +1,30 @@
-#ifndef IDATADIRECTORY_H
-#define IDATADIRECTORY_H
+#ifndef __IDATADIRECTORY__
+#define __IDATADIRECTORY__
 
 
-// Qt includes
-#include <QList>
-#include <QVariantList>
-
+#include <QVariant>
+//class QVariantList;
 #include "DataStore.h"
-#include "global.h"
+#include "FileInfoList.h"
+typedef  QStringList FieldList;
 
-
-///////////////////////////////////////////////////////////////////////////////
-//
-// Interface IDataDirectory
-//
 class IDataDirectory
 {
 public:
-	// Get field list of all field types
-	virtual FieldList getFields() const = 0;
-	// Get values as QVariant of field
-	virtual QVariantList getFieldValues(Field const& oID) const = 0;
-	//Get information corresponding files
-	virtual QList<FileInfo> getFiles(const QSet<FileType>&)const = 0;
+    // Get field list of all field types
+    virtual FieldList getFields() const = 0;
+    // Get values as QVariant of field
+    virtual QVariantList getFieldValues(Field const& oID) const = 0;
+    //Get information corresponding files
+    virtual CFileInfoList getFiles(const QSet<FileType>&,const CFileInfoList &) const = 0;
+    //Get wafer names
+    virtual QSet<QString> getWafers() const = 0;
+    //Get device name
+    virtual QSet<QString> getDevices() const = 0;
+    //Get Lot name
+    virtual QSet<QString> getLots() const = 0;
+    //Get dates
+    virtual QSet<QDateTime> getDates()const = 0;
 };
-///////////////////////////////////////////////////////////////////////////////
 
-#endif // IDATADIRECTORY_H
+#endif //__IDATADIRECTORY__
