@@ -34,7 +34,7 @@ struct SFieldInfo
 };
 
 
-enum class ESelectionPatten
+enum class ESelectionPattern
 {
 	// No selection
 	NoSelection,
@@ -49,7 +49,7 @@ enum class ESelectionPatten
 struct SFieldValueSelection
 {
 	Field					oFieldID;
-	ESelectionPatten    	eSelectionType;
+	ESelectionPattern    	eSelectionType;
 	QString					sPattern;
 	QVariantList        	aSelectedValues;
 
