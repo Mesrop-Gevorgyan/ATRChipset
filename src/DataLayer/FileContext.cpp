@@ -33,7 +33,7 @@ QVariantList FileContext::GetValues(FieldType fieldType) const
                 if (value.second == fieldType)
                         result.append(value.first);
         }
-        return QVariantList();
+        return result;
 }
 
 /*
