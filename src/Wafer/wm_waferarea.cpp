@@ -3,6 +3,11 @@
 // Includes
 #include "wm_waferarea.h"
 
+// Qt includs
+#include <QtCore\QPoint>
+#include <QtCore\QSize>
+#include <QtCore\QRect>
+
 
 ///////////////////////////////////////////////////////////////////////////////
 //
