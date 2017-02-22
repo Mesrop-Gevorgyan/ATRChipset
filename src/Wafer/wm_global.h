@@ -9,6 +9,13 @@
 namespace wm {
 ///////////////////////////////////////////////////////////////////////////////
 
+// Orientation
+enum EOrientation
+{
+	eAuto,
+	eHorizontal,
+	eVertical
+};
 
 // Scale label direction
 enum EScaleDirection
