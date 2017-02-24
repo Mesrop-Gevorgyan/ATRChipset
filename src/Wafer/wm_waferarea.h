@@ -6,13 +6,22 @@
 
 
 // Includes
-#include "wm_iwaferarea.h"
+#include "wm_global.h"
 
 // Qt includes
 #include <QtCore/QRect>
 
 // STL includs
 #include <cmath>
+
+
+// Qt forword declaration
+class QPoint;
+class QPointF;
+class QSize;
+class QSizeF;
+class QRect;
+class QRectF;
 
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -23,7 +32,7 @@ namespace wm {
 //
 // class CWaferArea, Translate data area points to screen area corresponding scale and opposite
 //
-class CWaferArea : public IWaferArea
+class CWaferArea
 {
 public:
 	// Default constructor
@@ -35,34 +44,30 @@ public:
 
 public:
 	//
-	//! Override IWaferArea Interface
+	//! Own Interface
 	//
 	// Translate data area points to screen
 	// Translate one point
-	double translate( double fPoint, EScaleDirection eScaleDirection ) const override;
+	double translate( double fPoint, EScaleDirection eScaleDirection ) const;
 	// Translate two point(x, y)
-	QPointF translate( double fPoint, EScaleDirection eXScaleDirection, double fYPoint, EScaleDirection eYScaleDirection ) const override;
-	QPointF translate( QPointF const& pointF, EScaleDirection eXScaleDirection, EScaleDirection eYScaleDirection ) const override;
+	QPointF translate( double fPoint, EScaleDirection eXScaleDirection, double fYPoint, EScaleDirection eYScaleDirection ) const;
+	QPointF translate( QPointF const& pointF, EScaleDirection eXScaleDirection, EScaleDirection eYScaleDirection ) const;
 	// Translate size (weight, height)
-	QSizeF translate( QSizeF const& sizeF ) const override;
+	QSizeF translate( QSizeF const& sizeF ) const;
 	// Translate rect (x1, y1, x2, y2)
-	QRectF translate( QRectF const& rectF, EScaleDirection eXScaleDirection, EScaleDirection eYScaleDirection ) const override;
+	QRectF translate( QRectF const& rectF, EScaleDirection eXScaleDirection, EScaleDirection eYScaleDirection ) const;
 
 	// Reverse data area point from screen
 	// Reverse one point
-	double reverse( double fArea, EScaleDirection eScaleDirection ) const override;
+	double reverse( double fArea, EScaleDirection eScaleDirection ) const;
 	// Reverse two point(x, y)
-	QPointF reverse( double fXArea, EScaleDirection eXScaleDirection, double fYArea, EScaleDirection eYScaleDirection ) const override;
-	QPointF reverse( QPointF const& ptFArea, EScaleDirection eXScaleDirection, EScaleDirection eYScaleDirection ) const override;
+	QPointF reverse( double fXArea, EScaleDirection eXScaleDirection, double fYArea, EScaleDirection eYScaleDirection ) const;
+	QPointF reverse( QPointF const& ptFArea, EScaleDirection eXScaleDirection, EScaleDirection eYScaleDirection ) const;
 	// Reverse size (weight, height)
-	QSizeF reverse( QSizeF const& szFArea ) const override;
+	QSizeF reverse( QSizeF const& szFArea ) const;
 	// Reverse rect (x1, y1, x2, y2)
-	QRectF reverse( QRectF const& rcFArea, EScaleDirection eXScaleDirection, EScaleDirection eYScaleDirection ) const override;
+	QRectF reverse( QRectF const& rcFArea, EScaleDirection eXScaleDirection, EScaleDirection eYScaleDirection ) const;
 
-public:
-	//
-	//! Own Interface
-	//
 	// Set/Get X range
 	inline void setXRange( double fXMin, double fXMax );
 	inline void getXRange( double& fXMin, double& fXMax ) const;
