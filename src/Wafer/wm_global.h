@@ -8,15 +8,23 @@
 ///////////////////////////////////////////////////////////////////////////////
 namespace wm {
 ///////////////////////////////////////////////////////////////////////////////
-	
+
 // Wafer map type
 enum class WaferMapType
 {
-	Single BIN,
-	Intensity,
-	Yield,
-	Most frequent BIN,
-	Group aggregation
+	eSingleBIN,
+	eIntensity,
+	eYield,
+	eMostFrequentBIN,
+	eGroupAggregation
+};
+
+// Die Status
+enum class EDieStatus
+{
+	eNoDie,
+	eInvalidDie,
+	eNormalDie
 };
 
 // Orientation
