@@ -43,7 +43,15 @@ public:
 
 public:
 	//
-	//! Own Interface
+	//! Own interface
+	//
+	// Set\Get wefer dimple position
+	void setDimplePosition( EDimplePosition eDimplePos );
+	EDimplePosition getDimplePosition() const;
+
+protected:
+	//
+	//! implementation
 	//
 	virtual void drawDie( QPainter* pPainter, QRect const& rcDie, int nDieX, int nDieY ) const;
 
@@ -53,6 +61,8 @@ private:
 	//
 	// Wafer model
 	IWaferModel const*					m_pModel;
+	// Wafer dimple position
+	EDimplePosition						m_eDimplePos;
 	// Wafer area for data translation
 	QScopedPointer<CWaferArea>			m_pArea;
 };
@@ -65,9 +75,20 @@ private:
 //
 wm::CWaferMap::CWaferMap()
 	: m_pModel(nullptr),
+	  m_eDimplePos(EDimplePosition::Bottom),
 	  m_pArea(nullptr)
 {
 
+}
+
+void wm::CWaferMap::setDimplePosition( EDimplePosition eDimplePos )
+{
+	m_eDimplePos = eDimplePos;
+}
+
+EDimplePosition wm::CWaferMap::getDimplePosition() const
+{
+	return m_eDimplePos;
 }
 ///////////////////////////////////////////////////////////////////////////////
 

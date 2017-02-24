@@ -21,11 +21,11 @@ namespace wm {
 // Axis types
 enum class EAxisType
 {
-	eNoAxis		= 0x00,
-	eXAxis		= 0x01,
-	eX2Axis		= 0x02,
-	eYAxis		= 0x04,
-	eY2Axis		= 0x08,
+	NoAxis		= 0x00,
+	XAxis		= 0x01,
+	X2Axis		= 0x02,
+	YAxis		= 0x04,
+	Y2Axis		= 0x08,
 };
 
 
@@ -78,8 +78,8 @@ private:
 // Inline implementation
 //
 inline CAxis::CAxis()
-	: m_eType(EAxisType::eNoAxis),
-	  m_eTickLabelOrientation(EOrientation::eAuto)
+	: m_eType(EAxisType::NoAxis),
+	  m_eTickLabelOrientation(EOrientation::Auto)
 {
 
 }
