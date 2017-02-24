@@ -8,9 +8,19 @@
 ///////////////////////////////////////////////////////////////////////////////
 namespace wm {
 ///////////////////////////////////////////////////////////////////////////////
+	
+// Wafer map type
+enum class WaferMapType
+{
+	Single BIN,
+	Intensity,
+	Yield,
+	Most frequent BIN,
+	Group aggregation
+};
 
 // Orientation
-enum EOrientation
+enum class EOrientation
 {
 	eAuto,
 	eHorizontal,
@@ -18,7 +28,7 @@ enum EOrientation
 };
 
 // Scale label direction
-enum EScaleDirection
+enum class EScaleDirection
 {
 	eLeftToRight,
 	eRightToLeft,
