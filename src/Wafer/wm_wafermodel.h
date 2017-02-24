@@ -6,9 +6,9 @@
 
 
 // Includes
-#include "wm_iwafermodel.h"
 #include "ivector.h"
-#include "wm_indexmapping.h"
+#include "wm_iwafermodel.h"
+#include "wm_dieindexmapping.h"
 
 // Qt includs
 #include <QtCore\QString>
@@ -24,6 +24,8 @@ namespace wm {
 //
 class CWaferModel : public IWaferModel
 {
+	Q_DISABLE_COPY(CWaferModel);
+
 public:
 	// Default constructor
 	inline CWaferModel();
@@ -50,6 +52,10 @@ public:
 	int getFirstDieY() const override;
 	// Get Last DieY
 	int getLastDieY() const override;
+	// Get Die phisicle size
+	QSizeF getDieSize() const override;
+	// Get Die phisicle spacing
+	double getDieSpacing() const override;
 	// Get HBin
 	EDieStatus getHBin( int nDieX, int nDieY, int& nHBin ) const override;
 	// Get SBin
@@ -64,8 +70,8 @@ public:
 	// Set Lot name
 	inline void setLotName( QString const& sName );
 	// Set/Get index mapping
-	void setIndices( CIndexMapping const& aIndices );
-	CIndexMapping getIndices() const;
+	void setIndices( CDieIndexMapping const& aIndices );
+	CDieIndexMapping getIndices() const;
 
 	// Set/Get DieX cordinats provider
 	void setDieX( IIntVector const* cpDieX );
@@ -90,7 +96,7 @@ private:
 	// Wafer name
 	QString						m_sName;
 	// Indices array
-	CIndexMapping				m_aIndices;
+	CDieIndexMapping			m_aDieIndices;
 	
 	// Wafer data provider
 	// Die X/Y conrdinats
@@ -127,14 +133,14 @@ inline QString CWaferModel::getName() const
 	return m_sLotName;
 }
 
-inline void CWaferModel::setIndices( CIndexMapping const& aIndices )
+inline void CWaferModel::setIndices( CDieIndexMapping const& aIndices )
 {
-	m_aIndices = aIndices;
+	m_aDieIndices = aIndices;
 }
 
-inline CIndexMapping CWaferModel::getIndices() const
+inline CDieIndexMapping CWaferModel::getIndices() const
 {
-	return m_aIndices;
+	return m_aDieIndices;
 }
 
 inline void CWaferModel::setDieX( IIntVector const* cpDieX )

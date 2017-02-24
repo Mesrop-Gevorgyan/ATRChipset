@@ -4,9 +4,7 @@
 #include "wm_wafermodel.h"
 
 // Qt includs
-#include <QtCore\QPoint>
 #include <QtCore\QSize>
-#include <QtCore\QRect>
 
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -53,13 +51,23 @@ int wm::CWaferModel::getLastDieY() const
 	return 0;
 }
 
+QSizeF wm::CWaferModel::getDieSize() const
+{
+	return QSizeF(0.01, 0.01);
+}
+
+double wm::CWaferModel::getDieSpacing() const
+{
+	return 0.15;
+}
+
 wm::EDieStatus wm::CWaferModel::getHBin( int nDieX, int nDieY, int& nHBin ) const
 {
-	return EDieStatus::eNoDie;
+	return EDieStatus::NoDie;
 }
 
 wm::EDieStatus wm::CWaferModel::getSBin( int nDieX, int nDieY, int& nSBin ) const
 {
-	return EDieStatus::eNoDie;
+	return EDieStatus::NoDie;
 }
 ///////////////////////////////////////////////////////////////////////////////

@@ -18,16 +18,16 @@ double wm::CWaferArea::translate( double fPoint, EScaleDirection eScaleDirection
 	double fArea = NAN;
 	switch (eScaleDirection)
 	{
-	case EScaleDirection::eLeftToRight:
+	case EScaleDirection::LeftToRight:
 		fArea = m_rcFScreen.left() + (m_rcFScreen.width() / (m_fXMax - m_fXMin)) * (fPoint - m_fXMin);
 		break;
-	case EScaleDirection::eRightToLeft:
+	case EScaleDirection::RightToLeft:
 		fArea = m_rcFScreen.right() - (m_rcFScreen.width() / (m_fXMax - m_fXMin)) * (fPoint - m_fXMin);
 		break;
-	case EScaleDirection::eBottomToTop:
+	case EScaleDirection::BottomToTop:
 		fArea = m_rcFScreen.bottom() - (m_rcFScreen.height() / (m_fYMax - m_fYMin)) * (fPoint - m_fYMin);
 		break;
-	case EScaleDirection::eTopToBottom:
+	case EScaleDirection::TopToBottom:
 		fArea = m_rcFScreen.top() + (m_rcFScreen.height() / (m_fYMax - m_fYMin)) * (fPoint - m_fYMin);
 		break;
 	}
@@ -73,16 +73,16 @@ double wm::CWaferArea::reverse( double fArea, EScaleDirection eScaleDirection ) 
 	double fPoint = NAN;
 	switch (eScaleDirection)
 	{
-	case EScaleDirection::eLeftToRight:
+	case EScaleDirection::LeftToRight:
 		fPoint = m_fXMin + ((m_fXMax - m_fXMin) / m_rcFScreen.width()) * (fArea - m_rcFScreen.left());
 		break;
-	case EScaleDirection::eRightToLeft:
+	case EScaleDirection::RightToLeft:
 		fPoint = m_fXMax - ((m_fXMax - m_fXMin) / m_rcFScreen.width()) * (fArea - m_rcFScreen.left());
 		break;
-	case EScaleDirection::eBottomToTop:
+	case EScaleDirection::BottomToTop:
 		fPoint = m_fYMax - ((m_fYMax - m_fYMin) / m_rcFScreen.height()) * (fArea - m_rcFScreen.top());
 		break;
-	case EScaleDirection::eTopToBottom:
+	case EScaleDirection::TopToBottom:
 		fPoint = m_fYMin + ((m_fYMax - m_fYMin) / m_rcFScreen.height()) * (fArea - m_rcFScreen.top());
 		break;
 	}

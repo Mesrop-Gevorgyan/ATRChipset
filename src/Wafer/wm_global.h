@@ -10,38 +10,47 @@ namespace wm {
 ///////////////////////////////////////////////////////////////////////////////
 
 // Wafer map type
-enum class WaferMapType
+enum class EWaferMapType
 {
-	eSingleBIN,
-	eIntensity,
-	eYield,
-	eMostFrequentBIN,
-	eGroupAggregation
+	SingleBIN,
+	Intensity,
+	Yield,
+	MostFrequentBIN,
+	GroupAggregation
+};
+
+// Wafer dimple position
+enum class EDimplePosition
+{
+	Bottom,
+	Top,
+	Left,
+	Right
 };
 
 // Die Status
 enum class EDieStatus
 {
-	eNoDie,
-	eInvalidDie,
-	eNormalDie
+	NoDie,
+	InvalidDie,
+	NormalDie
 };
 
 // Orientation
 enum class EOrientation
 {
-	eAuto,
-	eHorizontal,
-	eVertical
+	Auto,
+	Horizontal,
+	Vertical
 };
 
 // Scale label direction
 enum class EScaleDirection
 {
-	eLeftToRight,
-	eRightToLeft,
-	eBottomToTop,
-	eTopToBottom
+	LeftToRight,
+	RightToLeft,
+	BottomToTop,
+	TopToBottom
 };
 
 ///////////////////////////////////////////////////////////////////////////////
