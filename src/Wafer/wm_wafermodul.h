@@ -1,7 +1,7 @@
 
 
-#ifndef WAFER_H
-#define WAFER_H
+#ifndef WAFERMODUL_H
+#define WAFERMODUL_H
 
 
 #include <ianalyser.h>
@@ -11,20 +11,20 @@
 //
 // class CWafer
 //
-class CWafer : public IAnalyser
+class CWaferModul : public IAnalyser
 {
 public:
 	// Constructors
-	CWafer();
+	CWaferModul();
 	// Destructor
-	~CWafer();
+	~CWaferModul();
 
 public:
 	// Set configuration
 	void setConfig(const CConfiguration& oConfig) override;
 	// Get wafer view
 	QWidget *getView() const override;
-	// Run wafer making and drowing
+	// Run wafer making and drawing
 	void run() override;
 
 protected:
@@ -37,8 +37,8 @@ private:
 	// Content
 	//
 	CConfiguration			m_oConfig;
-	QWidget*				m_pwView;
+	QWidget*			m_pwView;
 };
 ///////////////////////////////////////////////////////////////////////////////
 
-#endif // WAFER_H
+#endif // WAFERMODUL_H
