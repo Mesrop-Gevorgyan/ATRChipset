@@ -1,10 +1,12 @@
 #ifndef ISELECTIONDATA_H
 #define ISELECTIONDATA_H
 
+#include <QDialog>
+
 #include "idatadirectory.h"
 #include "selection.h"
 
-class ISelectionData
+class ISelectionData : public QDialog
 {
 public:
     virtual void SetDataDirectory(const IDataDirectory*) = 0;
