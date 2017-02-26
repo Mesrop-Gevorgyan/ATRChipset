@@ -17,6 +17,7 @@ public:
 protected:
     QGridLayout * gridlayout;
     QHBoxLayout * GroupingType;
+    QVBoxLayout * TypeLayout;
 };
 
 #endif // CONFIG_PAGES_H

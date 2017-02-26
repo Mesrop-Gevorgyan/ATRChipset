@@ -26,7 +26,7 @@ Statisticsdialog::Statisticsdialog(): ConfigPages()
     typeLayout->addLayout(analysisLayout);
     typeLayout->addLayout(typeFuncLayout);
 
-    GroupingType->addLayout(typeLayout);
+     TypeLayout->addLayout(typeLayout);
     //ConfigPages::gridlayout->addLayout(typeLayout,2,2);
     //ConfigPages::gridlayout->addLayout(typeFuncLayout,3,2);
 }

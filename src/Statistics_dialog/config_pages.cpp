@@ -31,7 +31,9 @@ ConfigPages::ConfigPages(): QWidget()
     QVector<QString> grouping_items{"Lot", "Wafer", "Device"};
 
     GroupingType = new QHBoxLayout();
+    TypeLayout = new QVBoxLayout();
     QVBoxLayout * groupingLayout = new QVBoxLayout();
+    GroupingType->addLayout(TypeLayout);
     QLabel * gr_label = new QLabel("Grouping:");
     gr_label->setFont(font);
     gr_label->setStyleSheet("QLabel {color : #00009c; }");
@@ -47,12 +49,12 @@ ConfigPages::ConfigPages(): QWidget()
         groupingLayout->addWidget(cb);
     }
     GroupingType->addLayout(groupingLayout);
-    gridlayout->addLayout(GroupingType,0,10,5,15);
+    gridlayout->addLayout(GroupingType,5,15,10,20);
 
     QPushButton * next = new QPushButton("Next");
     next->setFont(font);
     next->setStyleSheet("QPushButton {color : #007fff; }");
-    gridlayout->addWidget(next,20,20);
+    gridlayout->addWidget(next,30,30);
 
     QWidget::setLayout(gridlayout);
 }
