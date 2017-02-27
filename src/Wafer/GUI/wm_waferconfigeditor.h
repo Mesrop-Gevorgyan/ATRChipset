@@ -9,10 +9,7 @@
 #include <QRadioButton>
 
 #include "global.h"
-
-
-// Wafer run mode
-enum class WaferMode { MF, Yield };
+#include "wm_global.h"
 
 
 //! Class CWaferConfigEditor, this is a window for parameter selection
