@@ -1,0 +1,175 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;cxx;c;def</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h</Extensions>
+    </Filter>
+    <Filter Include="Form Files">
+      <UniqueIdentifier>{99349809-55BA-4b9d-BF79-8FDBB0286EB3}</UniqueIdentifier>
+      <Extensions>ui</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{D9D6E242-F8AF-46E4-B9FD-80ECBC20BA3E}</UniqueIdentifier>
+      <Extensions>qrc;*</Extensions>
+      <ParseFiles>false</ParseFiles>
+    </Filter>
+    <Filter Include="Generated Files">
+      <UniqueIdentifier>{71ED8ED8-ACB9-4CE9-BBE1-E00B30144E11}</UniqueIdentifier>
+      <Extensions>moc;h;cpp</Extensions>
+      <SourceControlFiles>False</SourceControlFiles>
+    </Filter>
+    <Filter Include="Generated Files\Debug">
+      <UniqueIdentifier>{f7203a1a-c2ba-4f2f-9138-fef4a399c803}</UniqueIdentifier>
+      <Extensions>cpp;moc</Extensions>
+      <SourceControlFiles>False</SourceControlFiles>
+    </Filter>
+    <Filter Include="Generated Files\Release">
+      <UniqueIdentifier>{d78901c3-041b-46e8-8db7-959c6c759246}</UniqueIdentifier>
+      <Extensions>cpp;moc</Extensions>
+      <SourceControlFiles>False</SourceControlFiles>
+    </Filter>
+    <Filter Include="Gui">
+      <UniqueIdentifier>{1a4f2db2-3c31-451f-b688-d67bfd0c7fac}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Gui\Header Files">
+      <UniqueIdentifier>{f6eb33b5-c356-42ea-a34e-da73dc9e1a1a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Gui\Source Files">
+      <UniqueIdentifier>{7382c171-844c-4163-a2fe-4e900d3d4c18}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Dialogs">
+      <UniqueIdentifier>{9be3d18e-b878-4b4e-bf09-15977ba64d6f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Interfaces">
+      <UniqueIdentifier>{b82356c8-f287-4c30-a045-d0951ea3af52}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Include">
+      <UniqueIdentifier>{85142205-dcaf-4c3f-a340-79d98cb0c78a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3dparty">
+      <UniqueIdentifier>{e0258760-1ee2-4439-b8ed-88a2471deb23}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="wm_area.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="wm_dieindexmapping.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="wm_global.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="wm_overlappedwafer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="wm_singlewafer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="wm_wafermodule.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Interfaces\wm_iwafermodel.h">
+      <Filter>Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="Includes\wm_area.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="Includes\wm_dieindexmapping.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="Includes\wm_global.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="Includes\wm_iwafermodel.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="Includes\wm_waferdrawer.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="Includes\wm_wafermap.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="Includes\wm_waferview.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="Dialogs\wm_waferconfigeditor.h">
+      <Filter>Dialogs</Filter>
+    </ClInclude>
+    <ClInclude Include="Gui\wm_ruler.h">
+      <Filter>Gui\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Gui\wm_waferdrawer.h">
+      <Filter>Gui\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Gui\wm_wafermap.h">
+      <Filter>Gui\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Interfaces\wm_drawer.h">
+      <Filter>Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="Includes\wm_drawer.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="global.h">
+      <Filter>3dparty</Filter>
+    </ClInclude>
+    <ClInclude Include="IVector.h">
+      <Filter>3dparty</Filter>
+    </ClInclude>
+    <ClInclude Include="ianalyser.h">
+      <Filter>3dparty</Filter>
+    </ClInclude>
+    <ClInclude Include="configuration.h">
+      <Filter>3dparty</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="wm_overlappedwafer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="wm_singlewafer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="wm_wafermodule.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Dialogs\wm_waferconfigeditor.cpp">
+      <Filter>Dialogs</Filter>
+    </ClCompile>
+    <ClCompile Include="Gui\wm_ruler.cpp">
+      <Filter>Gui\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Gui\wm_waferdrawer.cpp">
+      <Filter>Gui\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Gui\wm_wafermap.cpp">
+      <Filter>Gui\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Gui\wm_waferview.cpp">
+      <Filter>Gui\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="configuration.cpp">
+      <Filter>3dparty</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="moc_wm_waferview.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="wm_area.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="Gui\wm_waferview.h">
+      <Filter>Gui\Header Files</Filter>
+    </CustomBuild>
+  </ItemGroup>
+</Project>

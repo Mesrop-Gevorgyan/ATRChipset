@@ -1,0 +1,24 @@
+
+
+// Includes
+#include "wm_ruler.h"
+
+// Qt includs
+#include <QRect>
+#include <QPainter>
+
+
+///////////////////////////////////////////////////////////////////////////////
+//
+// Imlementation of CAxis
+//
+QRect wm::CRuler::doLayout( QRect const& rc )
+{
+	return QRect();
+}
+
+void wm::CRuler::draw( QPainter* pPainter ) const
+{
+	
+}
+///////////////////////////////////////////////////////////////////////////////
