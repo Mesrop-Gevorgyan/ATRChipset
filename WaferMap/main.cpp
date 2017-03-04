@@ -18,7 +18,7 @@ int main(int argc, char *argv[])
 
 	//CWaferConfigEditor dlgWaferConfig;
 	//dlgWaferConfig.show();
-	CConfiguration oConfig/* = dlgWaferConfig.getConfig()*/;
+	CConfiguration oConfig /*= dlgWaferConfig.getConfig()*/;
 	oConfig.setName( "Wafer Map" );
 	oConfig.setType( "wafermap" );
 	oConfig.setVersion( 1 );
