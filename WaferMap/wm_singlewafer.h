@@ -13,6 +13,8 @@
 // Qt includs
 #include <QSizeF>
 #include <QString>
+#include <QPointF>
+#include <QRectF>
 
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -47,8 +49,12 @@ public:
 	int getValidDieCount() const override;
 	// Get wafer radius
 	double getRadius() const override;
+	// Get wafer center
+	QPointF getWaferCenter() const override;
 	// Get Die phisicle size
 	QSizeF getDieSize() const override;
+	// Get die rect
+	QRectF getDieRect( int nDieX, int nDieY ) const override;
 	// Get Die phisicle spacing
 	double getDieSpacing() const override;
 	// Get die status

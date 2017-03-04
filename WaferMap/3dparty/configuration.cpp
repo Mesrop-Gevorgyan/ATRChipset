@@ -1,12 +1,13 @@
 
 
-#include <configuration.h>
+#include "configuration.h"
+
 #include <QFile>
 #include <QByteArray>
-/*#include <QJsonDocument>  //TODO
+#include <QJsonDocument>
 #include <QJsonArray>
 #include <QJsonObject>
-#include <QJsonValue>*/
+#include <QJsonValue>
 
 
 
@@ -149,7 +150,7 @@ void CConfiguration::clearParameters()
 
 void CConfiguration::load(QString const& sPath)
 {
-	/*reset();
+	reset();
 	QString fileFullPath = sPath + m_sName + getFileFormat();
 	QFile configFile(fileFullPath);
     // Open file only for reading
@@ -176,14 +177,13 @@ void CConfiguration::load(QString const& sPath)
 			}
 		}
 
-    }*/
-
+    }
 }
 
 
 void CConfiguration::save(QString const& sPath) const
 {
-	/*QString fileFullPath = sPath + m_sName + getFileFormat();
+	QString fileFullPath = sPath + m_sName + getFileFormat();
     QFile configFile(fileFullPath);
     // Open file only for writing
     if (configFile.open(QFile::WriteOnly | QFile::Text))
@@ -205,7 +205,7 @@ void CConfiguration::save(QString const& sPath) const
 		QByteArray data = jsonDoc.toJson(QJsonDocument::Indented);
 		configFile.write(data);
         configFile.close();
-    }*/
+    }
 }
 
 

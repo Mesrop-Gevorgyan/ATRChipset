@@ -1,15 +1,17 @@
 
 
 
-#ifndef WS_WAFERMAP_H
-#define WS_WAFERMAP_H
+#ifndef WS_DRAWER_H
+#define WS_DRAWER_H
 
 
 // Includes
-#include "wm_waferview.h"
+#include "wm_global.h"
 
-// Qt includs
-#include <QWidget>
+
+// Qt forword declaration
+class QRect;
+class QPainter;
 
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -18,51 +20,60 @@ namespace wm {
 
 ///////////////////////////////////////////////////////////////////////////////
 //
-// class CWaferMap
+// Interface CDrawaer
 //
-class CWaferMap : public QWidget
+class CDrawer
 {
-	Q_DISABLE_COPY(CWaferMap);
-
-	typedef QWidget Base;
+public:
+	// Default constructor
+	inline CDrawer();
+	// Destructor
+	inline ~CDrawer();
 
 public:
-	// Init constructor
-	inline CWaferMap( CWaferView* pWaferView, QWidget* pParent = nullptr );
-	// Destructor
-	inline ~CWaferMap();
-
-protected:
 	//
-	//! Implementations
+	//! Own Interface
 	//
-	void setupUi();
+	// Visibility
+	inline void setEnable( bool b );
+	inline bool isEnabled() const;
+	// Do layout
+	virtual void doLayout( QRect const& rc ) = 0;
+	// Draw
+	virtual void draw( QPainter* pPainter ) const = 0;
 
 private:
 	//
 	//! Content
 	//
-	// Wafer view
-	CWaferView*					m_pwWaferView;
+	bool		m_bEnabled;
 };
 ///////////////////////////////////////////////////////////////////////////////
 
+
 ///////////////////////////////////////////////////////////////////////////////
 //
-// Inline Implementations
+// Inline implementation
 //
-inline CWaferMap::CWaferMap( CWaferView* pWaferView, QWidget* pParent )
-	: QWidget( pParent ),
-		m_pwWaferView( nullptr )
+inline CDrawer::CDrawer()
+	: m_bEnabled(true)
 {
-	Q_ASSERT(pWaferView);
-	m_pwWaferView = pWaferView;
-	setupUi();
+
 }
 
-inline CWaferMap::~CWaferMap()
+inline CDrawer::~CDrawer()
 {
-	
+
+}
+
+inline void CDrawer::setEnable( bool b )
+{
+	m_bEnabled = b;
+}
+
+inline bool CDrawer::isEnabled() const
+{
+	return m_bEnabled;
 }
 ///////////////////////////////////////////////////////////////////////////////
 
@@ -70,4 +81,4 @@ inline CWaferMap::~CWaferMap()
 } // namespace wm
 ///////////////////////////////////////////////////////////////////////////////
 
-#endif //! WS_WAFERMAP_H
+#endif //! WS_DRAWER_H

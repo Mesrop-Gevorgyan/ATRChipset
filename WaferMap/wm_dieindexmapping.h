@@ -6,9 +6,9 @@
 
 
 // Qt Includs
-#include <QPair>
-#include <QHash>
-#include <QList>
+#include <QtCore\QPair>
+#include <QtCore\QHash>
+#include <QtCore\QList>
 
 
 ///////////////////////////////////////////////////////////////////////////////

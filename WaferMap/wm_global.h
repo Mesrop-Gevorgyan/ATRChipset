@@ -5,16 +5,26 @@
 #define WM_GLOBAL_H
 
 
+// Qt includes
+#include <QString>
+
+
 ///////////////////////////////////////////////////////////////////////////////
 namespace wm {
 ///////////////////////////////////////////////////////////////////////////////
+
+
+// Configuration constants
+QString const csWaferNames = QString("wafernames");
+QString const csWaferType = QString("wafertype");
+QString const csBinType = QString("bintype");
+
 
 // Wafer map type
 enum class EWaferType
 {
 	Invalid,
 	SingleBin,
-	Intensity,
 	Yield,
 	MostFrequentBin,
 	GroupAggregation

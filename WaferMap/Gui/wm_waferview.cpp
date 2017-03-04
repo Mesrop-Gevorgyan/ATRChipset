@@ -11,6 +11,8 @@
 #include <QRubberBand>
 #include <QRect>
 #include <QSize>
+#include <QPalette>
+#include <QColor>
 #include <QMouseEvent>
 #include <QWheelEvent>
 #include <QApplication>
@@ -40,6 +42,13 @@ void wm::CWaferView::setupUi()
 	QObject::connect( horizontalScrollBar(), SIGNAL(valueChanged(int)), this, SLOT(onHSliderPosChanged(int)) );
 	QObject::connect( verticalScrollBar(), SIGNAL(valueChanged(int)), this, SLOT(onVSliderPosChanged(int)) );
 
+	// Setup Horizontal ruler
+	m_pHRuler.reset( new CRuler );
+	m_pHRuler->setAligment( ERulerAligment::Top );
+	// Setup vertical ruler
+	m_pVRuler.reset( new CRuler );
+	m_pVRuler->setAligment( ERulerAligment::Left );
+
 	// Setup rubber band
 	m_pRubberBand = new QRubberBand(QRubberBand::Rectangle, this);
 	m_pRubberBand->setObjectName( "QRubberBand" );
@@ -51,12 +60,46 @@ void wm::CWaferView::paintEvent( QPaintEvent * pEvent )
 {
 	Base::paintEvent( pEvent );
 	Q_ASSERT(m_pWaferDrawer);
-	// Do layout
-	QRect rcViewport = viewport()->rect();;
-	m_pWaferDrawer->doLayout( rcViewport );
-	// Draw wafer map
+	Q_ASSERT(m_pHRuler);
+	Q_ASSERT(m_pVRuler);
+
 	QPainter oPainter(viewport());
+	QRect const rcViewport = viewport()->rect();
+	QRect const rcWafer = rcViewport.adjusted( m_pVRuler->getPreferedSize(), m_pHRuler->getPreferedSize(), 0, 0 );
+	// Draw wafer
+	m_pWaferDrawer->doLayout( rcWafer );
 	m_pWaferDrawer->draw( &oPainter );
+
+	QPalette oPalette = palette();
+	QColor clrfill = oPalette.color( QPalette::Background );
+	QRect rcHRuler = rcViewport;
+	rcHRuler.setHeight( m_pHRuler->getPreferedSize() );
+	oPainter.fillRect( rcHRuler, clrfill );
+	rcHRuler.adjust( m_pVRuler->getPreferedSize(), 0, 0, 0 );
+	//
+	QRect rcVRuler = rcViewport;
+	rcVRuler.setWidth( m_pVRuler->getPreferedSize() );
+	oPainter.fillRect( rcVRuler, clrfill );
+	rcVRuler.adjust( 0, m_pHRuler->getPreferedSize(), 0, 0 );
+
+	CArea const* pArea = m_pWaferDrawer->getArea();
+	Q_ASSERT(pArea);
+	double fMin;
+	double fMax;
+	pArea->getXRange( fMin, fMax );
+	m_pHRuler->setRange( fMin, fMax );
+	//
+	pArea->getYRange( fMin, fMax );
+	m_pVRuler->setRange( fMin, fMax );
+
+	// Draw horizontal ruler
+	oPainter.setClipRect( rcHRuler );
+	m_pHRuler->doLayout( rcHRuler );
+	m_pHRuler->draw( &oPainter );
+	// Draw vertical ruler
+	oPainter.setClipRect( rcVRuler );
+	m_pVRuler->doLayout( rcVRuler );
+	m_pVRuler->draw( &oPainter );
 }
 
 void wm::CWaferView::mousePressEvent( QMouseEvent * pEvent )
@@ -119,12 +162,12 @@ void wm::CWaferView::mouseReleaseEvent( QMouseEvent * pEvent )
 			horizontalScrollBar()->setPageStep( rect().width() );
 			verticalScrollBar()->setRange( rcPrefered.top(), rcPrefered.bottom() );
 			horizontalScrollBar()->setRange( rcPrefered.left(), rcPrefered.right() );
-			m_pRubberBand->setGeometry( QRect() );
-			m_pRubberBand->hide();
-			m_rcBand = QRect();
 			pEvent->accept();
 			update();
 		}
+		m_pRubberBand->setGeometry( QRect() );
+		m_pRubberBand->hide();
+		m_rcBand = QRect();
 	}
 	else
 		Base::mouseReleaseEvent( pEvent );

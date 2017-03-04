@@ -54,6 +54,11 @@ double wm::COverlappedWafer::getRadius() const
 	return fRadius;
 }
 
+QPointF wm::COverlappedWafer::getWaferCenter() const
+{
+	return QPointF(0, 0);
+}
+
 QSizeF wm::COverlappedWafer::getDieSize() const
 {
 	QSizeF szFDie;
@@ -64,6 +69,18 @@ QSizeF wm::COverlappedWafer::getDieSize() const
 		szFDie = pWafer->getDieSize();
 	}
 	return szFDie;
+}
+
+QRectF wm::COverlappedWafer::getDieRect( int nDieX, int nDieY ) const
+{
+	QRectF rcFDie;
+	if (!m_aWafers.isEmpty())
+	{
+		IWaferModel const* pWafer = m_aWafers.begin().value();
+		Q_ASSERT(pWafer);
+		rcFDie = pWafer->getDieRect( nDieX, nDieY );
+	}
+	return rcFDie;
 }
 
 double wm::COverlappedWafer::getDieSpacing() const

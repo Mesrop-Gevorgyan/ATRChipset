@@ -11,29 +11,42 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="configuration.h" />
+    <ClInclude Include="3dparty\configuration.h" />
+    <ClInclude Include="3dparty\global.h" />
+    <ClInclude Include="3dparty\ianalyser.h" />
+    <ClInclude Include="3dparty\IVector.h" />
+    <ClInclude Include="3dparty\vector.h" />
     <ClInclude Include="Dialogs\wm_waferconfigeditor.h" />
-    <ClInclude Include="global.h" />
+    <ClInclude Include="Gui\wm_drawer.h" />
     <ClInclude Include="Gui\wm_ruler.h" />
     <ClInclude Include="Gui\wm_waferdrawer.h" />
+    <ClInclude Include="Gui\wm_wafergroupaggregation.h" />
     <ClInclude Include="Gui\wm_wafermap.h" />
     <CustomBuild Include="Gui\wm_waferview.h">
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\moc_%(Filename).cpp"  -DUNICODE -DWIN32 -DQT_THREAD_SUPPORT -DQT_CORE_LIB -DQT_XML_LIB  -DQT_DLL -DQT_GUI_LIB -D_WINDLL -D_MBCS "-I." "-I$(QTDIR)\include" "-I$(QTDIR)\include\QtGui" "-I$(QTDIR)\include\QtCore"  "-I$(NOINHERIT)\." "-I." "-I." "-I." "-I."</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp"  -DUNICODE -DWIN32 -DQT_DLL -DQT_CORE_LIB -DQT_GUI_LIB -DQT_WIDGETS_LIB  "-I.\GeneratedFiles" "-I." "-I$(QTDIR)\include" "-I.\GeneratedFiles\$(ConfigurationName)\." "-I$(QTDIR)\include\QtCore" "-I$(QTDIR)\include\QtGui" "-I$(QTDIR)\include\QtWidgets" "-I.\include" "-I.\3dparty"</Command>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.\GeneratedFiles\Debug\moc_%(Filename).cpp</Outputs>
-      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath);$(QTDIR)\bin\moc.exe;%(FullPath);$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Moc%27ing wm_waferview.h...</Message>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath);$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Moc%27ing wm_waferview.h...</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp"  -DUNICODE -DWIN32 -DQT_DLL -DQT_NO_DEBUG -DNDEBUG -DQT_CORE_LIB -DQT_GUI_LIB -DQT_WIDGETS_LIB "-I.\GeneratedFiles" "-I." "-I$(QTDIR)\include" "-I.\GeneratedFiles\$(ConfigurationName)\." "-I$(QTDIR)\include\QtCore" "-I$(QTDIR)\include\QtGui" "-I$(QTDIR)\include\QtWidgets"</Command>
     </CustomBuild>
-    <ClInclude Include="ianalyser.h" />
-    <ClInclude Include="Includes\wm_area.h" />
-    <ClInclude Include="Includes\wm_dieindexmapping.h" />
-    <ClInclude Include="Includes\wm_drawer.h" />
-    <ClInclude Include="Includes\wm_global.h" />
-    <ClInclude Include="Includes\wm_iwafermodel.h" />
-    <ClInclude Include="Includes\wm_waferdrawer.h" />
-    <ClInclude Include="Includes\wm_wafermap.h" />
-    <ClInclude Include="Includes\wm_waferview.h" />
+    <ClInclude Include="Gui\wm_wafermfbin.h" />
+    <ClInclude Include="Gui\wm_wafersinglebin.h" />
+    <ClInclude Include="Gui\wm_waferyield.h" />
+    <ClInclude Include="Include\wm_area.h" />
+    <ClInclude Include="Include\wm_dieindexmapping.h" />
+    <ClInclude Include="Include\wm_drawer.h" />
+    <ClInclude Include="Include\wm_iwafermodel.h" />
+    <ClInclude Include="Include\wm_wafergroupaggregation.h" />
+    <ClInclude Include="Include\wm_wafermap.h" />
+    <CustomBuild Include="Include\wm_waferview.h" />
+    <ClInclude Include="Include\wm_wafermfbin.h" />
+    <ClInclude Include="Include\wm_wafersinglebin.h" />
+    <ClInclude Include="Include\wm_waferyield.h" />
     <ClInclude Include="Interfaces\wm_drawer.h" />
     <ClInclude Include="Interfaces\wm_iwafermodel.h" />
-    <ClInclude Include="IVector.h" />
     <ClInclude Include="wm_area.h" />
     <ClInclude Include="wm_dieindexmapping.h" />
     <ClInclude Include="wm_global.h" />
@@ -42,18 +55,45 @@
     <ClInclude Include="wm_wafermodule.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="configuration.cpp" />
+    <ClCompile Include="3dparty\configuration.cpp" />
     <ClCompile Include="Dialogs\wm_waferconfigeditor.cpp" />
+    <ClCompile Include="GeneratedFiles\Debug\moc_wm_waferview.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\qrc_icons.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+      </PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+      </PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_wm_waferview.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="Gui\wm_ruler.cpp" />
     <ClCompile Include="Gui\wm_waferdrawer.cpp" />
+    <ClCompile Include="Gui\wm_wafergroupaggregation.cpp" />
     <ClCompile Include="Gui\wm_wafermap.cpp" />
+    <ClCompile Include="Gui\wm_wafermfbin.cpp" />
+    <ClCompile Include="Gui\wm_wafersinglebin.cpp" />
     <ClCompile Include="Gui\wm_waferview.cpp" />
+    <ClCompile Include="Gui\wm_waferyield.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="moc_wm_waferview.cpp" />
     <ClCompile Include="wm_area.cpp" />
     <ClCompile Include="wm_overlappedwafer.cpp" />
     <ClCompile Include="wm_singlewafer.cpp" />
     <ClCompile Include="wm_wafermodule.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="icons.qrc">
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(FullPath);%(AdditionalInputs)</AdditionalInputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Rcc%27ing %(Identity)...</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.\GeneratedFiles\qrc_%(Filename).cpp;%(Outputs)</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(QTDIR)\bin\rcc.exe" -name "%(Filename)" -no-compress "%(FullPath)" -o .\GeneratedFiles\qrc_%(Filename).cpp</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(FullPath);%(AdditionalInputs)</AdditionalInputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Rcc%27ing %(Identity)...</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.\GeneratedFiles\qrc_%(Filename).cpp;%(Outputs)</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">"$(QTDIR)\bin\rcc.exe" -name "%(Filename)" -no-compress "%(FullPath)" -o .\GeneratedFiles\qrc_%(Filename).cpp</Command>
+    </CustomBuild>
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{B12702AD-ABFB-343A-A199-8E24837244A3}</ProjectGuid>
@@ -90,7 +130,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <PreprocessorDefinitions>UNICODE;WIN32;QT_DLL;QT_CORE_LIB;QT_GUI_LIB;QT_WIDGETS_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>.\GeneratedFiles;.;$(QTDIR)\include;.\GeneratedFiles\$(ConfigurationName);$(QTDIR)\include\QtCore;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtWidgets;.\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.\GeneratedFiles;.;$(QTDIR)\include;.\GeneratedFiles\$(ConfigurationName);$(QTDIR)\include\QtCore;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtWidgets;.\include;.\3dparty;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Disabled</Optimization>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>

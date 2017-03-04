@@ -16,7 +16,7 @@ typedef QStringList FieldList;
 
 
 // Bin type
-enum class BinType { HBin, SBin };
+enum class EBinType { HBin, SBin };
 
 
 

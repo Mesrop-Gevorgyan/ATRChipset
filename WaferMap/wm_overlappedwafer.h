@@ -13,6 +13,7 @@
 #include <QPair>
 #include <QHash>
 #include <QString>
+#include <QRectF>
 
 // Qt forward declarations
 class QStringList;
@@ -49,8 +50,12 @@ public:
 	int getValidDieCount() const override;
 	// Get radius
 	double getRadius() const override;
+	// Get wafer center
+	QPointF getWaferCenter() const override;
 	// Get Die phisicle size
 	QSizeF getDieSize() const override;
+	// Get die rect
+	QRectF getDieRect( int nDieX, int nDieY ) const override;
 	// Get Die phisicle spacing
 	double getDieSpacing() const override;
 	// Get die status

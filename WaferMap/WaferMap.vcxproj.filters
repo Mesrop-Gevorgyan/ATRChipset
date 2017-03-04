@@ -77,27 +77,6 @@
     <ClInclude Include="Interfaces\wm_iwafermodel.h">
       <Filter>Interfaces</Filter>
     </ClInclude>
-    <ClInclude Include="Includes\wm_area.h">
-      <Filter>Include</Filter>
-    </ClInclude>
-    <ClInclude Include="Includes\wm_dieindexmapping.h">
-      <Filter>Include</Filter>
-    </ClInclude>
-    <ClInclude Include="Includes\wm_global.h">
-      <Filter>Include</Filter>
-    </ClInclude>
-    <ClInclude Include="Includes\wm_iwafermodel.h">
-      <Filter>Include</Filter>
-    </ClInclude>
-    <ClInclude Include="Includes\wm_waferdrawer.h">
-      <Filter>Include</Filter>
-    </ClInclude>
-    <ClInclude Include="Includes\wm_wafermap.h">
-      <Filter>Include</Filter>
-    </ClInclude>
-    <ClInclude Include="Includes\wm_waferview.h">
-      <Filter>Include</Filter>
-    </ClInclude>
     <ClInclude Include="Dialogs\wm_waferconfigeditor.h">
       <Filter>Dialogs</Filter>
     </ClInclude>
@@ -113,20 +92,62 @@
     <ClInclude Include="Interfaces\wm_drawer.h">
       <Filter>Interfaces</Filter>
     </ClInclude>
-    <ClInclude Include="Includes\wm_drawer.h">
+    <ClInclude Include="3dparty\configuration.h">
+      <Filter>3dparty</Filter>
+    </ClInclude>
+    <ClInclude Include="3dparty\global.h">
+      <Filter>3dparty</Filter>
+    </ClInclude>
+    <ClInclude Include="3dparty\ianalyser.h">
+      <Filter>3dparty</Filter>
+    </ClInclude>
+    <ClInclude Include="3dparty\IVector.h">
+      <Filter>3dparty</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\wm_area.h">
       <Filter>Include</Filter>
     </ClInclude>
-    <ClInclude Include="global.h">
+    <ClInclude Include="Include\wm_dieindexmapping.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\wm_drawer.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\wm_iwafermodel.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\wm_wafermap.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="3dparty\vector.h">
       <Filter>3dparty</Filter>
     </ClInclude>
-    <ClInclude Include="IVector.h">
-      <Filter>3dparty</Filter>
+    <ClInclude Include="Include\wm_wafergroupaggregation.h">
+      <Filter>Include</Filter>
     </ClInclude>
-    <ClInclude Include="ianalyser.h">
-      <Filter>3dparty</Filter>
+    <ClInclude Include="Include\wm_wafermfbin.h">
+      <Filter>Include</Filter>
     </ClInclude>
-    <ClInclude Include="configuration.h">
-      <Filter>3dparty</Filter>
+    <ClInclude Include="Include\wm_wafersinglebin.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\wm_waferyield.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="Gui\wm_drawer.h">
+      <Filter>Gui\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Gui\wm_wafergroupaggregation.h">
+      <Filter>Gui\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Gui\wm_wafermfbin.h">
+      <Filter>Gui\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Gui\wm_wafersinglebin.h">
+      <Filter>Gui\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Gui\wm_waferyield.h">
+      <Filter>Gui\Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -154,22 +175,46 @@
     <ClCompile Include="Gui\wm_waferview.cpp">
       <Filter>Gui\Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="configuration.cpp">
-      <Filter>3dparty</Filter>
-    </ClCompile>
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="moc_wm_waferview.cpp">
-      <Filter>Generated Files\Debug</Filter>
-    </ClCompile>
     <ClCompile Include="wm_area.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="3dparty\configuration.cpp">
+      <Filter>3dparty</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_wm_waferview.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_wm_waferview.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="Gui\wm_wafergroupaggregation.cpp">
+      <Filter>Gui\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Gui\wm_wafermfbin.cpp">
+      <Filter>Gui\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Gui\wm_wafersinglebin.cpp">
+      <Filter>Gui\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Gui\wm_waferyield.cpp">
+      <Filter>Gui\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\qrc_icons.cpp">
+      <Filter>Generated Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="Gui\wm_waferview.h">
       <Filter>Gui\Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Include\wm_waferview.h">
+      <Filter>Include</Filter>
+    </CustomBuild>
+    <CustomBuild Include="icons.qrc">
+      <Filter>Resource Files</Filter>
     </CustomBuild>
   </ItemGroup>
 </Project>

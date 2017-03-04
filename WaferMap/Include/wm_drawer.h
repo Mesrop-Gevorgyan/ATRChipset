@@ -1,8 +1,8 @@
 
 
-#ifndef WM_AREA_H
+#ifndef WM_DRAWER_H
 
 #include "../interfaces/wm_drawer.h"
 
-#endif //! WM_AREA_H
+#endif //! WM_DRAWER_H
 

@@ -18,12 +18,13 @@
 
 ///////////////////////////////////////////////////////////////////////////////
 //
-// Imlementation of CArea
+// Imlementation of CWaferDrawer
 //
 wm::CWaferDrawer::CWaferDrawer( IWaferModel const* pModel )
 	: m_pModel( pModel ),
 	  m_eDimplePos( EDimplePosition::Bottom ),
 	  m_oColor( QColor( Qt::darkGray ) ),
+	  m_eBinType( EBinType::HBin ),
 	  m_pArea( nullptr )
 {
 	Q_ASSERT(pModel);
@@ -37,11 +38,10 @@ wm::CWaferDrawer::~CWaferDrawer()
 
 }
 
-QRect wm::CWaferDrawer::doLayout( QRect const& rc )
+void wm::CWaferDrawer::doLayout( QRect const& rc )
 {
 	Q_ASSERT(m_pArea);
 	m_pArea->setScreen( rc );
-	return rc;
 }
 
 void wm::CWaferDrawer::draw( QPainter* pPainter ) const
@@ -56,7 +56,7 @@ void wm::CWaferDrawer::draw( QPainter* pPainter ) const
 
 	// Setup painter
 	pPainter->save();
-	QPen oPen;
+	QPen oPen = pPainter->pen();
 	oPen.setWidth( 1 );
 	oPen.setColor( getColor() );
 	QPen oSelPen;
@@ -66,6 +66,9 @@ void wm::CWaferDrawer::draw( QPainter* pPainter ) const
 	pPainter->setRenderHint( QPainter::Antialiasing );
 	// Set cliping
 	pPainter->setClipPath( getClipping(), Qt::ReplaceClip );
+	QFont oFont = pPainter->font();
+	oFont.setPointSize( 9 );
+	pPainter->setFont( oFont );
 
 	// Draw wafer contur
 	drawWaferContur( pPainter );
@@ -92,7 +95,7 @@ void wm::CWaferDrawer::draw( QPainter* pPainter ) const
 			else
 			{
 				// Draw content of invalid die
-				drawInvalidDie( pPainter, nDieX, nDieY );
+				drawInvalidDie( pPainter, rcFDie );
 			}
 		}
 	}
@@ -238,7 +241,8 @@ QRect wm::CWaferDrawer::getPreferedArea() const
 QPointF wm::CWaferDrawer::getWaferCenter() const
 {
 	Q_ASSERT(m_pArea);
-	return m_pArea->translate( QPointF(0, 0), getXRulerDirection(), getYRulerDirection() );
+	Q_ASSERT(m_pModel);
+	return m_pArea->translate( m_pModel->getWaferCenter(), getXRulerDirection(), getYRulerDirection() );
 }
 
 QRectF wm::CWaferDrawer::getWaferGeometry() const
@@ -304,36 +308,7 @@ QRectF wm::CWaferDrawer::getDieRect( int nDieX, int nDieY ) const
 {
 	Q_ASSERT(m_pArea);
 	Q_ASSERT(m_pModel);
-	QRectF rcFDie(0, 0, 0, 0);
-
-	// Resolve die rect on the screen
-	int nTmpDieX = nDieX;
-	if (nTmpDieX < 0)
-		nTmpDieX = qAbs( nTmpDieX + 1 );
-	int nTmpDieY = nDieY;
-	if (nTmpDieY < 0)
-		nTmpDieY = qAbs( nTmpDieY + 1 );
-	//
-	double fDieSpacing = m_pModel->getDieSpacing();
-	double fXSpacing = fDieSpacing / 2 + qMax( 0, nTmpDieX ) * fDieSpacing;
-	double fYSpacing = fDieSpacing / 2 + qMax( 0, nTmpDieY ) * fDieSpacing;
-	double fX = NAN;
-	double fY = NAN;
-	QSizeF szFDie = m_pModel->getDieSize();
-	Q_ASSERT(szFDie.isValid());
-	// Resolve x
-	if (nDieX >= 0)
-		fX = fXSpacing + nTmpDieX * szFDie.width();
-	else
-		fX = -(fXSpacing + (nTmpDieX + 1) * szFDie.width());
-	// Resolve y
-	if (nDieY >= 0)
-		fY = fYSpacing + nTmpDieY * szFDie.height();
-	else
-		fY = -(fYSpacing + (nTmpDieY + 1) * szFDie.height());
-	//
-	rcFDie.setTopLeft( QPointF(fX, fY) );
-	rcFDie.setSize( szFDie );
+	QRectF rcFDie = m_pModel->getDieRect( nDieX, nDieY );
 	// Translate rect to screen
 	return m_pArea->translate( rcFDie, getXRulerDirection(), getYRulerDirection() );
 }
@@ -343,6 +318,11 @@ void wm::CWaferDrawer::drawWaferContur( QPainter* pPainter ) const
 	Q_ASSERT(pPainter);
 	Q_ASSERT(m_pArea);
 	Q_ASSERT(m_pModel);
+
+	QPen oPen = pPainter->pen();
+	QPen penBackup = oPen;
+	oPen.setWidth( 2 );
+	pPainter->setPen( oPen );
 
 	// Make wafer contur
 	double nWStartAngle = 271;
@@ -356,6 +336,8 @@ void wm::CWaferDrawer::drawWaferContur( QPainter* pPainter ) const
 	pPainter->drawArc( rcFWafer, 16 * nWStartAngle, 16 * nSpanAngle );
 	// Draw dimple
 	pPainter->drawArc( rcFDimple, qRound( 16 * fDStartAngle ), 16 * 179 );
+
+	pPainter->setPen( penBackup );
 }
 
 void wm::CWaferDrawer::drawValidDie( QPainter* pPainter, int nDieX, int nDieY ) const
@@ -364,13 +346,12 @@ void wm::CWaferDrawer::drawValidDie( QPainter* pPainter, int nDieX, int nDieY ) 
 	// Noting to do, subclasses should override
 }
 
-void wm::CWaferDrawer::drawInvalidDie( QPainter* pPainter, int nDieX, int nDieY ) const
+void wm::CWaferDrawer::drawInvalidDie( QPainter* pPainter, QRectF const& rcFDie ) const
 {
 	Q_ASSERT(pPainter);
-
-	QRectF const rcFDie = getDieRect( nDieX, nDieY );
 	if (!rcFDie.isValid())
 		return;
+
 	// Draw cross
 	double fXFactor = rcFDie.width() * 0.2;
 	double fYFactor = rcFDie.height() * 0.2;

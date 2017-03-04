@@ -4,10 +4,9 @@
 #include "wm_area.h"
 
 // Qt includs
-#include <QPoint>
-#include <QPoint>
-#include <QSize>
-#include <QRect>
+#include <QtCore\QPoint>
+#include <QtCore\QSize>
+#include <QtCore\QRect>
 
 
 ///////////////////////////////////////////////////////////////////////////////

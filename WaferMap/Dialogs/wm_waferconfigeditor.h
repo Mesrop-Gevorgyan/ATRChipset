@@ -3,25 +3,22 @@
 #define WAFERCONFIGEDITOR_H
 
 
+// Includes
+#include "global.h"
+#include "configuration.h"
+
 // Qt includes
 #include <QWidget>
 #include <QString>
 #include <QTreeWidget>
 #include <QRadioButton>
 
-#include "wm_global.h"
-#include "global.h"
-
-
-///////////////////////////////////////////////////////////////////////////////
-namespace wm {
-///////////////////////////////////////////////////////////////////////////////
 
 ///////////////////////////////////////////////////////////////////////////////
 //
 //! Class CWaferConfigEditor
 //
-class CWaferConfigEditor : public QWidget
+class Q_DECL_EXPORT CWaferConfigEditor : public QWidget
 {
 public:
 	// Default constructor
@@ -33,20 +30,22 @@ public:
 	//
 	//! Own Interface
 	//
-	// Set wafers
+	// Add wafers
 	void addWafer( QString const& aLotName, QString const& sNameWafer );
-	// Get selected wafers(names)
-	QStringList getSelectedWafers() const;
-	// Get Wafer analysis mode
-	int getWaferType() const;
-	// Get Bin type
-	BinType getBinType() const;
+	// Get wafer configuration
+	CConfiguration getConfig() const;
 
 protected:
 	//
 	//! Implementation
 	//
 	void setupUi();
+	// Get selected wafers(names)
+	QStringList getSelectedWafers() const;
+	// Get Wafer analysis mode
+	int getWaferType() const;
+	// Get Bin type
+	EBinType getBinType() const;
 
 private:
 	//
@@ -61,15 +60,10 @@ private:
 
 	// Wafer types
 	QRadioButton*			m_pBtnSingleBin;
-	QRadioButton*			m_pBtnIntensity;
 	QRadioButton*			m_pBtnYield;
 	QRadioButton*			m_pBtnMostFrequentBin;
 	QRadioButton*			m_pBtnGroupAggregation;
 };
-///////////////////////////////////////////////////////////////////////////////
-
-///////////////////////////////////////////////////////////////////////////////
-} // namespace wm
 ///////////////////////////////////////////////////////////////////////////////
 
 #endif //! WAFERCONFIGEDITOR_H

@@ -6,6 +6,7 @@
 
 
 // Includes
+#include "global.h"
 #include "wm_drawer.h"
 #include "wm_area.h"
 #include "wm_iwafermodel.h"
@@ -46,7 +47,7 @@ public:
 	//! Override CDrawable interface
 	//
 	// Do layout
-	QRect doLayout( QRect const& rc ) override;
+	void doLayout( QRect const& rc ) override;
 	// Draw
 	void draw( QPainter* pPainter ) const override;
 
@@ -60,9 +61,12 @@ public:
 	// Set\Get wafer color
 	inline void setColor( QColor const& oColor );
 	inline QColor getColor() const;
-	// Get area rect
-	inline QRectF getArea() const;
-	// Zoom in/zoom out
+	// Set\Get Bin type
+	inline void setBinType( EBinType eBinType );
+	inline EBinType getBinType() const;
+	// Get area
+	inline CArea const* getArea() const;
+	// Zoom in\zoom out
 	bool zoom( QRectF rcZoom );
 	// Scroll left-right
 	bool scrollLR( int iShift );
@@ -78,7 +82,8 @@ public:
 	virtual void adjust();
 	// Resolve prefered area for drawing
 	QRect getPreferedArea() const;
-
+	// Get Wafer Model
+	inline IWaferModel const* getWaferModel() const;
 
 protected:
 	//
@@ -101,7 +106,7 @@ protected:
 	// Draw valid (defined) die
 	virtual void drawValidDie( QPainter* pPainter, int nDieX, int nDieY ) const;
 	// Draw invalid (undefined) die
-	virtual void drawInvalidDie( QPainter* pPainter, int nDieX, int nDieY ) const;
+	virtual void drawInvalidDie( QPainter* pPainter, QRectF const& rcFDie ) const;
 	// Get painter path for clipping
 	virtual QPainterPath getClipping() const;
 	// Check can die draw
@@ -113,7 +118,7 @@ protected:
 	// Check is selected
 	bool isSelected( int nDieX, int nDieY ) const;
 
-private:
+protected:
 	//
 	//! Content
 	//
@@ -127,6 +132,8 @@ private:
 	EDimplePosition						m_eDimplePos;
 	// Wafer lines color
 	QColor								m_oColor;
+	// Bin typer
+	EBinType							m_eBinType;
 	// Wafer area for data translation
 	QScopedPointer<CArea>				m_pArea;
 };
@@ -157,10 +164,19 @@ inline QColor CWaferDrawer::getColor() const
 	return m_oColor;
 }
 
-inline QRectF CWaferDrawer::getArea() const
+inline void CWaferDrawer::setBinType( EBinType eBinType )
 {
-	Q_ASSERT(m_pArea);
-	return m_pArea->getScreen();
+	m_eBinType = eBinType;
+}
+
+inline EBinType CWaferDrawer::getBinType() const
+{
+	return m_eBinType;
+}
+
+inline CArea const* CWaferDrawer::getArea() const
+{
+	return m_pArea.data();
 }
 
 inline EScaleDirection CWaferDrawer::getXRulerDirection() const
@@ -195,6 +211,11 @@ inline EScaleDirection CWaferDrawer::getYRulerDirection() const
 	}
 	Q_ASSERT(false);
 	return EScaleDirection::TopToBottom;
+}
+
+IWaferModel const* CWaferDrawer::getWaferModel() const
+{
+	return m_pModel;
 }
 ///////////////////////////////////////////////////////////////////////////////
 

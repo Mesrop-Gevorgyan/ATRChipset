@@ -2,6 +2,7 @@
 
 
 // Includes
+#include "wm_global.h"
 #include "wm_waferconfigeditor.h"
 
 // Qt includes
@@ -13,15 +14,15 @@
 #include <QTreeWidgetItem>
 #include <QStringList>
 #include <QList>
+#include <QIcon>
 
 
-wm::CWaferConfigEditor::CWaferConfigEditor( QWidget* parent )
+CWaferConfigEditor::CWaferConfigEditor( QWidget* parent )
 	: QWidget( parent ),
 	  m_pLstWafer( nullptr ),
 	  m_pBtnHBin( nullptr ),
 	  m_pBtnSBin( nullptr ),
 	  m_pBtnSingleBin( nullptr ),
-	  m_pBtnIntensity( nullptr ),
 	  m_pBtnYield( nullptr ),
 	  m_pBtnMostFrequentBin( nullptr ),
 	  m_pBtnGroupAggregation( nullptr )
@@ -29,12 +30,12 @@ wm::CWaferConfigEditor::CWaferConfigEditor( QWidget* parent )
 	setupUi();
 }
 
-wm::CWaferConfigEditor::~CWaferConfigEditor()
+CWaferConfigEditor::~CWaferConfigEditor()
 {
 
 }
 
-void wm::CWaferConfigEditor::addWafer( QString const& aLotName, QString const& sNameWafer )
+void CWaferConfigEditor::addWafer( QString const& aLotName, QString const& sNameWafer )
 {
 	Q_ASSERT(m_pLstWafer);
 	if (aLotName.isEmpty() || sNameWafer.isEmpty())
@@ -61,7 +62,25 @@ void wm::CWaferConfigEditor::addWafer( QString const& aLotName, QString const& s
 	pLot->addChild( pWafer );
 }
 
-QStringList wm::CWaferConfigEditor::getSelectedWafers() const
+CConfiguration CWaferConfigEditor::getConfig() const
+{
+	CConfiguration oConfig;
+	oConfig.setName("Wafer Map");
+	oConfig.setType("wafermap");
+	oConfig.setVersion(1);
+	// Set wafer names
+	QStringList sWaferNames = getSelectedWafers();
+	oConfig.setParameter(wm::csWaferNames, QVariant(sWaferNames));
+	// Set wafer type
+	int nWaferType = getWaferType();
+	oConfig.setParameter(wm::csWaferType, QVariant(nWaferType));
+	// Set bin type
+	int nBinType = int(getBinType());
+	oConfig.setParameter(wm::csBinType, QVariant(nBinType));
+	return oConfig;
+}
+
+QStringList CWaferConfigEditor::getSelectedWafers() const
 {
 
 	Q_ASSERT(m_pLstWafer);
@@ -82,45 +101,43 @@ QStringList wm::CWaferConfigEditor::getSelectedWafers() const
 	return aSelection;
 }
 
-BinType wm::CWaferConfigEditor::getBinType() const
+EBinType CWaferConfigEditor::getBinType() const
 {
 	Q_ASSERT(m_pBtnHBin);
 	Q_ASSERT(m_pBtnSBin);
 
 	if (m_pBtnHBin->isChecked())
-		return BinType::HBin;
+		return EBinType::HBin;
 	else if (m_pBtnSBin->isChecked())
-		return BinType::SBin;
+		return EBinType::SBin;
 
 	Q_ASSERT(false);
-	return BinType::HBin;
+	return EBinType::HBin;
 }
 
-int wm::CWaferConfigEditor::getWaferType() const
+int CWaferConfigEditor::getWaferType() const
 {
 	Q_ASSERT(m_pBtnSingleBin);
-	Q_ASSERT(m_pBtnIntensity);
 	Q_ASSERT(m_pBtnYield);
 	Q_ASSERT(m_pBtnMostFrequentBin);
 	Q_ASSERT(m_pBtnGroupAggregation);
 
 	if (m_pBtnSingleBin->isChecked())
-		return int(EWaferType::SingleBin);
-	else if (m_pBtnIntensity->isChecked())
-		return int(EWaferType::Intensity);
+		return int(wm::EWaferType::SingleBin);
 	else if (m_pBtnYield->isChecked())
-		return int(EWaferType::Yield);
+		return int(wm::EWaferType::Yield);
 	else if (m_pBtnMostFrequentBin->isChecked())
-		return int(EWaferType::MostFrequentBin);
+		return int(wm::EWaferType::MostFrequentBin);
 	else if (m_pBtnGroupAggregation->isChecked())
-		return int(EWaferType::GroupAggregation);
-	return int(EWaferType::Invalid);
+		return int(wm::EWaferType::GroupAggregation);
+	return int(wm::EWaferType::Invalid);
 }
 
-void wm::CWaferConfigEditor::setupUi()
+void CWaferConfigEditor::setupUi()
 {
 	setObjectName( "WaferConfigEditor" );
-	setWindowTitle( "Wafer configuration" );
+	setWindowTitle( "Wafer Configuration" );
+	setWindowIcon( QIcon(":/wm/Resources/editwafer.png") );
 	setContentsMargins( 0, 0, 0, 0 );
 
 	// Parameters group box
@@ -175,10 +192,6 @@ void wm::CWaferConfigEditor::setupUi()
 	Q_CHECK_PTR(m_pBtnSingleBin);
 	m_pBtnSingleBin->setChecked( true );
 	pLayout->addWidget( m_pBtnSingleBin, 0, Qt::AlignLeft | Qt::AlignTop );
-	//
-	m_pBtnIntensity = new QRadioButton("Intensity", this);
-	pLayout->addWidget( m_pBtnIntensity, 0, Qt::AlignLeft | Qt::AlignTop );
-	Q_CHECK_PTR(m_pBtnIntensity);
 	//
 	m_pBtnYield = new QRadioButton("Yield", this);
 	Q_CHECK_PTR(m_pBtnYield);

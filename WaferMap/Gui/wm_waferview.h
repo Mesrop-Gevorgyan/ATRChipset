@@ -7,6 +7,7 @@
 
 // Includes
 #include "wm_waferdrawer.h"
+#include "wm_ruler.h"
 
 // Qt includs
 #include <QObject>
@@ -77,14 +78,18 @@ private:
 	//! Content
 	//
 	// Wafer map
-	CWaferDrawer*		m_pWaferDrawer;
+	CWaferDrawer*				m_pWaferDrawer;
+	// Horizontal ruler
+	QScopedPointer<CRuler>		m_pHRuler;
+	// Vertical ruler
+	QScopedPointer<CRuler>		m_pVRuler;
 	// Rubber band
-	QRubberBand*		m_pRubberBand;
+	QRubberBand*				m_pRubberBand;
 	// Rabber band rect
-	QRect				m_rcBand;
+	QRect						m_rcBand;
 	// H and V Scroll current positions
-	int					m_nHScrollPos;
-	int					m_nVScrollPos;
+	int							m_nHScrollPos;
+	int							m_nVScrollPos;
 };
 ///////////////////////////////////////////////////////////////////////////////
 
@@ -95,6 +100,8 @@ private:
 inline CWaferView::CWaferView( QWidget* pParent )
 	: QAbstractScrollArea( pParent ),
 	  m_pWaferDrawer( nullptr ),
+	  m_pHRuler( nullptr ),
+	  m_pVRuler( nullptr ),
 	  m_pRubberBand( nullptr ),
 	  m_rcBand( QRect() ),
 	  m_nHScrollPos( 0 ),
@@ -111,7 +118,14 @@ inline CWaferView::~CWaferView()
 inline void CWaferView::setWaferDrawer( CWaferDrawer* pWaferDrawer )
 {
 	Q_ASSERT(pWaferDrawer);
+	Q_ASSERT(m_pHRuler);
+	Q_ASSERT(m_pVRuler);
+
 	m_pWaferDrawer = pWaferDrawer;
+	IWaferModel const* pModel = pWaferDrawer->getWaferModel();
+	Q_ASSERT(pModel);
+	m_pHRuler->setWaferModel( pModel );
+	m_pVRuler->setWaferModel( pModel );
 	resetZooming();
 }
 

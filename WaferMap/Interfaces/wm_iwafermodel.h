@@ -11,6 +11,8 @@
 // Qt forward declarations
 #include <QPair>
 #include <QList>
+#include <QRectF>
+#include <QPointF>
 
 // Qt forward declarations
 class QString;
@@ -40,8 +42,12 @@ public:
 	virtual int getValidDieCount() const = 0;
 	// Get wafer radius
 	virtual double getRadius() const = 0;
+	// Get wafer center
+	virtual QPointF getWaferCenter() const = 0;
 	// Get Die size
 	virtual QSizeF getDieSize() const = 0;
+	// Get die rect
+	virtual QRectF getDieRect( int nDieX, int nDieY ) const = 0;
 	// Get Die spacing
 	virtual double getDieSpacing() const = 0;
 	// Get die status

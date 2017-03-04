@@ -1,0 +1,6 @@
+<RCC>
+    <qresource prefix="/wm">
+        <file>Resources/editwafer.png</file>
+        <file>Resources/wafer.png</file>
+    </qresource>
+</RCC>

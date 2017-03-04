@@ -8,6 +8,14 @@
 // Includs
 #include "wm_global.h"
 #include "wm_drawer.h"
+#include "wm_area.h"
+#include "wm_iwafermodel.h"
+
+
+// Qt includs
+#include <QScopedPointer>
+#include <QString>
+#include <QList>
 
 // Qt forward declarations
 class QRect;
@@ -18,14 +26,13 @@ class QPainter;
 namespace wm {
 ///////////////////////////////////////////////////////////////////////////////
 
-// Axis types
-enum class EAxisType
+// Ruler aligment
+enum class ERulerAligment
 {
-	NoAxis		= 0x00,
-	XAxis		= 0x01,
-	X2Axis		= 0x02,
-	YAxis		= 0x04,
-	Y2Axis		= 0x08,
+	Left,
+	Right,
+	Top,
+	Bottom
 };
 
 
@@ -43,32 +50,58 @@ public:
 
 public:
 	//
-	//! Own Interface
+	//! Override CDrawer interface
 	//
-	// Set/Get axis type
-	inline void setAxisType( EAxisType eType );
-	inline EAxisType getAxisType() const;
-	// Set/Get tick label orientation
-	inline void setTickLabelOrientation( EOrientation eOrient );
-	inline EOrientation getTickLabelOrientation() const;
 	// Do layout
-	QRect doLayout( QRect const& rc ) override;
+	void doLayout( QRect const& rc ) override;
 	// Draw scale (ticks and labels)
 	void draw( QPainter* pPainter ) const override;
+
+public:
+	//
+	//! Own Interface
+	//
+	// get prefered size
+	int getPreferedSize() const;
+	// Set/Get ruler aligment
+	inline void setAligment( ERulerAligment eAlign );
+	inline ERulerAligment getAligment() const;
+	// Set/Get range
+	inline void setRange( double fMin, double fMax );
+	inline void getRange( double& fMin, double& fMax ) const;
+	// Set/Get wafer model
+	inline void setWaferModel( IWaferModel const* pWaferModel );
+	inline IWaferModel const* setWaferModel() const;
+
+protected:
+	//
+	//! Tick
+	//
+	struct STickDie
+	{
+		QString		sLabel;
+		int			nStart;
+		int			nEnd;
+	};
 
 protected:
 	//
 	//! Implementation
 	//
+	void getDieCoordinates( int& nDieMin, int& nDieMax ) const;
 
 private:
 	//
 	//! Content
 	//
-	// Axis tpye
-	EAxisType		m_eType;
-	// Tick label orientation
-	EOrientation	m_eTickLabelOrientation;
+	// Ruler aligment
+	ERulerAligment			m_eRulerAlign;
+	// Wafer model
+	IWaferModel const*		m_pWaferModel;
+	// Area translator
+	QScopedPointer<CArea>	m_pArea;
+	// Die Ticks
+	QList<STickDie>			m_lstTicks;
 };
 ///////////////////////////////////////////////////////////////////////////////
 
@@ -78,10 +111,13 @@ private:
 // Inline implementation
 //
 inline CRuler::CRuler()
-	: m_eType(EAxisType::NoAxis),
-	  m_eTickLabelOrientation(EOrientation::Auto)
+	: m_eRulerAlign( ERulerAligment::Bottom ),
+	  m_pWaferModel( nullptr ),
+	  m_pArea( nullptr ),
+	  m_lstTicks()
 {
-
+	m_pArea.reset(new CArea);
+	Q_ASSERT(m_pArea);
 }
 
 inline CRuler::~CRuler()
@@ -89,24 +125,43 @@ inline CRuler::~CRuler()
 
 }
 
-inline void CRuler::setAxisType( EAxisType eType )
+inline void CRuler::setAligment( ERulerAligment eAlign )
 {
-	m_eType = eType;
+	m_eRulerAlign = eAlign;
 }
 
-inline EAxisType CRuler::getAxisType() const
+inline ERulerAligment CRuler::getAligment() const
 {
-	return m_eType;
+	return m_eRulerAlign;
 }
 
-inline void CRuler::setTickLabelOrientation( EOrientation eOrient )
+void CRuler::setRange( double fMin, double fMax )
 {
-	m_eTickLabelOrientation = eOrient;
+	Q_ASSERT(m_pArea);
+	if (m_eRulerAlign == ERulerAligment::Top || m_eRulerAlign == ERulerAligment::Bottom)
+		m_pArea->setXRange( fMin, fMax );
+	else
+		m_pArea->setYRange( fMin, fMax );
 }
 
-inline EOrientation CRuler::getTickLabelOrientation() const
+void CRuler::getRange( double& fMin, double& fMax ) const
 {
-	return m_eTickLabelOrientation;
+	Q_ASSERT(m_pArea);
+	if (m_eRulerAlign == ERulerAligment::Top || m_eRulerAlign == ERulerAligment::Bottom)
+		m_pArea->getXRange( fMin, fMax );
+	else
+		m_pArea->getYRange( fMin, fMax );
+}
+
+inline void CRuler::setWaferModel( IWaferModel const* pWaferMode  )
+{
+	Q_ASSERT(pWaferMode);
+	m_pWaferModel = pWaferMode;
+}
+
+inline IWaferModel const* CRuler::setWaferModel() const
+{
+	return m_pWaferModel;
 }
 ///////////////////////////////////////////////////////////////////////////////
 

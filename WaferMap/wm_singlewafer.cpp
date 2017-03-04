@@ -27,8 +27,8 @@ QList<QPair<int,int>> wm::CSingleWafer::getDieCordinats() const
 {
 	QList<QPair<int, int>> aDieCordinats;
 	// Fill die cordinats
-	int const nDieXMaxCount = ceil( (m_fRadius * 2) / (m_szFDie.width() + m_fDieSpacing) ) + 1;
-	int const nDieYMaxCount = ceil( (m_fRadius * 2) / (m_szFDie.height() + m_fDieSpacing) ) + 1;
+	int const nDieXMaxCount = ceil( (m_fRadius * 2) / (m_szFDie.width() + m_fDieSpacing) );
+	int const nDieYMaxCount = ceil( (m_fRadius * 2) / (m_szFDie.height() + m_fDieSpacing) );
 	Q_ASSERT(nDieXMaxCount > 0);
 	Q_ASSERT(nDieYMaxCount > 0);
 	aDieCordinats.reserve( nDieXMaxCount * nDieYMaxCount );
@@ -57,9 +57,49 @@ double wm::CSingleWafer::getRadius() const
 	return m_fRadius;
 }
 
+QPointF wm::CSingleWafer::getWaferCenter() const
+{
+	return QPointF(0, 0);
+}
+
 QSizeF wm::CSingleWafer::getDieSize() const
 {
 	return m_szFDie;
+}
+
+QRectF wm::CSingleWafer::getDieRect( int nDieX, int nDieY ) const
+{
+	QRectF rcFDie(0, 0, 0, 0);
+
+	// Resolve die rect on the screen
+	int nTmpDieX = nDieX;
+	if (nTmpDieX < 0)
+		nTmpDieX = qAbs( nTmpDieX + 1 );
+	int nTmpDieY = nDieY;
+	if (nTmpDieY < 0)
+		nTmpDieY = qAbs( nTmpDieY + 1 );
+	//
+	double fDieSpacing = getDieSpacing();
+	double fXSpacing = fDieSpacing / 2 + qMax( 0, nTmpDieX ) * fDieSpacing;
+	double fYSpacing = fDieSpacing / 2 + qMax( 0, nTmpDieY ) * fDieSpacing;
+	double fX = NAN;
+	double fY = NAN;
+	QSizeF szFDie = getDieSize();
+	Q_ASSERT(szFDie.isValid());
+	// Resolve x
+	if (nDieX >= 0)
+		fX = fXSpacing + nTmpDieX * szFDie.width();
+	else
+		fX = -(fXSpacing + (nTmpDieX + 1) * szFDie.width());
+	// Resolve y
+	if (nDieY >= 0)
+		fY = fYSpacing + nTmpDieY * szFDie.height();
+	else
+		fY = -(fYSpacing + (nTmpDieY + 1) * szFDie.height());
+	//
+	rcFDie.setTopLeft( QPointF(fX, fY) );
+	rcFDie.setSize( szFDie );
+	return rcFDie;
 }
 
 double wm::CSingleWafer::getDieSpacing() const
