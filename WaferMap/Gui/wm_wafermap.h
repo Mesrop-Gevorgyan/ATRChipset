@@ -10,6 +10,10 @@
 
 // Qt includs
 #include <QWidget>
+#include <QString>
+#include <QStringList>
+#include <QHash>
+#include <QLabel>
 
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -32,6 +36,15 @@ public:
 	// Destructor
 	inline ~CWaferMap();
 
+public:
+	//
+	//! Own interface
+	//
+	// Bin type
+	void setBinType( EBinType eBinType );
+	// Wafer type
+	void setWaferType( EWaferType eWaferType );
+
 protected:
 	//
 	//! Implementations
@@ -43,7 +56,10 @@ private:
 	//! Content
 	//
 	// Wafer view
-	CWaferView*					m_pwWaferView;
+	CWaferView*			m_pwWaferView;
+	//
+	QLabel*				m_lblWaferType;
+	QLabel*				m_lblBinType;
 };
 ///////////////////////////////////////////////////////////////////////////////
 
@@ -53,7 +69,9 @@ private:
 //
 inline CWaferMap::CWaferMap( CWaferView* pWaferView, QWidget* pParent )
 	: QWidget( pParent ),
-		m_pwWaferView( nullptr )
+	  m_pwWaferView( nullptr ),
+	  m_lblWaferType( nullptr ),
+	  m_lblBinType( nullptr )
 {
 	Q_ASSERT(pWaferView);
 	m_pwWaferView = pWaferView;

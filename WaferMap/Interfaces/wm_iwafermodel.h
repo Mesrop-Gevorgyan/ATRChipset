@@ -6,7 +6,9 @@
 
 
 // Includes
+#include "global.h"
 #include "wm_global.h"
+#include "wm_dieindexmapping.h"
 
 // Qt forward declarations
 #include <QPair>
@@ -32,12 +34,10 @@ public:
 	//
 	//! Own Interface
 	//
-	// Get wafer name
-	virtual QString getName() const = 0;
-	// Get Lot name
-	virtual QString getLotName() const = 0;
 	// Get all die cordinats
 	virtual QList<QPair<int, int>> getDieCordinats() const = 0;
+	// Get die indices
+	virtual CDieIndexMapping getDieIndices() const = 0;
 	// Get valid Die Count
 	virtual int getValidDieCount() const = 0;
 	// Get wafer radius
@@ -52,10 +52,14 @@ public:
 	virtual double getDieSpacing() const = 0;
 	// Get die status
 	virtual EDieStatus getDieSatus( int nDieX, int nDieY ) const = 0;
-	// Get HBin
-	virtual EDieStatus getHBin( int nDieX, int nDieY, int& nHBin ) const = 0;
-	// Get SBin
-	virtual EDieStatus getSBin( int nDieX, int nDieY, int& nSBin ) const = 0;
+	// Get Bin
+	virtual EDieStatus getBin( int nDieX, int nDieY, int& nBin ) const = 0;
+	// Get yield
+	virtual EDieStatus getYield( int nDieX, int nDieY, int& nYield ) const = 0;
+	// Get most frequent bin
+	virtual EDieStatus getMostFrequentBin( int nDieX, int nDieY, int& nBin, int& nPercent ) const = 0;
+	// Get bad and good die count
+	virtual EDieStatus getGroupAggregation( int nDieX, int nDieY, int& nBad, int& nGood ) const = 0;
 };
 ///////////////////////////////////////////////////////////////////////////////
 

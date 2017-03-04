@@ -3,144 +3,119 @@
 // Includes
 #include "wm_overlappedwafer.h"
 
-// Qt includs
-#include <qglobal.h>
-#include <QPair>
-#include <QSizeF>
-#include <QRectF>
-#include <QStringList>
+// Qt includes
+#include <QHash>
 
 
 ///////////////////////////////////////////////////////////////////////////////
 //
-// Imlementation of CArea
+// Imlementation of COverlappedWafer
 //
-QString wm::COverlappedWafer::getName() const
+wm::EDieStatus wm::COverlappedWafer::getBin( int nDieX, int nDieY, int& nBin ) const
 {
-	return QString();
-}
-
-QString wm::COverlappedWafer::getLotName() const
-{
-	return QString();
-}
-
-QList<QPair<int,int>> wm::COverlappedWafer::getDieCordinats() const
-{
-	QList<QPair<int, int>> lstDieCordinats;
-	if (!m_aWafers.isEmpty())
+	EDieStatus eDieStatus = EDieStatus::NoDie;
+	for (int i = 0; i < m_aWafers.count(); ++i)
 	{
-		IWaferModel const* pWafer = m_aWafers.begin().value();
-		Q_ASSERT(pWafer);
-		lstDieCordinats = pWafer->getDieCordinats();
+		IWaferModel const* pModel = m_aWafers[i];
+		Q_ASSERT(pModel);
+		EDieStatus eStatus = pModel->getBin( nDieX, nDieY, nBin );
+		if (eStatus == EDieStatus::NormalDie)
+			eDieStatus = eStatus;
 	}
-	return lstDieCordinats;
+	return eDieStatus;
 }
 
-int wm::COverlappedWafer::getValidDieCount() const
+wm::EDieStatus wm::COverlappedWafer::getYield( int nDieX, int nDieY, int& nYield ) const
 {
-	return m_aDieCordinats.count();
-}
-
-double wm::COverlappedWafer::getRadius() const
-{
-	double fRadius = NAN;
-	if (!m_aWafers.isEmpty())
+	EDieStatus eDieStatus = EDieStatus::NoDie;
+	int nYieldSum = 0;
+	int nNormalDieCount = 0;
+	for (int i = 0; i < m_aWafers.count(); ++i)
 	{
-		IWaferModel const* pWafer = m_aWafers.begin().value();
-		Q_ASSERT(pWafer);
-		fRadius = pWafer->getRadius();
+		IWaferModel const* pModel = m_aWafers[i];
+		Q_ASSERT(pModel);
+		int nTmpYield;
+		EDieStatus eStatus = pModel->getYield( nDieX, nDieY, nTmpYield );
+		if (eStatus == EDieStatus::NormalDie)
+		{
+			++nNormalDieCount;
+			nYieldSum += nTmpYield;
+			eDieStatus = eStatus;
+		}
 	}
-	return fRadius;
+	if (eDieStatus == EDieStatus::NormalDie)
+		nYield = int(nYieldSum / nNormalDieCount);
+	return eDieStatus;
 }
 
-QPointF wm::COverlappedWafer::getWaferCenter() const
+wm::EDieStatus wm::COverlappedWafer::getMostFrequentBin( int nDieX, int nDieY, int& nBin, int& nPercent ) const
 {
-	return QPointF(0, 0);
-}
-
-QSizeF wm::COverlappedWafer::getDieSize() const
-{
-	QSizeF szFDie;
-	if (!m_aWafers.isEmpty())
+	EDieStatus eDieStatus = EDieStatus::NoDie;
+	QHash<int, int> hasMFBin;
+	int nMFBin = 0;
+	int nNormalDieCount = 0;
+	for (int i = 0; i < m_aWafers.count(); ++i)
 	{
-		IWaferModel const* pWafer = m_aWafers.begin().value();
-		Q_ASSERT(pWafer);
-		szFDie = pWafer->getDieSize();
+		IWaferModel const* pModel = m_aWafers[i];
+		Q_ASSERT(pModel);
+		int nBin;
+		EDieStatus eStatus = pModel->getBin( nDieX, nDieY, nBin );
+		if (eStatus == EDieStatus::NormalDie)
+		{
+			++nNormalDieCount;
+			auto it = hasMFBin.find( nBin );
+			if (it != hasMFBin.end())
+				++it.value();
+			else
+				it = hasMFBin.insert( nBin, 1 );
+			if (!hasMFBin.contains( nMFBin ) || (!hasMFBin.contains( nMFBin ) && it.value() >= hasMFBin[nMFBin]))
+				nMFBin = it.key();
+			eDieStatus = eStatus;
+		}
 	}
-	return szFDie;
-}
-
-QRectF wm::COverlappedWafer::getDieRect( int nDieX, int nDieY ) const
-{
-	QRectF rcFDie;
-	if (!m_aWafers.isEmpty())
+	if (eDieStatus == EDieStatus::NormalDie)
 	{
-		IWaferModel const* pWafer = m_aWafers.begin().value();
-		Q_ASSERT(pWafer);
-		rcFDie = pWafer->getDieRect( nDieX, nDieY );
+		nBin = nMFBin;
+		nPercent = int(hasMFBin[nMFBin] / nNormalDieCount);
 	}
-	return rcFDie;
+	return eDieStatus;
 }
 
-double wm::COverlappedWafer::getDieSpacing() const
+wm::EDieStatus wm::COverlappedWafer::getGroupAggregation( int nDieX, int nDieY, int& nBad, int& nGood ) const
 {
-	double fDieSpacing = NAN;
-	if (!m_aWafers.isEmpty())
+	EDieStatus eDieStatus = EDieStatus::NoDie;
+	QHash<int, int> hasMFBin;
+	int nBadSum = 0;
+	int nGoodSum = 0;
+	for (int i = 0; i < m_aWafers.count(); ++i)
 	{
-		IWaferModel const* pWafer = m_aWafers.begin().value();
-		Q_ASSERT(pWafer);
-		fDieSpacing = pWafer->getDieSpacing();
+		IWaferModel const* pModel = m_aWafers[i];
+		Q_ASSERT(pModel);
+		int nTmpBad;
+		int nTmpGood;
+		EDieStatus eStatus = pModel->getGroupAggregation( nDieX, nDieY, nTmpBad, nTmpGood );
+		if (eStatus == EDieStatus::NormalDie)
+		{
+			nBadSum += nTmpBad;
+			nGoodSum += nTmpGood;
+			eDieStatus = eStatus;
+		}
 	}
-	return fDieSpacing;
-}
-
-wm::EDieStatus wm::COverlappedWafer::getDieSatus( int nDieX, int nDieY ) const
-{
-	return EDieStatus::NoDie;
-}
-
-wm::EDieStatus wm::COverlappedWafer::getHBin( int nDieX, int nDieY, int& nHBin ) const
-{
-	return EDieStatus::NoDie;
-}
-
-wm::EDieStatus wm::COverlappedWafer::getSBin( int nDieX, int nDieY, int& nSBin ) const
-{
-	return EDieStatus::NoDie;
-}
-
-QStringList	wm::COverlappedWafer::getWaferNames( QString const& sLotName ) const
-{
-	QStringList aNames;
-	for (auto it = m_aWafers.begin(); it != m_aWafers.end(); ++it)
+	if (eDieStatus == EDieStatus::NormalDie)
 	{
-		IWaferModel const* pWafer = it.value();
-		Q_ASSERT(pWafer);
-		aNames.append( pWafer->getName() );
+		nBad = nBadSum;
+		nGood = nGoodSum;
 	}
-	return aNames;
+	return eDieStatus;
 }
 
-QStringList	wm::COverlappedWafer::getLotNames() const
-{
-	QStringList aLotNames;
-	for (auto it = m_aWafers.begin(); it != m_aWafers.end(); ++it)
-	{
-		IWaferModel const* pWafer = it.value();
-		Q_ASSERT(pWafer);
-		aLotNames.append( pWafer->getLotName() );
-	}
-	return aLotNames;
-}
-
-bool wm::COverlappedWafer::addWafer( IWaferModel const* pNewWafer )
+bool wm::COverlappedWafer::addWaferModel( IWaferModel* pNewWafer )
 {
 	Q_ASSERT(pNewWafer);
 	bool bIsCompatible = true;
 	if (!m_aWafers.isEmpty())
 	{
-		IWaferModel const* pWafer = m_aWafers.begin().value();
+		IWaferModel const* pWafer = m_aWafers.last();
 		Q_ASSERT(pWafer);
 		bIsCompatible = (!qFuzzyCompare( pNewWafer->getRadius(), pWafer->getRadius()) ||
 						 pNewWafer->getDieSize() != pWafer->getDieSize() ||
@@ -148,7 +123,7 @@ bool wm::COverlappedWafer::addWafer( IWaferModel const* pNewWafer )
 	}
 	if (bIsCompatible)
 	{
-		m_aWafers.insert( makeKey( pNewWafer->getLotName(), pNewWafer->getName() ) , pNewWafer );
+		m_aWafers.append( pNewWafer );
 		reset();
 	}
 	return bIsCompatible;
@@ -156,19 +131,16 @@ bool wm::COverlappedWafer::addWafer( IWaferModel const* pNewWafer )
 
 void wm::COverlappedWafer::reset()
 {
-	m_aDieCordinats.clear();
-	QHash<QPair<int, int>, int> aCordinats;
-	for (auto it = m_aWafers.begin(); it != m_aWafers.end(); ++it)
+	CDieIndexMapping oDieIndices;
+	for (int i = 0; i < m_aWafers.count(); ++i)
 	{
-		IWaferModel const* pWafer = it.value();
+		IWaferModel const* pWafer = m_aWafers[i];
 		Q_ASSERT(pWafer);
-		QList<QPair<int, int>> aTmpCordinats = pWafer->getDieCordinats();
-		for (int i = 0; i < aTmpCordinats.size(); ++i)
-			aCordinats.insert( aTmpCordinats[i], -1 );
+		CDieIndexMapping const oTmp = pWafer->getDieIndices();
+		QList<QPair<int, int>> const aValidCordinats = oTmp.getDieCordinats();
+		for (int i = 0; i < aValidCordinats.size(); ++i)
+			oDieIndices.insert( aValidCordinats[i], -1 );
 	}
-	//
-	m_aDieCordinats.reserve( aCordinats.size() );
-	for (auto it = aCordinats.begin(); it != aCordinats.end(); ++it)
-		m_aDieCordinats.append( it.key() );
+	setIndices( oDieIndices );
 }
 ///////////////////////////////////////////////////////////////////////////////

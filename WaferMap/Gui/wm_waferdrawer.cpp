@@ -11,7 +11,9 @@
 #include <QRectF>
 #include <QList>
 #include <QPair>
+#include <QColor>
 #include <QPen>
+#include <QBrush>
 #include <QPainter>
 #include <QPainterPath>
 
@@ -24,7 +26,6 @@ wm::CWaferDrawer::CWaferDrawer( IWaferModel const* pModel )
 	: m_pModel( pModel ),
 	  m_eDimplePos( EDimplePosition::Bottom ),
 	  m_oColor( QColor( Qt::darkGray ) ),
-	  m_eBinType( EBinType::HBin ),
 	  m_pArea( nullptr )
 {
 	Q_ASSERT(pModel);
@@ -59,16 +60,15 @@ void wm::CWaferDrawer::draw( QPainter* pPainter ) const
 	QPen oPen = pPainter->pen();
 	oPen.setWidth( 1 );
 	oPen.setColor( getColor() );
+	// Selected dies
 	QPen oSelPen;
 	oSelPen.setWidth( 3 );
-	oSelPen.setColor( QColor(qRgba(255, 100, 0, 0)) );
-	pPainter->setPen( oPen );
+	QColor oSelColor(Qt::blue);
+	oSelPen.setColor( oSelColor );
+	oSelColor.setAlpha( 110 );
 	pPainter->setRenderHint( QPainter::Antialiasing );
 	// Set cliping
 	pPainter->setClipPath( getClipping(), Qt::ReplaceClip );
-	QFont oFont = pPainter->font();
-	oFont.setPointSize( 9 );
-	pPainter->setFont( oFont );
 
 	// Draw wafer contur
 	drawWaferContur( pPainter );
@@ -83,10 +83,8 @@ void wm::CWaferDrawer::draw( QPainter* pPainter ) const
 		if (canDraw( rcFDie ))
 		{
 			// Draw contur
-			if (isSelected( nDieX, nDieY ))
-				pPainter->setPen( oSelPen );
-			pPainter->drawRect( rcFDie );
 			pPainter->setPen( oPen );
+			pPainter->drawRect( rcFDie );
 			if (m_pModel->getDieSatus( nDieX, nDieY ) == EDieStatus::NormalDie)
 			{
 				// Draw content of valid die
@@ -96,6 +94,11 @@ void wm::CWaferDrawer::draw( QPainter* pPainter ) const
 			{
 				// Draw content of invalid die
 				drawInvalidDie( pPainter, rcFDie );
+			}
+			if (isSelected( nDieX, nDieY ))
+			{
+				pPainter->setPen( oSelPen );
+				pPainter->fillRect( rcFDie, oSelColor );
 			}
 		}
 	}

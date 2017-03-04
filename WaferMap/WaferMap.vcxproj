@@ -52,6 +52,7 @@
     <ClInclude Include="wm_global.h" />
     <ClInclude Include="wm_overlappedwafer.h" />
     <ClInclude Include="wm_singlewafer.h" />
+    <ClInclude Include="wm_wafermodelbase.h" />
     <ClInclude Include="wm_wafermodule.h" />
   </ItemGroup>
   <ItemGroup>
@@ -81,6 +82,7 @@
     <ClCompile Include="wm_area.cpp" />
     <ClCompile Include="wm_overlappedwafer.cpp" />
     <ClCompile Include="wm_singlewafer.cpp" />
+    <ClCompile Include="wm_wafermodelbase.cpp" />
     <ClCompile Include="wm_wafermodule.cpp" />
   </ItemGroup>
   <ItemGroup>

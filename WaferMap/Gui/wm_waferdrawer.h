@@ -61,9 +61,6 @@ public:
 	// Set\Get wafer color
 	inline void setColor( QColor const& oColor );
 	inline QColor getColor() const;
-	// Set\Get Bin type
-	inline void setBinType( EBinType eBinType );
-	inline EBinType getBinType() const;
 	// Get area
 	inline CArea const* getArea() const;
 	// Zoom in\zoom out
@@ -132,8 +129,6 @@ protected:
 	EDimplePosition						m_eDimplePos;
 	// Wafer lines color
 	QColor								m_oColor;
-	// Bin typer
-	EBinType							m_eBinType;
 	// Wafer area for data translation
 	QScopedPointer<CArea>				m_pArea;
 };
@@ -162,16 +157,6 @@ inline void CWaferDrawer::setColor( QColor const & oColor )
 inline QColor CWaferDrawer::getColor() const
 {
 	return m_oColor;
-}
-
-inline void CWaferDrawer::setBinType( EBinType eBinType )
-{
-	m_eBinType = eBinType;
-}
-
-inline EBinType CWaferDrawer::getBinType() const
-{
-	return m_eBinType;
 }
 
 inline CArea const* CWaferDrawer::getArea() const

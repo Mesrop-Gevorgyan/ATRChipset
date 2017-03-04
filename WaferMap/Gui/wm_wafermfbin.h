@@ -33,6 +33,8 @@ protected:
 	//
 	// Draw valid (defined) die
 	void drawValidDie( QPainter* pPainter, int nDieX, int nDieY ) const override;
+	// Get color for bin
+	QColor getBinColor( int nBin ) const;
 };
 ///////////////////////////////////////////////////////////////////////////////
 

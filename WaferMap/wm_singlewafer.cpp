@@ -3,158 +3,75 @@
 // Includes
 #include "wm_singlewafer.h"
 
-// Qt includs
-#include <QList>
-#include <QPair>
-#include <QRectF>
-
 
 ///////////////////////////////////////////////////////////////////////////////
 //
 // Imlementation of CSingleWafer
 //
-QString wm::CSingleWafer::getName() const
+wm::EDieStatus wm::CSingleWafer::getBin( int nDieX, int nDieY, int& nBin ) const
 {
-	return m_sName;
-}
-
-QString wm::CSingleWafer::getLotName() const
-{
-	return m_sLotName;
-}
-
-QList<QPair<int,int>> wm::CSingleWafer::getDieCordinats() const
-{
-	QList<QPair<int, int>> aDieCordinats;
-	// Fill die cordinats
-	int const nDieXMaxCount = ceil( (m_fRadius * 2) / (m_szFDie.width() + m_fDieSpacing) );
-	int const nDieYMaxCount = ceil( (m_fRadius * 2) / (m_szFDie.height() + m_fDieSpacing) );
-	Q_ASSERT(nDieXMaxCount > 0);
-	Q_ASSERT(nDieYMaxCount > 0);
-	aDieCordinats.reserve( nDieXMaxCount * nDieYMaxCount );
-	int nDieX = nDieXMaxCount / 2 - nDieXMaxCount;
-	int nDieY = nDieYMaxCount / 2 - nDieYMaxCount;
-	for (int i = 0; i < nDieYMaxCount; ++i)
-	{
-		for (int j = 0; j < nDieXMaxCount; ++j)
-		{
-			aDieCordinats.append( QPair<int, int>(nDieX, nDieY) );
-			++nDieX;
-		}
-		++nDieY;
-		nDieX = nDieXMaxCount / 2 - nDieXMaxCount;
-	}
-	return aDieCordinats;
-}
-
-int wm::CSingleWafer::getValidDieCount() const
-{
-	return m_aDieIndices.getCount();
-}
-
-double wm::CSingleWafer::getRadius() const
-{
-	return m_fRadius;
-}
-
-QPointF wm::CSingleWafer::getWaferCenter() const
-{
-	return QPointF(0, 0);
-}
-
-QSizeF wm::CSingleWafer::getDieSize() const
-{
-	return m_szFDie;
-}
-
-QRectF wm::CSingleWafer::getDieRect( int nDieX, int nDieY ) const
-{
-	QRectF rcFDie(0, 0, 0, 0);
-
-	// Resolve die rect on the screen
-	int nTmpDieX = nDieX;
-	if (nTmpDieX < 0)
-		nTmpDieX = qAbs( nTmpDieX + 1 );
-	int nTmpDieY = nDieY;
-	if (nTmpDieY < 0)
-		nTmpDieY = qAbs( nTmpDieY + 1 );
-	//
-	double fDieSpacing = getDieSpacing();
-	double fXSpacing = fDieSpacing / 2 + qMax( 0, nTmpDieX ) * fDieSpacing;
-	double fYSpacing = fDieSpacing / 2 + qMax( 0, nTmpDieY ) * fDieSpacing;
-	double fX = NAN;
-	double fY = NAN;
-	QSizeF szFDie = getDieSize();
-	Q_ASSERT(szFDie.isValid());
-	// Resolve x
-	if (nDieX >= 0)
-		fX = fXSpacing + nTmpDieX * szFDie.width();
-	else
-		fX = -(fXSpacing + (nTmpDieX + 1) * szFDie.width());
-	// Resolve y
-	if (nDieY >= 0)
-		fY = fYSpacing + nTmpDieY * szFDie.height();
-	else
-		fY = -(fYSpacing + (nTmpDieY + 1) * szFDie.height());
-	//
-	rcFDie.setTopLeft( QPointF(fX, fY) );
-	rcFDie.setSize( szFDie );
-	return rcFDie;
-}
-
-double wm::CSingleWafer::getDieSpacing() const
-{
-	return m_fDieSpacing;
-}
-
-wm::EDieStatus wm::CSingleWafer::getDieSatus( int nDieX, int nDieY ) const
-{
-	int nTmpDieX = nDieX;
-	if (nTmpDieX < 0)
-		nTmpDieX = qAbs( nTmpDieX + 1 );
-	int nTmpDieY = nDieY;
-	if (nTmpDieY < 0)
-		nTmpDieY = qAbs( nTmpDieY + 1 );
-	//
-	double fXSpacing = m_fDieSpacing / 2 + qMax( 0, nTmpDieX ) * m_fDieSpacing;
-	double fX = fXSpacing + (nTmpDieX + 1) * m_szFDie.width();
-	//
-	double fYSpacing = m_fDieSpacing / 2 + qMax( 0, nTmpDieY ) * m_fDieSpacing;
-	double fY = fYSpacing + (nTmpDieY + 1) * m_szFDie.height();
-	// Check is die outside
-	if (fX * fX + fY * fY >= m_fRadius * m_fRadius)
-		return EDieStatus::NoDie;	
-	// Check is die defined
-	int nIndex = m_aDieIndices.at( nDieX, nDieY );
-	if (nIndex < 0)
-		return EDieStatus::InvalidDie;
-	// Normal die
-	return EDieStatus::NormalDie;
-}
-
-wm::EDieStatus wm::CSingleWafer::getHBin( int nDieX, int nDieY, int& nHBin ) const
-{
-	Q_ASSERT(m_cpHBin);
+	Q_ASSERT(m_cpBin);
 	EDieStatus eDieStatus = getDieSatus( nDieX, nDieY );
 	if (eDieStatus != EDieStatus::NormalDie)
 		return eDieStatus;
 
-	// Get HBin
+	// Get Bin
 	int nIndex = m_aDieIndices.at( nDieX, nDieY );
-	nHBin = m_cpHBin->GetAt( nIndex );
+	nBin = m_cpBin->GetAt( nIndex );
 	return eDieStatus;
 }
 
-wm::EDieStatus wm::CSingleWafer::getSBin( int nDieX, int nDieY, int& nSBin ) const
+wm::EDieStatus wm::CSingleWafer::getYield( int nDieX, int nDieY, int& nYield ) const
 {
-	Q_ASSERT(m_cpSBin);
+	Q_ASSERT(m_cpBin);
 	EDieStatus eDieStatus = getDieSatus( nDieX, nDieY );
 	if (eDieStatus != EDieStatus::NormalDie)
 		return eDieStatus;
 
-	// Get SBin
+	// Calc yield
 	int nIndex = m_aDieIndices.at( nDieX, nDieY );
-	nSBin = m_cpSBin->GetAt( nIndex );
+	int nBin = m_cpBin->GetAt( nIndex );
+	if (nBin == 1)
+		nYield = 100;
+	else
+		nYield = 0;
+	return eDieStatus;
+}
+
+wm::EDieStatus wm::CSingleWafer::getMostFrequentBin( int nDieX, int nDieY, int& nBin, int& nPercent ) const
+{
+	Q_ASSERT(m_cpBin);
+	EDieStatus eDieStatus = getDieSatus( nDieX, nDieY );
+	if (eDieStatus != EDieStatus::NormalDie)
+		return eDieStatus;
+
+	// Calc yield
+	int nIndex = m_aDieIndices.at( nDieX, nDieY );
+	nBin = m_cpBin->GetAt( nIndex );
+	nPercent = 100;
+	return eDieStatus;
+}
+
+wm::EDieStatus wm::CSingleWafer::getGroupAggregation( int nDieX, int nDieY, int& nBad, int& nGood ) const
+{
+	Q_ASSERT(m_cpBin);
+	EDieStatus eDieStatus = getDieSatus( nDieX, nDieY );
+	if (eDieStatus != EDieStatus::NormalDie)
+		return eDieStatus;
+
+	// Calc yield
+	int nIndex = m_aDieIndices.at( nDieX, nDieY );
+	int nBin = m_cpBin->GetAt( nIndex );
+	if (nBin == 1)
+	{
+		nBad = 0;
+		nGood = 1;
+	}
+	else
+	{
+		nBad = 1;
+		nGood = 0;
+	}
 	return eDieStatus;
 }
 ///////////////////////////////////////////////////////////////////////////////

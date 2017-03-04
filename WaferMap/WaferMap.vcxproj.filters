@@ -13,11 +13,6 @@
       <UniqueIdentifier>{99349809-55BA-4b9d-BF79-8FDBB0286EB3}</UniqueIdentifier>
       <Extensions>ui</Extensions>
     </Filter>
-    <Filter Include="Resource Files">
-      <UniqueIdentifier>{D9D6E242-F8AF-46E4-B9FD-80ECBC20BA3E}</UniqueIdentifier>
-      <Extensions>qrc;*</Extensions>
-      <ParseFiles>false</ParseFiles>
-    </Filter>
     <Filter Include="Generated Files">
       <UniqueIdentifier>{71ED8ED8-ACB9-4CE9-BBE1-E00B30144E11}</UniqueIdentifier>
       <Extensions>moc;h;cpp</Extensions>
@@ -53,6 +48,11 @@
     </Filter>
     <Filter Include="3dparty">
       <UniqueIdentifier>{e0258760-1ee2-4439-b8ed-88a2471deb23}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resources">
+      <UniqueIdentifier>{D9D6E242-F8AF-46E4-B9FD-80ECBC20BA3E}</UniqueIdentifier>
+      <Extensions>qrc;*</Extensions>
+      <ParseFiles>false</ParseFiles>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -149,6 +149,9 @@
     <ClInclude Include="Gui\wm_waferyield.h">
       <Filter>Gui\Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="wm_wafermodelbase.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="wm_overlappedwafer.cpp">
@@ -205,6 +208,9 @@
     <ClCompile Include="GeneratedFiles\qrc_icons.cpp">
       <Filter>Generated Files</Filter>
     </ClCompile>
+    <ClCompile Include="wm_wafermodelbase.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="Gui\wm_waferview.h">
@@ -214,7 +220,7 @@
       <Filter>Include</Filter>
     </CustomBuild>
     <CustomBuild Include="icons.qrc">
-      <Filter>Resource Files</Filter>
+      <Filter>Resources</Filter>
     </CustomBuild>
   </ItemGroup>
 </Project>

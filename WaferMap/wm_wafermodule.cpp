@@ -19,6 +19,9 @@
 #include <QWidget>
 #include <QString>
 
+// STL includes
+#include <exception>
+
 
 ///////////////////////////////////////////////////////////////////////////////
 //
@@ -89,51 +92,122 @@ QWidget* CWaferModul::getView() const
 void CWaferModul::run()
 {
 	reset();
-
-	bool bOk = true;
 	QString sError;
 
-	//TODO
+	// Check config
+	if (m_oConfig.getName().isEmpty())
+		sError = QString("Wafer Map: Coniguration name is empty!");
+	if (m_oConfig.getType() != QString("wafermap"))
+		sError = QString("Wafer Map: Invalid configuration type!");
+	if (m_oConfig.getVersion() < 0)
+		sError = QString("Wafer Map: Invalid configuration version!");
 
-	// Create Model
-	wm::CSingleWafer* pModel = new wm::CSingleWafer;
-	Q_CHECK_PTR(pModel);
+	QStringList const sWafers = m_oConfig.getParameter( wm::csWaferNames ).toStringList();
+	if (sWafers.isEmpty())
+		sError = QString("Wafer Map: Empty wafer input!");
 
-	pModel->setHBin(new CIntVector());
+	// Get data
+	EBinType eBinType = EBinType(m_oConfig.getParameter( wm::csBinType ).toInt());
+	IIntVector const* pBinData = new CIntVector(); //TODO
+	if (eBinType == EBinType::HBin)
+	{
+		//TODO
+		// get HBin data from data provider
+	}
+	else if (eBinType == EBinType::SBin)
+	{
+		//TODO
+		// get SBin data from data provider
+	}
+	else
+		sError = QString("Wafer Map: Invalid bin type!");
 
-	wm::CDieIndexMapping oIndices;
-	for (int i = 0; i < 800; ++i)
-		oIndices.insert( QPair<int, int>(15 - qrand() % 30, 15 - qrand() % 30), qrand() % 800 );
-	pModel->setIndices( oIndices );
-	m_pData->m_pModel = pModel;
+	// Create wafer model
+	if (sError.isEmpty())
+	{
+		if (sWafers.count() == 1)
+		{
+			QString const sTmp = sWafers.first();
+			QString sLotName("Unknown");
+			if (sTmp.contains( "::" ))
+				sLotName = sTmp.section( "::", 0 );
+			QString sWaferName = sTmp.section( "::", 1 );
+			//TODO
+			wm::CDieIndexMapping oIndices;
+			for (int i = 0; i < 800; ++i)
+				oIndices.insert(QPair<int, int>(15 - qrand() % 30, 15 - qrand() % 30), qrand() % 800);
+
+			// Create single wafer model
+			if (sError.isEmpty())
+			{
+				wm::CSingleWafer* pModel = new wm::CSingleWafer;
+				Q_CHECK_PTR(pModel);
+				pModel->setBinData( pBinData );
+				pModel->setIndices( oIndices );
+				m_pData->m_pModel = pModel;
+			}
+		}
+		else
+		{
+			// Create overlapped wafer model
+			wm::COverlappedWafer* pOverlappedModel = new wm::COverlappedWafer;
+			Q_CHECK_PTR(pOverlappedModel);
+			for (int i = 0; i < sWafers.count(); ++i)
+			{
+				QString const sTmp = sWafers[i];
+				QString sLotName("Unknown");
+				if (sTmp.contains( "::" ))
+					sLotName = sTmp.section( "::", 0 );
+				QString sWaferName = sTmp.section( "::", 1 );
+				//TODO
+				wm::CDieIndexMapping oIndices;
+				for (int i = 0; i < 800; ++i)
+					oIndices.insert(QPair<int, int>(15 - qrand() % 30, 15 - qrand() % 30), qrand() % 800);
+				if (sError.isEmpty())
+				{
+					wm::CSingleWafer* pModel = new wm::CSingleWafer;
+					Q_CHECK_PTR(pModel);
+					pModel->setBinData( pBinData );
+					pModel->setIndices( oIndices );
+					// Add model
+					pOverlappedModel->addWaferModel( pModel );
+				}
+			}
+			m_pData->m_pModel = pOverlappedModel;
+		}
+	}
 
 	// Create drawer
 	wm::CWaferDrawer* pDrawer = nullptr;
-	wm::EWaferType eType =wm:: EWaferType::SingleBin;
-	switch (eType)
+	wm::EWaferType eWaferType = wm::EWaferType(m_oConfig.getParameter( wm::csWaferType ).toInt());
+	if (sError.isEmpty())
 	{
-	case wm::EWaferType::SingleBin:
-		pDrawer = new wm::CWaferSingleBin(m_pData->m_pModel);
-		Q_CHECK_PTR(pDrawer);
-		break;
-	case wm::EWaferType::Yield:
-		pDrawer = new wm::CWaferYield(m_pData->m_pModel);
-		Q_CHECK_PTR(pDrawer);
-		break;
-	case wm::EWaferType::MostFrequentBin:
-		pDrawer = new wm::CWaferMFBin(m_pData->m_pModel);
-		Q_CHECK_PTR(pDrawer);
-		break;
-	case wm::EWaferType::GroupAggregation:
-		pDrawer = new wm::CWaferGroupAggregation(m_pData->m_pModel);
-		Q_CHECK_PTR(pDrawer);
-		break;
-	default:
-		bOk = false;
-		sError = QString("Invalid wafer Type!");
-		break;
+		switch (eWaferType)
+		{
+		case wm::EWaferType::SingleBin:
+			pDrawer = new wm::CWaferSingleBin(m_pData->m_pModel);
+			Q_CHECK_PTR(pDrawer);
+			break;
+		case wm::EWaferType::Yield:
+			pDrawer = new wm::CWaferYield(m_pData->m_pModel);
+			Q_CHECK_PTR(pDrawer);
+			break;
+		case wm::EWaferType::MostFrequentBin:
+			pDrawer = new wm::CWaferMFBin(m_pData->m_pModel);
+			Q_CHECK_PTR(pDrawer);
+			break;
+		case wm::EWaferType::GroupAggregation:
+			pDrawer = new wm::CWaferGroupAggregation(m_pData->m_pModel);
+			Q_CHECK_PTR(pDrawer);
+			break;
+		default:
+			sError = QString("Invalid wafer Type!");
+			break;
+		}
 	}
-	if (bOk)
+
+	// Create Wafer map
+	if (sError.isEmpty())
 	{
 		m_pData->m_pDrawer = pDrawer;
 		// Create View
@@ -145,9 +219,14 @@ void CWaferModul::run()
 		m_pData->m_pwWaferMap = new wm::CWaferMap(m_pData->m_pwView);
 		Q_CHECK_PTR(m_pData->m_pwWaferMap);
 		m_pData->m_pwWaferMap->resize( 850, 800 );
+		m_pData->m_pwWaferMap->setWaferType( eWaferType );
+		m_pData->m_pwWaferMap->setBinType( eBinType );
 	}
 	else
+	{
 		reset();
+		throw std::exception(sError.toStdString().data());
+	}
 }
 
 void CWaferModul::reset()

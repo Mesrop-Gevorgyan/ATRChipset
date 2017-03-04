@@ -1,22 +1,16 @@
 
 
 
-#ifndef WS_OVERLAPPEDWAFER_H
-#define WS_OVERLAPPEDWAFER_H
+#ifndef WM_OVERLAPPEDWAFER_H
+#define WM_OVERLAPPEDWAFER_H
 
 
 // Includes
-#include "wm_iwafermodel.h"
+#include "wm_wafermodelbase.h"
 
 // Qt includes
 #include <QList>
-#include <QPair>
-#include <QHash>
-#include <QString>
-#include <QRectF>
 
-// Qt forward declarations
-class QStringList;
 
 ///////////////////////////////////////////////////////////////////////////////
 namespace wm {
@@ -26,7 +20,7 @@ namespace wm {
 //
 // class COverlappedWafer
 //
-class COverlappedWafer : IWaferModel
+class COverlappedWafer : public CWaferModelBase
 {
 	Q_DISABLE_COPY(COverlappedWafer);
 
@@ -40,52 +34,27 @@ public:
 	//
 	//! Override IWaferModel interface
 	//
-	// Get wafer name
-	QString getName() const override;
-	// Get Lot name
-	QString getLotName() const override;
-	// Get die all cordinats
-	QList<QPair<int, int>> getDieCordinats() const override;
-	// Get Valid Die Count
-	int getValidDieCount() const override;
-	// Get radius
-	double getRadius() const override;
-	// Get wafer center
-	QPointF getWaferCenter() const override;
-	// Get Die phisicle size
-	QSizeF getDieSize() const override;
-	// Get die rect
-	QRectF getDieRect( int nDieX, int nDieY ) const override;
-	// Get Die phisicle spacing
-	double getDieSpacing() const override;
-	// Get die status
-	EDieStatus getDieSatus( int nDieX, int nDieY ) const override;
-	// Get HBin
-	EDieStatus getHBin( int nDieX, int nDieY, int& nHBin ) const override;
-	// Get SBin
-	EDieStatus getSBin( int nDieX, int nDieY, int& nSBin ) const override;
+	// Get Bin
+	EDieStatus getBin( int nDieX, int nDieY, int& nBin ) const;
+	// Get yield
+	EDieStatus getYield( int nDieX, int nDieY, int& nYield ) const;
+	// Get most frequent bin
+	EDieStatus getMostFrequentBin( int nDieX, int nDieY, int& nBin, int& nPercent ) const;
+	// Get bad and good die count
+	EDieStatus getGroupAggregation( int nDieX, int nDieY, int& nBad, int& nGood ) const;
 
 public:
 	//
 	//! Own Interface
 	//
-	// Get wafer names
-	QStringList getWaferNames( QString const& sLotName = QString() ) const;
-	// Get wafer names
-	QStringList getLotNames() const;
-	// Get wafer
-	inline IWaferModel const* getWafer( QString const& sLotName, QString const& sWaferName ) const;
 	// Add wafer
-	bool addWafer( IWaferModel const* pNewWafer );
-	// Remove wafer by name
-	void removeWafer( QString const& sLotName, QString const& sWaferName );
+	bool addWaferModel( IWaferModel* pNewWafer );
 
 protected:
 	//
 	//! Implementation
-	// Generate key for the wafer
-	inline QString makeKey( QString const& sLotName, QString const& sWaferName ) const;
-	// Update die indices
+	//
+	// Reset die indices
 	void reset();
 
 private:
@@ -93,9 +62,7 @@ private:
 	//! Content
 	//
 	// Wafers
-	QHash<QString, IWaferModel const*>		m_aWafers;
-	// Die indices
-	QList<QPair<int, int>>					m_aDieCordinats;
+	QList<IWaferModel*>		m_aWafers;
 };
 ///////////////////////////////////////////////////////////////////////////////
 
@@ -103,32 +70,16 @@ private:
 //
 // Inline Implementations
 //
-COverlappedWafer::COverlappedWafer()
-	: m_aWafers(),
-	  m_aDieCordinats()
+inline COverlappedWafer::COverlappedWafer()
+	: CWaferModelBase()
 {
 	
 }
 
-COverlappedWafer::~COverlappedWafer()
+inline COverlappedWafer::~COverlappedWafer()
 {
-
-}
-
-inline IWaferModel const* COverlappedWafer::getWafer( QString const& sLotName, QString const& sWaferName ) const
-{
-	return m_aWafers.value( makeKey( sLotName, sWaferName ), nullptr );
-}
-
-inline void COverlappedWafer::removeWafer( QString const& sLotName, QString const& sWaferName )
-{
-	if (m_aWafers.remove( makeKey( sLotName, sWaferName ) ) > 0)
-		reset();
-}
-
-inline QString COverlappedWafer::makeKey( QString const& sLotName, QString const& sWaferName ) const
-{
-	return QString("%1::%2").arg( sLotName).arg( sWaferName );
+	for (int i = 0; i < m_aWafers.size(); ++i)
+		delete m_aWafers[i];
 }
 ///////////////////////////////////////////////////////////////////////////////
 
@@ -136,4 +87,4 @@ inline QString COverlappedWafer::makeKey( QString const& sLotName, QString const
 } // namespace wm
 ///////////////////////////////////////////////////////////////////////////////
 
-#endif //! WS_OVERLAPPEDWAFER_H
+#endif //! WM_OVERLAPPEDWAFER_H

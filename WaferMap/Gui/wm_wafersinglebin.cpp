@@ -36,11 +36,7 @@ void wm::CWaferSingleBin::drawValidDie( QPainter* pPainter, int nDieX, int nDieY
 		return;
 
 	int nBin;
-	EDieStatus eStatus = EDieStatus::InvalidDie;
-	if (getBinType() == EBinType::HBin)
-		eStatus = m_pModel->getHBin( nDieX, nDieY, nBin );
-	else
-		eStatus = m_pModel->getSBin( nDieX, nDieY, nBin );
+	EDieStatus eStatus = m_pModel->getBin( nDieX, nDieY, nBin );
 	if (eStatus != EDieStatus::NormalDie)
 	{
 		Q_ASSERT(false);
@@ -52,7 +48,12 @@ void wm::CWaferSingleBin::drawValidDie( QPainter* pPainter, int nDieX, int nDieY
 	oBrush.setColor( getBinColor( nBin ) );
 	rcFDie.adjust( 1, 1, -1, -1 );
 	pPainter->fillRect( rcFDie, oBrush );
+	
 	QString sLabel = QString::number( nBin );
+	QFont oFont = pPainter->font();
+	int nPointSize = qMin( rcFDie.height(), rcFDie.width() * 0.8 ) * 0.8;
+	oFont.setPointSize( nPointSize );
+	pPainter->setFont( oFont );
 	pPainter->drawText( rcFDie, Qt::AlignCenter, sLabel );
 }
 
