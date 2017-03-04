@@ -1,51 +1,69 @@
 
-#ifndef WAFER_CONFIG_EDITOR_H
-#define WAFER_CONFIG_EDITOR_H
+#ifndef WAFERCONFIGEDITOR_H
+#define WAFERCONFIGEDITOR_H
 
+
+// Includes
+#include "global.h"
+#include "configuration.h"
 
 // Qt includes
 #include <QWidget>
-#include <QListWidget>
+#include <QString>
+#include <QTreeWidget>
 #include <QRadioButton>
 
-#include "global.h"
-#include "wm_global.h"
 
-
-//! Class CWaferConfigEditor, this is a window for parameter selection
-//  Parameters used to run wafer analysis
-class CWaferConfigEditor : public QWidget
+///////////////////////////////////////////////////////////////////////////////
+//
+//! Class CWaferConfigEditor
+//
+class Q_DECL_EXPORT CWaferConfigEditor : public QWidget
 {
 public:
 	// Default constructor
-	CWaferConfigEditor(QWidget* parent = nullptr);
+	CWaferConfigEditor( QWidget* parent = nullptr );
 	// Destructor
 	~CWaferConfigEditor();
 
-	// Set wafer list s string list
-	void setWafers(QStringList const& aWafer);
+public:
+	//
+	//! Own Interface
+	//
+	// Add wafers
+	void addWafer( QString const& aLotName, QString const& sNameWafer );
+	// Get wafer configuration
+	CConfiguration getConfig() const;
+
+protected:
+	//
+	//! Implementation
+	//
+	void setupUi();
 	// Get selected wafers(names)
 	QStringList getSelectedWafers() const;
 	// Get Wafer analysis mode
-	WaferMode getMode() const;
+	int getWaferType() const;
 	// Get Bin type
-	BinType getBinType() const;
-
-protected:
-	void setupUi();
+	EBinType getBinType() const;
 
 private:
-	// List of wafers
-	QListWidget*			m_pLstWafer;
+	//
+	//! Content
+	//
+	// List of lots
+	QTreeWidget*			m_pLstWafer;
+
 	// Bin type
 	QRadioButton*			m_pBtnHBin;
 	QRadioButton*			m_pBtnSBin;
-	// Wafer mode
-	QRadioButton*			m_pBtnMF;
+
+	// Wafer types
+	QRadioButton*			m_pBtnSingleBin;
 	QRadioButton*			m_pBtnYield;
+	QRadioButton*			m_pBtnMostFrequentBin;
+	QRadioButton*			m_pBtnGroupAggregation;
 };
+///////////////////////////////////////////////////////////////////////////////
 
-
-
-
-#endif //WAFER_CONFIG_EDITOR_H
+#endif //! WAFERCONFIGEDITOR_H
