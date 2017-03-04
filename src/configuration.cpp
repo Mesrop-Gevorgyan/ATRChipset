@@ -1,6 +1,7 @@
 
 
-#include <configuration.h>
+#include "configuration.h"
+
 #include <QFile>
 #include <QByteArray>
 #include <QJsonDocument>
@@ -93,7 +94,7 @@ int CConfiguration::getVersion() const
 
 bool CConfiguration::isValid() const
 {
-	return (m_sName.isEmpty() || m_sType.isEmpty() || m_nVersion <= 0);
+	return !(m_sName.isEmpty() || m_sType.isEmpty() || m_nVersion <= 0);
 }
 
 
@@ -177,7 +178,6 @@ void CConfiguration::load(QString const& sPath)
 		}
 
     }
-
 }
 
 
