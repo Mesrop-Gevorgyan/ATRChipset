@@ -26,7 +26,7 @@ typedef QPair<Value, FieldType>  FieldValue;
 typedef QList<int> IDList;
 
 // Bin type
-enum class BinType { HBin, SBin };
+enum class EBinType { HBin, SBin };
 
 // Types of files,which will be used
 enum FileType
