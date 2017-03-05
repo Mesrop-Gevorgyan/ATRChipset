@@ -24,6 +24,7 @@ enum FieldType
 #define DEVICE "Device"
 
 // Field ID
+typedef int ID;
 typedef QString Field;
 typedef QStringList FieldList;
 typedef QVariant Value;
