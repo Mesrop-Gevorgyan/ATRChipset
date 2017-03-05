@@ -18,6 +18,11 @@ enum FieldType
         TestCondition,
 };
 
+// Hardcode Lot,Wafer,Device literals
+#define LOT "Lot"
+#define WAFER "Wafer"
+#define DEVICE "Device"
+
 // Field ID
 typedef QString Field;
 typedef QStringList FieldList;
