@@ -1,7 +1,7 @@
 #ifndef __DataStore__
 #define __DataStore__
 
-#include <QMap>
+#include <QHash>
 #include "VectorCollection.h"
 #include "global.h"
 #include "FileInfo.h"   
@@ -10,10 +10,11 @@ class DataStore
 {
 public:
 	DataStore();
-	void add(FileInfo, CVectorCollection);
-	CVectorCollection getBinData(const FileInfo&) const;
+	void add(ID,CVectorCollection);
+	CVectorCollection GetSingleFileData(ID id) const;
+	CVectorCollection GetDataByPattern(IDList ids) const;
 private:
-	QMap<FileInfo, CVectorCollection> m_data;
+	QHash<ID,CVectorCollection> m_data;
 };
 
 #endif //__DataStore__

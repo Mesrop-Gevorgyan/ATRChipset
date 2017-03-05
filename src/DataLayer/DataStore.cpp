@@ -2,23 +2,27 @@
 
 DataStore::DataStore(): m_data() {}
 
-void DataStore::add(FileInfo fileInfo, CVectorCollection binData)
+void DataStore::add(ID id, CVectorCollection binData)
 {
-	m_data.insert(fileInfo, binData);
+	m_data.insert(id,binData);
 }
 
-CVectorCollection DataStore::getBinData(const FileInfo& fileInfo) const
+CVectorCollection DataStore::GetSingleFileData(ID id) const
 {
-	if (m_data.contains(fileInfo))
-		return m_data[fileInfo];
+	if (m_data.contains(id))
+		return m_data[id];
 	else
-		throw std::exception("BinData with this context does not exist!\n");
+		return CVectorCollection();
 }
 
-bool operator<(const FileInfo& info1, const FileInfo& info2)
+CVectorCollection DataStore::GetDataByPattern(IDList ids) const
 {
-	if (info1.m_date < info2.m_date)
-		return true;
-	else
-		return false;
+	QVector<CVectorCollection> data;
+	
+	for (auto id : ids)
+	{
+		CVectorCollection temp = GetSingleFileData(id);
+		data.push_back(temp);
+	}
+
 }
