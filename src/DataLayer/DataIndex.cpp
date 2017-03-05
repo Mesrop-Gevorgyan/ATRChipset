@@ -1,4 +1,6 @@
 #include "DataIndex.h"
+#include <QVector>
+#include <QSet>
 
 DataIndex::DataIndex(CFileInfoList infos):m_lots(),m_wafers(),m_devices(),m_infos(infos) 
 {
@@ -16,7 +18,7 @@ void DataIndex::__indexation()
 		for (auto context : context_list)
 		{
 			/* indexation of Files containig  info about Lots */
-			if (context.contains("Lot"))
+			if (context.contains(LOT))
 			{
 				if (m_lots.find(context) != m_lots.end())
 					m_lots[context].push_back(i);
@@ -28,7 +30,7 @@ void DataIndex::__indexation()
 			}
 
 			/* indexation of Files containig  info about Wafers */
-			if (context.contains("Wafer"))
+			if (context.contains(WAFER))
 			{
 				if (m_lots.find(context) != m_lots.end())
 					m_lots[context].push_back(i);
@@ -40,7 +42,7 @@ void DataIndex::__indexation()
 			}
 
 			/* indexation of Files containig  info about Devices */
-			if (context.contains("Device"))
+			if (context.contains(DEVICE))
 			{
 				if (m_lots.find(context) != m_lots.end())
 					m_lots[context].push_back(i);
@@ -52,4 +54,51 @@ void DataIndex::__indexation()
 			}
 		}
 	}
+}
+
+/*
+ *  Returns one IDList ,which contains unique IDs from list vector  
+ */
+IDList DataIndex::__mergeIDLists(QVector<IDList> list)
+{
+	QSet<int> result;
+	for (auto IDs : list)
+	{
+		for (auto ID : IDs)
+			result.insert(ID);
+	}
+	return IDList::fromSet(result);
+}
+
+/*
+ *  Returns IDList of files,which Context contains @content
+ */
+IDList DataIndex::__getFileIDs(QString content)
+{
+	if (content.contains(LOT)) 
+		return m_lots[content];
+
+	if (content.contains(WAFER))
+		return m_lots[content];
+
+	if (content.contains(DEVICE))
+		return m_lots[content];
+
+	return IDList();
+}
+
+/*
+ *  Return merged IDList with unique IDs, corresponding to @pattern  
+ */
+IDList DataIndex::GetFileIDsWithPattern(QStringList pattern)
+{
+	QVector<IDList> allIDs;
+	
+	for (auto content : pattern)
+	{
+		IDList temp = __getFileIDs(content);
+		allIDs.push_back(temp);
+	}
+
+	return __mergeIDLists(allIDs);
 }
