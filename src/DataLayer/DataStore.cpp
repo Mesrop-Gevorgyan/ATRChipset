@@ -14,15 +14,3 @@ CVectorCollection DataStore::GetSingleFileData(ID id) const
 	else
 		return CVectorCollection();
 }
-
-CVectorCollection DataStore::GetDataByPattern(IDList ids) const
-{
-	QVector<CVectorCollection> data;
-	
-	for (auto id : ids)
-	{
-		CVectorCollection temp = GetSingleFileData(id);
-		data.push_back(temp);
-	}
-
-}
