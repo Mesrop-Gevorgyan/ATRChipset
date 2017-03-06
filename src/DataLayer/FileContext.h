@@ -15,6 +15,7 @@ public:
 	FileContext();
 	void add(Field,FieldValue);
 	QVariant GetValue(Field) const;
+	bool contains(Field field);
 	FieldType GetFieldType(Field) const;
         QVariantList GetValues(FieldType ) const; 
         FieldList GetFields(FieldType) const;
