@@ -1,12 +1,10 @@
 #ifndef __IDATADIRECTORY__
 #define __IDATADIRECTORY__
 
-
 #include <QVariant>
-//class QVariantList;
+#include "global.h"
 #include "DataStore.h"
 #include "FileInfoList.h"
-typedef  QStringList FieldList;
 
 class IDataDirectory
 {
