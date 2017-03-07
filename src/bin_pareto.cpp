@@ -1,4 +1,4 @@
-#include "cbin_pareto.h"
+#include "bin_pareto.h"
 
 CBinPareto::CBinPAreto():m_view(new QWidget())
 {}
