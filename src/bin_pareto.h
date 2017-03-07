@@ -1,22 +1,26 @@
 #ifndef BinPareto_H
 #define BinPareto_H
 
+#include "selection.h"
+#include "configuration.h"
+#include "ianalyser.h"
+
 class CBinPareto :public IAnalyser
 {
 public:
 	BinPareto();
 	//set configuration
-	void setConfig(const Configuration &);
+	void setConfig(const CConfiguration &);
 	//set data selection
-	void setData(const DataSelection &);
+	void setData(const CSelection &);
 	//shows the window of result
 	QWidget *getView()const;
 	//runs the analyse 
 	void run()const;
 	~BinPareto();
 private:
-	Configuration m_config;
-	DataSelection m_data;
+	CConfiguration m_config;
+	CSelection m_data;
 	QWidget *m_view;
 };
 
