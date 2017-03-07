@@ -1,9 +1,9 @@
-#include "CBinPareto.h"
+#include "cbin_pareto.h"
 
 CBinPareto::CBinPAreto():m_view(new QWidget())
 {}
 
-void CBinPareto::setConfig(const Configuration & config)
+void CBinPareto::setConfig(const CConfiguration & config)
 {
 	m_config = config;
 }
