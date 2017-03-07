@@ -13,9 +13,9 @@ public:
     //set data selection
     virtual void setData(const CSelection &) = 0;
     //shows the window of result
-    QWidget *getView()const = 0;
+    virtual QWidget *getView()const = 0;
     //runs the analyse
-    void run()const = 0;
+    virtual void run()const = 0;
 };
 
 #endif //IANALYSER_H
