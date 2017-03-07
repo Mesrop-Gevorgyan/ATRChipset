@@ -1,8 +1,7 @@
 #ifndef BinPareto_H
 #define BinPareto_H
 
-#include "selection.h"
-#include "configuration.h"
+
 #include "ianalyser.h"
 
 class CBinPareto :public IAnalyser
