@@ -53,7 +53,7 @@ FieldList FileContext::GetFields(FieldType fieldType) const
         return result;
 }
 
-bool FileContext::contains(Field field)
+bool FileContext::contains(Field field) const
 {
 	for (auto value : m_directory.values())
 		if (value.first == field)
