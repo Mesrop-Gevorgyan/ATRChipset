@@ -112,7 +112,8 @@ FileInfo DataIndex::GetFileInfo(ID id)
 }
 
 /*
-* Returns FieldList corresponding to @pattern
+*  Returns FieldList corresponding to @pattern
+*  If we pass as @field for example "Lot" ,it returns FieldList containing all Lots ,in selection
 */
 FieldList DataIndex::GetFieldList(QStringList pattern, Field field)
 {
@@ -121,8 +122,10 @@ FieldList DataIndex::GetFieldList(QStringList pattern, Field field)
 
 	for (auto id : ids)
 	{
-		//m_infos[id].m_fileContext.
+		if (m_infos[id].m_fileContext.contains(field))
+			result.push_back(m_infos[id].m_fileContext.GetValue(field).toString());
+
 	}
 		
-	return FieldList();
+	return result;
 }
