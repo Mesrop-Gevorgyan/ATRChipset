@@ -10,7 +10,9 @@ class DataIndex
 {
 public:
 	DataIndex(CFileInfoList);
-	IDList GetFileIDsWithPattern(QStringList pattern);
+	IDList GetIDList(QStringList pattern);
+	FileInfo GetFileInfo(ID id);
+	FieldList GetFieldList(QStringList pattern, Field field);
 private:
 	void __indexation();
 	IDList __getFileIDs(QString content);

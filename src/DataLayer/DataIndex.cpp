@@ -88,9 +88,9 @@ IDList DataIndex::__getFileIDs(QString content)
 }
 
 /*
- *  Return merged IDList with unique IDs, corresponding to @pattern  
+ *  Returns merged IDList with unique IDs, corresponding to @pattern  
  */
-IDList DataIndex::GetFileIDsWithPattern(QStringList pattern)
+IDList DataIndex::GetIDList(QStringList pattern)
 {
 	QVector<IDList> allIDs;
 	
@@ -101,4 +101,28 @@ IDList DataIndex::GetFileIDsWithPattern(QStringList pattern)
 	}
 
 	return __mergeIDLists(allIDs);
+}
+
+/*
+ * Returns FileInfo of file with @id 
+ */
+FileInfo DataIndex::GetFileInfo(ID id)
+{
+	return m_infos[id];
+}
+
+/*
+* Returns FieldList corresponding to @pattern
+*/
+FieldList DataIndex::GetFieldList(QStringList pattern, Field field)
+{
+	IDList ids = this->GetIDList(pattern);
+	FieldList result;
+
+	for (auto id : ids)
+	{
+		//m_infos[id].m_fileContext.
+	}
+		
+	return FieldList();
 }
