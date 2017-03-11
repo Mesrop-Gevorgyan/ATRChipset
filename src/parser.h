@@ -10,12 +10,12 @@
 class parser
 {
 private:
-    FileInfo m_file;
+    QString m_filePath;
     static int NumberOfFiles;
 public:
     parser(const QString&);
     FileInfo scanner();
-    QPair<FileInfo,CVectorCollection> loader();
+    CVectorCollection loader(const FileType&);
 };
 
 #endif // PARSER_H
