@@ -22,6 +22,7 @@ enum FieldType
 #define LOT "Lot"
 #define WAFER "Wafer"
 #define DEVICE "Device"
+#define DATE "Date"
 
 // Field ID
 typedef int ID;
