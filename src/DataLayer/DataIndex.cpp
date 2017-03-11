@@ -2,10 +2,16 @@
 #include <QVector>
 #include <QSet>
 
-DataIndex::DataIndex(CFileInfoList infos):m_lots(),m_wafers(),m_devices(),m_infos(infos) 
+
+DataIndex::DataIndex() :m_lots(), m_wafers(), m_devices(), m_infos()
+{}
+
+void DataIndex::SetFileInfos(CFileInfoList infos)
 {
+	m_infos = infos;
 	__indexation();
 }
+
 
 /* Helper function,which adds all fileInfos to index */
 void DataIndex::__indexation()
