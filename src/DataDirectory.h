@@ -11,16 +11,13 @@ class DataDirectory: public IDataDirectory
 {
 public:
     DataDirectory(QString);
-    FieldList getFields()const;
     QVariantList getFieldValues(Field const& oID)const;
-    CFileInfoList getFiles(const QSet<FileType>& fileTypes, const CFileInfoList &contextList)const;
-    QSet<QString> getWafers()const;
-    QSet<QString> getDevices()const;
-    QSet<QString> getLots()const;
-    QSet<QDateTime> getDates()const;
+    IDList GetIDList(QStringList pattern);
+    FileInfo GetFileInfo(ID id);
+    FieldList GetFieldList(QStringList pattern, Field field);
 private:
-    QMultiMap<FileType,FileInfo> m_type_file;
-
+    CFileInfoList m_files;
+    DataIndex m_dataIndex;
     QSet<QString> m_wafers,m_lots,m_devices;
     QSet<QDateTime> m_dates;
 };
