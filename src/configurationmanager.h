@@ -24,7 +24,7 @@ public:
     bool update(CConfiguration const&  oldConfig,CConfiguration const& newConfig);
     bool remove(QString const& name);
     CConfiguration getConfig(QString const& name);
-    QStringList getNames(bool useCache = true)const;
+    QStringList getNames()const;
 
 private:
     //constructor
