@@ -1,16 +1,11 @@
-
-
-#ifndef IDATAPROVIDER_H
-#define IDATAPROVIDER_H
-
-
-// Qt includes
-#include <QSharedPointer>
+#ifndef __IDATAPROVIDER__
+#define __IDATAPROVIDER__
 
 #include "selection.h"
-#include "idatadirectory.h"
-
-
+#include <QSharedPointer>
+#include "DataStore.h"
+#include "IDataDirectory.h"
+#include "selection.h"
 // This interface provide data which was selected and loaded
 class IFieldCollection;
 typedef QSharedPointer<IFieldCollection> IFieldCollectionPtr;
@@ -22,13 +17,13 @@ typedef QSharedPointer<IFieldCollection> IFieldCollectionPtr;
 class IDataProvider
 {
 public:
-	// Set fields data selection
-	virtual void setSelection(CSelection const& oSelection) = 0;
-	// Set Data directory
-	virtual void setDataDirectory(IDataDirectory* pDataDir) = 0;
-	// Get Data corresponding of selection
-	virtual IFieldCollectionPtr GetData(FieldList const& lstField) = 0;
+    // Set field data selection
+    virtual void setSelection(CSelection const& oSelection) = 0;
+    //
+    virtual void setDataDirectory(IDataDirectory* pDataDir) = 0;
+    // Get Data corresponding of selection
+    virtual IFieldCollectionPtr GetData() = 0;
 };
 ////////////////////////////////////////////////////////////////
 
-#endif // IDATAPROVIDER_H
+#endif // __IDATAPROVIDER__
