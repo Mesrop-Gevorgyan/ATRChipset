@@ -10,140 +10,46 @@ void DataProvider::setSelection(const CSelection &oSelection)
     m_selection = oSelection;
 }
 
-IFieldCollectionPtr DataProvider::GetData(FieldList const& lstField)
+IFieldCollectionPtr DataProvider::GetData()
 {
-        QSet<FileType> types = getFieldTypes(lstField);
-        CFileInfoList fileInfo = pDataDirectory->getFiles(types,getContextsList()); //contexts is CfileInfoList
-        QList<QString> FilesForLoad;
+        CFileInfoList fileInfo = getContextsList(); //contexts is CfileInfoList
+        CFileInfoList FilesForLoad;
         loader load(&m_dataStore);
         for(int i = 0; i < fileInfo.count(); ++i)
         {
-            CVectorCollection currentData = m_dataStore.getBinData(fileInfo[i]);
+            CVectorCollection currentData = m_dataStore.GetSingleFileData(fileInfo[i].ID);
             if (currentData.size() == 0)
             {
-                FilesForLoad.append(fileInfo[i].m_filePath);
+                FilesForLoad.append(fileInfo[i]); //but here is undefined id and path
             }
         }
-
         load.loadData(FilesForLoad);
-
-
-
+        //?????????????????;
 }
 
 CFileInfoList DataProvider::getContextsList()
 {
-    //if (m_selection.isEmpty())
-        //std::cout<<"empty selection"<<std::endl;
     CFileInfoList results;
-    const SFieldValueSelection& deviceSelection = m_selection.getFieldValueSelection("Device");
-    QRegExp patternForDevice;
-    QSet<QString> devices;
-    if (deviceSelection.aSelectedValues.size() == 0) //at first get selected values
+    QVariantList devices = getFieldValuesCorrespondingToSelection(DEVICE);
+    QVariantList lots = getFieldValuesCorrespondingToSelection(LOT);
+    QVariantList wafers = getFieldValuesCorrespondingToSelection(WAFER);
+    QVariantList dates = getFieldValuesCorrespondingToSelection(DATE);
+    for (QVariantList::iterator itDev = devices.begin(); itDev != devices.end(); ++itDev)
     {
-        devices = pDataDirectory->getDevices();
-        if (deviceSelection.eSelectionType == ESelectionPattern::ValueSelection)
+        for (QVariantList::iterator itL = lots.begin(); itL != lots.end(); ++itL)
         {
-            patternForDevice.setPattern(deviceSelection.sPattern);
-            for (QSet<QString>::iterator it = devices.begin(); it != devices.end(); ++it)
+            for (QVariantList::iterator itW = wafers.begin(); itW != wafers.end(); ++itW)
             {
-                if ( patternForDevice.exactMatch(*it) == false)
-                    devices.erase(it);//this device does not match with pattern
-            }
-        }
-    }
-    else
-    {
-        QVariantList currentValues = deviceSelection.aSelectedValues;
-        for (int i =0; i < currentValues.size(); ++i)
-            devices.insert(currentValues[i].toString());
-    }
-
-    const SFieldValueSelection& lotSelection = m_selection.getFieldValueSelection("Lot");
-    QRegExp patternForLot;
-    QSet<QString> lots;
-    if (lotSelection.aSelectedValues.size() == 0) //at first get selected values
-    {
-        lots = pDataDirectory->getLots();
-        if (lotSelection.eSelectionType == ESelectionPattern::ValueSelection)
-        {
-            patternForLot.setPattern(lotSelection.sPattern);
-            for (QSet<QString>::iterator it = lots.begin(); it != lots.end(); ++it)
-            {
-                if ( patternForLot.exactMatch(*it) == false)
-                    lots.erase(it);//this device does not match with pattern
-            }
-        }
-    }
-    else
-    {
-        QVariantList currentValues = lotSelection.aSelectedValues;
-        for (int i =0; i < currentValues.size(); ++i)
-            lots.insert(currentValues[i].toString());
-    }
-
-    const SFieldValueSelection& waferSelection = m_selection.getFieldValueSelection("Wafer");
-    QRegExp patternForWafer;
-    QSet<QString> wafers;
-    if (waferSelection.aSelectedValues.size() == 0) //at first get selected values
-    {
-        wafers = pDataDirectory->getWafers();
-        if (waferSelection.eSelectionType == ESelectionPattern::ValueSelection)
-        {
-            patternForWafer.setPattern(waferSelection.sPattern);
-            for (QSet<QString>::iterator it = wafers.begin(); it != wafers.end(); ++it)
-            {
-                if ( patternForWafer.exactMatch(*it) == false)
-                    wafers.erase(it);//this device does not match with pattern
-            }
-        }
-    }
-    else
-    {
-        QVariantList currentValues = waferSelection.aSelectedValues;
-        for (int i =0; i < currentValues.size(); ++i)
-            wafers.insert(currentValues[i].toString());
-    }
-
-    const SFieldValueSelection& dateSelection = m_selection.getFieldValueSelection("Date");
-    QRegExp patternForDate;
-    QSet<QDateTime> dates;
-    if (dateSelection.aSelectedValues.size() == 0) //at first get selected values
-    {
-        dates = pDataDirectory->getDates();
-        if (dateSelection.eSelectionType == ESelectionPattern::ValueSelection)
-        {
-            patternForDate.setPattern(dateSelection.sPattern);
-            for (QSet<QDateTime>::iterator it = dates.begin(); it != dates.end(); ++it)
-            {
-                if ( patternForDate.exactMatch((*it).toString()) == false)
-                    dates.erase(it);//this device does not match with pattern
-            }
-        }
-    }
-    else
-    {
-        QVariantList currentValues = dateSelection.aSelectedValues;
-        for (int i =0; i < currentValues.size(); ++i)
-            dates.insert(currentValues[i].toDateTime());
-    }
-
-    for (QSet<QString>::iterator itDev = devices.begin(); itDev != devices.end(); ++itDev)
-    {
-        for (QSet<QString>::iterator itL = lots.begin(); itL != lots.end(); ++itL)
-        {
-            for (QSet<QString>::iterator itW = wafers.begin(); itW != wafers.end(); ++itW)
-            {
-                for (QSet<QDateTime>::iterator itDate = dates.begin(); itDate != dates.end();
+                for (QVariantList::iterator itDate = dates.begin(); itDate != dates.end();
                      ++itDate)
                 {
                         FileInfo currentFileInfo;
-                        currentFileInfo.m_date = *itDate;
-                        currentFileInfo.m_fileContext.add("Device",
+                        currentFileInfo.m_date = (*itDate).toDateTime();
+                        currentFileInfo.m_fileContext.add(DEVICE,
                                                           QPair<Value, FieldType> (*itDev,Context));
-                        currentFileInfo.m_fileContext.add("Lot",
+                        currentFileInfo.m_fileContext.add(LOT,
                                                           QPair<Value, FieldType> (*itL,Context));
-                        currentFileInfo.m_fileContext.add("Wafer",
+                        currentFileInfo.m_fileContext.add(WAFER,
                                                           QPair<Value, FieldType> (*itW,Context));
                         results.append(currentFileInfo);
                 }
@@ -153,44 +59,24 @@ CFileInfoList DataProvider::getContextsList()
     return results;
 }
 
-QSet<FileType> DataProvider::getFieldTypes(const FieldList& fields)
+QVariantList DataProvider::getFieldValuesCorrespondingToSelection(const Field& field)const
 {
-    QSet<FileType> result;
-    for(FieldList::const_iterator it = fields.begin(); it != fields.end(); ++it)
+    const SFieldValueSelection& selection = m_selection.getFieldValueSelection(field);
+    QVariantList result;
+    if (selection.aSelectedValues.size() == 0) //at first get selected values
     {
-        if (*it == "Bin" || *it == "BinType")
+        result = pDataDirectory->getFieldValues(field);
+        if (selection.eSelectionType == ESelectionPattern::ValueSelection) //no selected values,any pattern
         {
-            result.insert(BinData);
-            result.insert(BinDefinition);
-        }
-        if (*it == "BinName" || *it == "PassFail")
-        {
-             result.insert(BinDefinition);
-        }
-        if (*it == "DieX" || *it == "DieY")
-        {
-            result.insert(BinData);
-            result.insert(ParameterData);
-        }
-        if (*it == "TestNumber")
-        {
-            result.insert(ParameterData);
-            result.insert(ParameterDefinition);
-            result.insert(ParameterLimits);
-        }
-        if (*it == "Parameter" || *it == "ParameterUnit")
-        {
-            result.insert(ParameterDefinition);
-        }
-        if (*it == "Last" || *it == "TestPass")
-        {
-            result.insert(ParameterData);
-            result.insert(ParameterLimits);
-        }
-        if (*it == "LSL" || *it == "USL" || *it == "Target")
-        {
-            result.insert(ParameterLimits);
+            QRegExp pattern(selection.sPattern);
+            for (QVariantList::iterator it = result.begin(); it != result.end(); ++it)
+            {
+                if ( pattern.exactMatch((*it).toString()) == false)
+                    result.erase(it);//this does not match with pattern
+            }
         }
     }
+    else
+        result = selection.aSelectedValues;
     return result;
 }
