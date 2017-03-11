@@ -11,29 +11,43 @@ DataDirectory::DataDirectory(QString path)
     {
         parser Parser(path +"/"+ NamesOfFiles.at(i));
         FileInfo file_info(Parser.scanner());
-        m_type_file.insert(file_info.m_fileType, file_info);
-
+        m_files.append(file_info);
         if (file_info.m_fileType == BinData ||
-                file_info.m_fileType == ParameterData)                //for dataSElecetor
+                file_info.m_fileType == ParameterData)
         {
-            m_wafers.insert(file_info.m_fileContext.GetValue("Wafer").toString());
-            m_lots.insert(file_info.m_fileContext.GetValue("Lot").toString());
+            m_wafers.insert(file_info.m_fileContext.GetValue(WAFER).toString());
+            m_lots.insert(file_info.m_fileContext.GetValue(LOT).toString());
             m_dates.insert(file_info.m_date);
         }
-        m_devices.insert(file_info.m_fileContext.GetValue("Device").toString());
+        m_devices.insert(file_info.m_fileContext.GetValue(DEVICE).toString());
     }
-
+    m_dataIndex.SetFileInfos(m_files);
 }
 
+
+IDList DataDirectory::GetIDList(QStringList pattern)
+{
+    return m_dataIndex.GetIDList(pattern);
+}
+
+FileInfo DataDirectory::GetFileInfo(ID id)
+{
+    return m_dataIndex.GetFileInfo(id);
+}
+
+FieldList DataDirectory::GetFieldList(QStringList pattern, Field field)
+{
+    return m_dataIndex.GetFieldList(pattern,field);
+}
 
 
 bool operator==(const FileContext& context1,const FileContext& context2)
 {
-    if (context1.GetValue("Lot") == context2.GetValue("Lot"))
+    if (context1.GetValue(LOT) == context2.GetValue(LOT))
     {
-        if (context1.GetValue("Wafer") == context2.GetValue("Wafer"))
+        if (context1.GetValue(WAFER) == context2.GetValue(WAFER))
         {
-            if (context1.GetValue("Device") == context2.GetValue("Device"))
+            if (context1.GetValue(DEVICE) == context2.GetValue(DEVICE))
             {
                 return true;
             }
@@ -43,50 +57,6 @@ bool operator==(const FileContext& context1,const FileContext& context2)
     }
     return false;
 }
-
-
-CFileInfoList DataDirectory::getFiles(const QSet<FileType> &fileTypes, const CFileInfoList &contextList) const
-{
-    CFileInfoList FilesCorrespondingTypes;
-    for(QSet<FileType>::const_iterator it = fileTypes.begin(); it != fileTypes.end(); ++it)
-    {
-        CFileInfoList CurrentList(m_type_file.values(*it));
-        for (int i = 0; i < CurrentList.count(); ++i)
-            FilesCorrespondingTypes.append(CurrentList[i]);
-    }
-
-    CFileInfoList result;
-
-    for(int i = 0 ; i < contextList.count(); ++i)
-    {
-        for(int j = 0; j < FilesCorrespondingTypes.count(); ++j)
-        {
-            if (FilesCorrespondingTypes[j].m_fileContext == contextList[i].m_fileContext &&
-                    FilesCorrespondingTypes[j].m_date == contextList[i].m_date)
-                result.append(FilesCorrespondingTypes[j]);
-            if (FilesCorrespondingTypes[j].m_fileContext.GetValue("Device")
-                    == contextList[i].m_fileContext.GetValue("Device"))
-                result.append(FilesCorrespondingTypes[j]);
-        }
-    }
-    return result;
-}
-
-
-FieldList DataDirectory::getFields()const
-{
-    FieldList fieldList;
-    if (m_wafers.size() != 0)
-        fieldList.append("Wafer");
-    if (m_lots.size() != 0)
-        fieldList.append("Lot");
-    if (m_devices.size() != 0)
-        fieldList.append("Device");
-    if (m_dates.size() != 0)
-        fieldList.append("Date");
-    return fieldList;
-}
-
 
 QVariantList DataDirectory::getFieldValues(Field const& oID)const
 {
@@ -113,24 +83,3 @@ QVariantList DataDirectory::getFieldValues(Field const& oID)const
     }
     return result;
 }
-
-QSet<QString> DataDirectory::getWafers()const
-{
-    return m_wafers;
-}
-
-QSet<QString> DataDirectory::getDevices()const
-{
-    return m_devices;
-}
-
-QSet<QString> DataDirectory::getLots()const
-{
-    return m_lots;
-}
-
-QSet<QDateTime> DataDirectory::getDates()const
-{
-    return m_dates;
-}
-
