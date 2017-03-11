@@ -1,14 +1,14 @@
 #include "parser.h"
 int parser::NumberOfFiles = 0;
-parser::parser(const QString& filePath)
+parser::parser(const QString& filePath):m_filePath(filePath)
 {
-    m_file.m_filePath = filePath;
-    NumberOfFiles++;
 }
 
 FileInfo parser::scanner()
 {
-    QFile file(m_file.m_filePath);
+    FileInfo result;
+    result.m_filePath = m_filePath;
+    QFile file(m_filePath);
     if (file.open(QIODevice::ReadOnly | QIODevice::Text))
     {
         QTextStream in(&file);
@@ -24,7 +24,7 @@ FileInfo parser::scanner()
             in>>word;
             if (word == "BinDefinition")
             {
-                m_file.m_fileType=BinDefinition;
+                result.m_fileType=BinDefinition;
                 in.readLine();
                 in.readLine();
                 in>>word;
@@ -36,7 +36,7 @@ FileInfo parser::scanner()
                         Field fieldName(word);
                         in>>word;
                         FieldValue val(word,Context);
-                        m_file.m_fileContext.add(fieldName,val);
+                        result.m_fileContext.add(fieldName,val);
                     }
                     in>>word;
                 }
@@ -44,7 +44,7 @@ FileInfo parser::scanner()
             }
             if (word == "BinData")
             {
-                m_file.m_fileType=BinData;
+                result.m_fileType=BinData;
                 in.readLine();
                 in.readLine();
                 in>>word;
@@ -62,9 +62,9 @@ FileInfo parser::scanner()
                                 if (word == "Date:")
                                 {
                                     in>>word;
-                                    m_file.m_date.setDate(QDate::fromString(word,"dd/MM/yyyy"));
+                                    result.m_date.setDate(QDate::fromString(word,"dd/MM/yyyy"));
                                     in>>word;
-                                    m_file.m_date.setTime(QTime::fromString(word));
+                                    result.m_date.setTime(QTime::fromString(word));
                                 }
                                 else
                                 {
@@ -72,7 +72,7 @@ FileInfo parser::scanner()
                                     Field fieldName(word);
                                     in>>word;
                                     FieldValue val(word,fieldType);
-                                    m_file.m_fileContext.add(fieldName,val);
+                                    result.m_fileContext.add(fieldName,val);
                                 };
                             }
                     in>>word;
@@ -81,7 +81,7 @@ FileInfo parser::scanner()
             }
             if (word == "ParameterDefinition")
             {
-                m_file.m_fileType=ParameterDefinition;
+                result.m_fileType=ParameterDefinition;
                 in.readLine();
                 in.readLine();
                 in>>word;
@@ -93,7 +93,7 @@ FileInfo parser::scanner()
                         Field fieldName(word);
                         in>>word;
                         FieldValue val(word,Context);
-                        m_file.m_fileContext.add(fieldName,val);
+                        result.m_fileContext.add(fieldName,val);
                     }
                     in>>word;
                 }
@@ -101,7 +101,7 @@ FileInfo parser::scanner()
             }
             if (word == "ParameterData")
             {
-                m_file.m_fileType=ParameterData;
+                result.m_fileType=ParameterData;
                 in.readLine();
                 in.readLine();
                 in>>word;
@@ -119,9 +119,9 @@ FileInfo parser::scanner()
                                 if (word == "Date:")
                                 {
                                     in>>word;
-                                    m_file.m_date.setDate(QDate::fromString(word,"dd/MM/yyyy"));
+                                    result.m_date.setDate(QDate::fromString(word,"dd/MM/yyyy"));
                                     in>>word;
-                                    m_file.m_date.setTime(QTime::fromString(word));
+                                    result.m_date.setTime(QTime::fromString(word));
                                 }
                                 else
                                 {
@@ -129,7 +129,7 @@ FileInfo parser::scanner()
                                     Field fieldName(word);
                                     in>>word;
                                     FieldValue val(word,fieldType);
-                                    m_file.m_fileContext.add(fieldName,val);
+                                    result.m_fileContext.add(fieldName,val);
                                 };
                             }
                     in>>word;
@@ -138,7 +138,7 @@ FileInfo parser::scanner()
             }
             if (word == "ParameterLimits")
             {
-                m_file.m_fileType=ParameterLimits;
+                result.m_fileType=ParameterLimits;
                 in.readLine();
                 in.readLine();
                 in>>word;
@@ -156,9 +156,9 @@ FileInfo parser::scanner()
                                 if (word == "Date:")
                                 {
                                     in>>word;
-                                    m_file.m_date.setDate(QDate::fromString(word,"dd/MM/yyyy"));
+                                    result.m_date.setDate(QDate::fromString(word,"dd/MM/yyyy"));
                                     in>>word;
-                                    m_file.m_date.setTime(QTime::fromString(word));
+                                    result.m_date.setTime(QTime::fromString(word));
                                 }
                                 else
                                 {
@@ -166,7 +166,7 @@ FileInfo parser::scanner()
                                     Field fieldName(word);
                                     in>>word;
                                     FieldValue val(word,fieldType);
-                                    m_file.m_fileContext.add(fieldName,val);
+                                    result.m_fileContext.add(fieldName,val);
                                 };
                             }
                     in>>word;
@@ -177,20 +177,19 @@ FileInfo parser::scanner()
         }
         file.close();
     }
-    m_file.ID = NumberOfFiles;
-    return m_file;
+    result.ID = NumberOfFiles;
+    ++NumberOfFiles;
+    return result;
 }
 
-QPair<FileInfo, CVectorCollection> parser::loader()
+CVectorCollection parser::loader(const FileType &fileType)
 {
-    scanner();
-    FileType fieldType = m_file.m_fileType;
     QVector<IVector*> data;
-    QFile file(m_file.m_filePath);
+    QFile file(m_filePath);
     if (file.open(QIODevice::ReadOnly | QIODevice::Text))
     {
         QTextStream in(&file);
-        if (fieldType == BinDefinition)
+        if (fileType == BinDefinition)
         {
             QVector<QString>  Bin,BinType,BinName;
             QVector<bool> PassFail;
@@ -225,7 +224,7 @@ QPair<FileInfo, CVectorCollection> parser::loader()
             data.push_back(pass);
         }
         else
-            if (fieldType == BinData)
+            if (fileType == BinData)
             {
                 QVector<QString> Bin,BinType;
                 QVector<int> DieX,DieY;
@@ -261,7 +260,7 @@ QPair<FileInfo, CVectorCollection> parser::loader()
                 data.push_back(bintype);
             }
         else
-                if (fieldType == ParameterDefinition)
+                if (fileType == ParameterDefinition)
                 {
                     QVector<QString> Parameter,ParameterUnit;
                     QVector<int> TestNumber;
@@ -290,7 +289,7 @@ QPair<FileInfo, CVectorCollection> parser::loader()
                     data.push_back(parameterunit);
                 }
         else
-                    if (fieldType == ParameterData)
+                    if (fileType == ParameterData)
                     {
                         QVector<int> DieX,DieY,TestNumber;
                         QVector<double> Last;
@@ -335,7 +334,7 @@ QPair<FileInfo, CVectorCollection> parser::loader()
                         data.push_back(testpass);
                     }
         else
-                        if (fieldType == ParameterLimits)
+                        if (fileType == ParameterLimits)
                         {
                                 QVector<int> TestNumber;
                                 QVector<double> LSL,USL,Target;
@@ -372,6 +371,6 @@ QPair<FileInfo, CVectorCollection> parser::loader()
                                 data.push_back(target);
                         }
     }
-    QPair<FileInfo,CVectorCollection> CData(m_file,data);
-    return CData;
+    CVectorCollection result(data);
+    return result;
 }
