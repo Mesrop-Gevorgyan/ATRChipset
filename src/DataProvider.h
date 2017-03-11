@@ -11,13 +11,13 @@ class DataProvider:public IDataProvider
 public:
     void setSelection(CSelection const& oSelection);
     void setDataDirectory(IDataDirectory* pDataDir);
-    IFieldCollectionPtr GetData(const FieldList &lstField);
+    IFieldCollectionPtr GetData();
 private:
     IDataDirectory* pDataDirectory;
     DataStore m_dataStore;
     CSelection m_selection;
-    QSet<FileType> getFieldTypes(const FieldList&);
     CFileInfoList getContextsList();
+    QVariantList getFieldValuesCorrespondingToSelection(const Field& field)const;
 };
 
 #endif // DATAPROVIDER_H
