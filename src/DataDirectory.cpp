@@ -83,3 +83,9 @@ QVariantList DataDirectory::getFieldValues(Field const& oID)const
     }
     return result;
 }
+
+FileInfo DataDirectory::GetCompleteFileInfo(const FileInfo& fileInfo)const
+{
+    int index = m_files.count(fileInfo);
+    return m_files[index];
+}
