@@ -1,91 +1,83 @@
-#include "DataDirectory.h"
+#include "DataProvider.h"
 
-DataDirectory::DataDirectory(QString path)
+void DataProvider::setDataDirectory(IDataDirectory* pDataDir)
 {
-    QDir direction(path);
-    direction.setFilter(QDir::Files);
-    QStringList NamesOfFiles = direction.entryList();
-    if(NamesOfFiles.size() == 0)
-        throw std::out_of_range("there is no any file");
-    for (int i = 0; i < NamesOfFiles.size(); ++i)
-    {
-        parser Parser(path +"/"+ NamesOfFiles.at(i));
-        FileInfo file_info(Parser.scanner());
-        m_files.append(file_info);
-        if (file_info.m_fileType == BinData ||
-                file_info.m_fileType == ParameterData)
+      pDataDirectory = pDataDir;
+}
+
+void DataProvider::setSelection(const CSelection &oSelection)
+{
+    m_selection = oSelection;
+}
+
+IFieldCollectionPtr DataProvider::GetData()
+{
+        CFileInfoList fileInfo = getContextsList(); //contexts is CfileInfoList
+        CFileInfoList FilesForLoad;
+        loader load(&m_dataStore);
+        for(int i = 0; i < fileInfo.count(); ++i)
         {
-            m_wafers.insert(file_info.m_fileContext.GetValue(WAFER).toString());
-            m_lots.insert(file_info.m_fileContext.GetValue(LOT).toString());
-            m_dates.insert(file_info.m_date);
-        }
-        m_devices.insert(file_info.m_fileContext.GetValue(DEVICE).toString());
-    }
-    m_dataIndex.SetFileInfos(m_files);
-}
-
-
-IDList DataDirectory::GetIDList(QStringList pattern)
-{
-    return m_dataIndex.GetIDList(pattern);
-}
-
-FileInfo DataDirectory::GetFileInfo(ID id)
-{
-    return m_dataIndex.GetFileInfo(id);
-}
-
-FieldList DataDirectory::GetFieldList(QStringList pattern, Field field)
-{
-    return m_dataIndex.GetFieldList(pattern,field);
-}
-
-
-bool operator==(const FileContext& context1,const FileContext& context2)
-{
-    if (context1.GetValue(LOT) == context2.GetValue(LOT))
-    {
-        if (context1.GetValue(WAFER) == context2.GetValue(WAFER))
-        {
-            if (context1.GetValue(DEVICE) == context2.GetValue(DEVICE))
+            FileInfo currentInfo = pDataDirectory->GetCompleteFileInfo(fileInfo[i]);
+            CVectorCollection currentData = m_dataStore.GetSingleFileData(currentInfo.ID);
+            if (currentData.size() == 0)
             {
-                return true;
+                FilesForLoad.append(currentInfo);
             }
-            return false;
         }
-        return false;
-    }
-    return false;
+        load.loadData(FilesForLoad);
+        //?????????????????;
 }
 
-QVariantList DataDirectory::getFieldValues(Field const& oID)const
+CFileInfoList DataProvider::getContextsList()
 {
+    CFileInfoList results;
+    QVariantList devices = getFieldValuesCorrespondingToSelection(DEVICE);
+    QVariantList lots = getFieldValuesCorrespondingToSelection(LOT);
+    QVariantList wafers = getFieldValuesCorrespondingToSelection(WAFER);
+    QVariantList dates = getFieldValuesCorrespondingToSelection(DATE);
+    for (QVariantList::iterator itDev = devices.begin(); itDev != devices.end(); ++itDev)
+    {
+        for (QVariantList::iterator itL = lots.begin(); itL != lots.end(); ++itL)
+        {
+            for (QVariantList::iterator itW = wafers.begin(); itW != wafers.end(); ++itW)
+            {
+                for (QVariantList::iterator itDate = dates.begin(); itDate != dates.end();
+                     ++itDate)
+                {
+                        FileInfo currentFileInfo;
+                        currentFileInfo.m_date = (*itDate).toDateTime();
+                        currentFileInfo.m_fileContext.add(DEVICE,
+                                                          QPair<Value, FieldType> (*itDev,Context));
+                        currentFileInfo.m_fileContext.add(LOT,
+                                                          QPair<Value, FieldType> (*itL,Context));
+                        currentFileInfo.m_fileContext.add(WAFER,
+                                                          QPair<Value, FieldType> (*itW,Context));
+                        results.append(currentFileInfo);
+                }
+            }
+        }
+    }
+    return results;
+}
+
+QVariantList DataProvider::getFieldValuesCorrespondingToSelection(const Field& field)const
+{
+    const SFieldValueSelection& selection = m_selection.getFieldValueSelection(field);
     QVariantList result;
-    if (oID == "Wafer")
+    if (selection.aSelectedValues.size() == 0) //at first get selected values
     {
-        for(QSet<QString>::const_iterator it = m_wafers.begin(); it != m_wafers.end(); ++it)
-            result.append(*it);
+        result = pDataDirectory->getFieldValues(field);
+        if (selection.eSelectionType == ESelectionPattern::ValueSelection) //no selected values,any pattern
+        {
+            QRegExp pattern(selection.sPattern);
+            for (QVariantList::iterator it = result.begin(); it != result.end(); ++it)
+            {
+                if ( pattern.exactMatch((*it).toString()) == false)
+                    result.erase(it);//this does not match with pattern
+            }
+        }
     }
-    if (oID == "Device")
-    {
-        for(QSet<QString>::const_iterator it = m_devices.begin(); it != m_devices.end(); ++it)
-            result.append(*it);
-    }
-    if (oID == "Lot")
-    {
-        for(QSet<QString>::const_iterator it = m_lots.begin(); it != m_lots.end(); ++it)
-            result.append(*it);
-    }
-    if (oID == "Date")
-    {
-        for(QSet<QDateTime>::const_iterator it = m_dates.begin(); it != m_dates.end(); ++it)
-            result.append(*it);
-    }
+    else
+        result = selection.aSelectedValues;
     return result;
-}
-
-FileInfo DataDirectory::GetCompleteFileInfo(const FileInfo& fileInfo)const
-{
-    int index = m_files.count(fileInfo);
-    return m_files[index];
 }
