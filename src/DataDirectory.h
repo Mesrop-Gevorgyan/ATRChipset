@@ -15,6 +15,7 @@ public:
     IDList GetIDList(QStringList pattern);
     FileInfo GetFileInfo(ID id);
     FieldList GetFieldList(QStringList pattern, Field field);
+    FileInfo GetCompleteFileInfo(const FileInfo&) const;
 private:
     CFileInfoList m_files;
     DataIndex m_dataIndex;
