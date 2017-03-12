@@ -39,6 +39,12 @@ int CFileInfoList::count() const
 {
         return m_infos.count();
 }
+
+int CFileInfoList::indexof(const FileInfo& info) const
+{
+	return m_infos.indexOf(info);
+}
+
 /*
  *  Returns true ,in @fileInfo exists in the list
  */
