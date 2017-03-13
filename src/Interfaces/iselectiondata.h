@@ -2,7 +2,6 @@
 #define ISELECTIONDATA_H
 
 #include <QDialog>
-
 #include "idatadirectory.h"
 #include "selection.h"
 

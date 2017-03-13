@@ -1,11 +1,11 @@
 #ifndef DATADIRECTORY_H
 #define DATADIRECTORY_H
 
-#include "IDataDirectory.h"
+#include "idataDirectory.h"
 #include "parser.h"
 #include <QDir>
 #include <QSet>
-#include "FileInfoList.h"
+#include "fileInfoList.h"
 
 class DataDirectory: public IDataDirectory
 {

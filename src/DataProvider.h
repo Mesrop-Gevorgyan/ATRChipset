@@ -1,17 +1,17 @@
 #ifndef DATAPROVIDER_H
 #define DATAPROVIDER_H
 
-#include "IDataProvider.h"
+#include "idataProvider.h"
 #include "loader.h"
 #include <QRegExp>
-#include "FileInfoList.h"
+#include "fileInfoList.h"
 
 class DataProvider:public IDataProvider
 {
 public:
     void setSelection(CSelection const& oSelection);
     void setDataDirectory(IDataDirectory* pDataDir);
-    IFieldCollectionPtr GetData();
+    ITablePtr GetData();
 private:
     IDataDirectory* pDataDirectory;
     DataStore m_dataStore;
