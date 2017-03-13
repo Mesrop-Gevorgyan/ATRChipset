@@ -10,7 +10,7 @@ void DataProvider::setSelection(const CSelection &oSelection)
     m_selection = oSelection;
 }
 
-IFieldCollectionPtr DataProvider::GetData()
+ITablePtr DataProvider::GetData()
 {
         CFileInfoList fileInfo = getContextsList(); //contexts is CfileInfoList
         CFileInfoList FilesForLoad;
