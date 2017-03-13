@@ -7,10 +7,13 @@
 #include <QPushButton>
 #include <QListWidget>
 #include <QLayout>
+#include <QHBoxLayout>
+#include "grouping.h"
 
 CStatisticsConfigPage::CStatisticsConfigPage(): CConfigPage()
 {
-    verLay = new QVBoxLayout();
+    QHBoxLayout * StatisticsLayout = new  QHBoxLayout();
+    QVBoxLayout * TypeStackedLayout = new QVBoxLayout();
     QFormLayout * typeForm   = new QFormLayout();
     QLabel * labelType = new QLabel("Type:");
 
@@ -18,7 +21,7 @@ CStatisticsConfigPage::CStatisticsConfigPage(): CConfigPage()
     QWidget * ParameterSummaryTypeWidgets = new ParamSumTypes();
     QWidget * BinSummaryTypeWidgets       = new YieldBinSumTypes();
 
-    stackedLayout = new QStackedLayout();
+    QStackedLayout * stackedLayout = new QStackedLayout();
     stackedLayout->addWidget(yieldTypeWidgets);
     stackedLayout->addWidget(ParameterSummaryTypeWidgets);
     stackedLayout->addWidget(BinSummaryTypeWidgets);
@@ -32,9 +35,13 @@ CStatisticsConfigPage::CStatisticsConfigPage(): CConfigPage()
 
 
     typeForm->addRow(labelType, type_combo);
-    verLay->addLayout(typeForm);
-    verLay->addLayout(stackedLayout);
-    QWidget::setLayout(verLay);
+    TypeStackedLayout->addLayout(typeForm);
+    TypeStackedLayout->addLayout(stackedLayout);
+    CGrouping * gr = new CGrouping();
+    //gr->show();
+    StatisticsLayout->addLayout(TypeStackedLayout);
+    StatisticsLayout->addWidget(gr);
+    QWidget::setLayout(StatisticsLayout);
 }
 
 YieldBinSumTypes::YieldBinSumTypes(): QWidget()

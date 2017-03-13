@@ -12,7 +12,6 @@ CAnalysisWidget::CAnalysisWidget() :QWidget()
     for (int i=0; i<grItems.size(); ++i)
     {
         QListWidgetItem *listItem = new QListWidgetItem(grItems[i]);
-        listItem->setCheckState(Qt::Unchecked);
         GrListWidg->addItem(listItem);
     }
 

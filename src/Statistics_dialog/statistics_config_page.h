@@ -19,9 +19,6 @@ class CStatisticsConfigPage: public CConfigPage
     Q_OBJECT
 public:
     CStatisticsConfigPage();
-private:
-    QVBoxLayout * verLay;
-    QStackedLayout * stackedLayout;
 };
 
 class YieldBinSumTypes: public QWidget
