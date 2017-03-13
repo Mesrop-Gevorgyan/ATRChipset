@@ -2,20 +2,52 @@
 #define GLOBAL_H
 
 #include <QList>
+#include <QSharedPointer>
 
-// Forword declaration
+// Forword declarations
 class QString;
 class QStringList;
 class QDateTime;
 class QVariant;
 class FileContext;
+class CIntData;
+class CDoubleData;
+class CStringData;
+class CDateTimeData;
+class CBoolData;
 
+// Bin type
+enum class EBinType 
+{
+	HBin, 
+	SBin 
+};
 
-// Represent Field type in FileContext directory 
+// Types of files,which will be used
+enum FileType
+{
+	BinData,
+	BinDefinition,
+	ParameterDefinition,
+	ParameterData,
+	ParameterLimits,
+};
+
+// Represent Field type in FileContext  
 enum FieldType
 {
         Context,
         TestCondition,
+};
+
+// Represent Data Types for Vectors
+enum DataType
+{
+	INT,
+	DOUBLE,
+	STRING,
+	BOOL,
+	DATETIME,
 };
 
 // Hardcode Lot,Wafer,Device literals
@@ -24,26 +56,17 @@ enum FieldType
 #define DEVICE "Device"
 #define DATE "Date"
 
-// Field ID
 typedef int ID;
 typedef QString Field;
 typedef QStringList FieldList;
 typedef QVariant Value;
 typedef QPair<Value, FieldType>  FieldValue;
 typedef QList<int> IDList;
-
-// Bin type
-enum class EBinType { HBin, SBin };
-
-// Types of files,which will be used
-enum FileType
-{
-        BinData,
-        BinDefinition,
-        ParameterDefinition,
-        ParameterData,
-        ParameterLimits,
-};
+typedef QSharedPointer<CIntData> CIntDataPtr;
+typedef QSharedPointer<CDoubleData> CDoubleDataPtr;
+typedef QSharedPointer<CStringData> CStringDataPtr;
+typedef QSharedPointer<CBoolData> CBoolDataPtr;
+typedef QSharedPointer<CDateTimeData> CDateTimeDataPtr;
 
 #endif // !GLOBAL_H
 

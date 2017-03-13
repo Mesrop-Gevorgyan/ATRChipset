@@ -9,25 +9,25 @@ class CDateTimeData;
 class CStringData;
 class QString;
 
-
 // Owns name , data , type 
 class IColumn
 {
 public:
 	// Returns type of the data
-	virtual DATATYPE GetType() const = 0;
-	//Returns count of rows in field
+	virtual DataType GetType() const = 0;
+	//Returns count of rows in column
 	virtual int GetCount() const = 0;
 	//Returns Column name
 	virtual QString GetName() const = 0;
-	//Returns whole field in vector<int>
+	//Returns whole column in vector<int>
 	virtual CIntDataPtr GetIntData() const = 0;
-	//Returns whole field in vector<double>
+	//Returns whole column in vector<double>
 	virtual CDoubleDataPtr GetDoubleData() const = 0;
-	//Returns whole field in vector<string>
+	//Returns whole column in vector<string>
 	virtual CStringDataPtr GetStringData() const = 0;
-	//Returns whole field in vector<QDateTime>
+	//Returns whole column in vector<QDateTime>
 	virtual CDateTimeDataPtr GetDateTimeData() const = 0;
 };
 
 #endif //__ICOLUMN__
+

@@ -3,21 +3,15 @@
 
 #include "global.h"
 
-// Forword declaration
-class IColumn;
-
-//
-// ITable Interface
-//
 class ITable
 {
 public:
-	// Returns field from collection by name
-	virtual IFieldData* GetFieldData(Field const& field) const = 0;
-	// Returns count of fields in collection
+	// Returns Column from table by name
+	virtual IColumn* GetColumnData(Field const& field) const = 0;
+	// Returns count of columns in table
 	virtual int GetCount() const = 0;
-	// Returns field by index in collection
-	virtual Field GetField(int index) const = 0;
+	// Returns column name by index in table
+	virtual QString GetColumnName(int index) const = 0;
 	// Returns index of field in collection
 	virtual int GetFieldIndex(Field const& field) const = 0;
 };
