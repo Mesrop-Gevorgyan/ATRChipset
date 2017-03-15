@@ -81,7 +81,7 @@ bool CConfigurationManager::save(CConfiguration const& configuration)
         if(!QDir().mkdir(m_path))
            return false;
     // Pass only path?
-    configuration.save(m_path+"/"+configuration.getName()+".json");
+    configuration.save(m_path+ "/" + configuration.getName() + CConfiguration::getFileFormat());
     return true;
 }
 
