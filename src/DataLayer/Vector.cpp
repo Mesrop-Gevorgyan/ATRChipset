@@ -18,6 +18,11 @@ int CIntData::GetCount() const
 	return m_arr_data.size();
 }
 
+DataType CIntData::GetType() const
+{
+	return INT;
+}
+
 QVariant CIntData::GetValue(unsigned index) const 
 {
        	return QVariant(m_arr_data[index]);
@@ -38,6 +43,11 @@ double  CDoubleData::GetAt(unsigned index) const
 int CDoubleData::GetCount() const
 {
 	return m_arr_data.size();
+}
+
+DataType CDoubleData::GetType() const
+{
+	return DOUBLE;
 }
 
 QVariant CDoubleData::GetValue(unsigned index) const 
@@ -62,6 +72,11 @@ int CStringData::GetCount() const
 	return m_arr_data.size();
 }
 
+DataType CStringData::GetType() const
+{
+	return STRING;
+}
+
 QVariant CStringData::GetValue(unsigned index) const 
 {
 
@@ -84,6 +99,11 @@ int CDateTimeData::GetCount() const
 	return m_arr_data.size();
 }
 
+DataType CDateTimeData::GetType() const
+{
+	return DATETIME;
+}
+
 QVariant CDateTimeData::GetValue(unsigned index) const 
 {
 	return QVariant(m_arr_data[index]);
@@ -104,6 +124,11 @@ bool  CBoolData::GetAt(unsigned index) const
 int CBoolData::GetCount() const
 {
 	return m_arr_data.size();
+}
+
+DataType CBoolData::GetType() const
+{
+	return BOOL;
 }
 
 QVariant CBoolData::GetValue(unsigned index) const

@@ -4,6 +4,7 @@
 class QVariant;
 class QString;
 class QDateTime;
+enum DataType;
 
 // *
 //  Declaration of interfaces `
@@ -19,6 +20,7 @@ class IVector
 public:
 	virtual  QVariant GetValue(unsigned index) const = 0;
 	virtual  int GetCount() const = 0;
+	virtual  DataType GetType() const = 0;
 };
 
 class IIntVector : public IVector

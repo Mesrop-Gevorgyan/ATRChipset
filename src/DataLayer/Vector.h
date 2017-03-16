@@ -17,6 +17,7 @@ public:
 	CIntData(QVector<int>);
 	int GetAt(unsigned) const override;
 	int GetCount() const override;
+	DataType GetType() const override;
 	QVariant GetValue(unsigned index) const override;
 private:
 	QVector<int> m_arr_data;
@@ -32,6 +33,7 @@ public:
 	CDoubleData(QVector<double>);
 	double GetAt(unsigned) const override;
 	int GetCount() const override;
+	DataType GetType() const override;
 	QVariant GetValue(unsigned) const override;
 private:
 	QVector<double> m_arr_data;
@@ -47,6 +49,7 @@ public:
 	CStringData(QVector<QString>);
 	QString GetAt(unsigned) const override;
 	int GetCount() const override;
+	DataType GetType() const override;
 	QVariant GetValue(unsigned index) const override;
 private:
 	QVector<QString> m_arr_data;
@@ -62,6 +65,7 @@ public:
 	CDateTimeData(QVector<QDateTime>);
 	QDateTime GetAt(unsigned) const override;
 	int GetCount() const override;
+	DataType GetType() const override;
 	QVariant GetValue(unsigned index) const override;
 private:
 	QVector<QDateTime> m_arr_data;
@@ -77,6 +81,7 @@ public:
 	CBoolData(QVector<bool>);
 	bool GetAt(unsigned) const override;
 	int GetCount() const override;
+	DataType GetType() const override;
 	QVariant GetValue(unsigned index) const override;
 private:
 	QVector<bool> m_arr_data;
