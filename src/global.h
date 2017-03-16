@@ -15,6 +15,7 @@ class CDoubleData;
 class CStringData;
 class CDateTimeData;
 class CBoolData;
+class IVector;
 
 // Bin type
 enum class EBinType 
@@ -67,6 +68,7 @@ typedef QSharedPointer<CDoubleData> CDoubleDataPtr;
 typedef QSharedPointer<CStringData> CStringDataPtr;
 typedef QSharedPointer<CBoolData> CBoolDataPtr;
 typedef QSharedPointer<CDateTimeData> CDateTimeDataPtr;
+typedef QSharedPointer<IVector> IVectorPtr;
 
 #endif // !GLOBAL_H
 

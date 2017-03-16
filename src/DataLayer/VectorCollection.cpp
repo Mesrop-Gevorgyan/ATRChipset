@@ -1,13 +1,13 @@
 #include "VectorCollection.h"
 
-CVectorCollection::CVectorCollection(QVector<IVector*> collection) : m_collection(collection) {}
+CVectorCollection::CVectorCollection(QVector<IVectorPtr> collection) : m_collection(collection) {}
 
 CVectorCollection::CVectorCollection() : m_collection() {}
 
-IVector* CVectorCollection::operator[](unsigned index)
+IVectorPtr CVectorCollection::operator[](unsigned index)
 {
         if (index >= this->size())
-                return nullptr;
+                return IVectorPtr();
 	return m_collection[index];
 }
 
