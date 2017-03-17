@@ -15,7 +15,7 @@ bool CConfigurationManager::add(CConfiguration const& config)
 {
     if(!m_configHash.contains(config.getName()) && CConfigurationManager::save(config))
     {
-        QDateTime lastModification = QFileInfo(m_path + "/" + config.getName() + ".json").lastModified();
+        QDateTime lastModification = QFileInfo(m_path + "/" + config.getName() + CConfiguration::getFileFormat()).lastModified();
         m_configHash.insert(config.getName(),QPair<QDateTime,CConfiguration>(lastModification,CConfiguration(config)));
 	// Save fikle here?
         return true;
@@ -23,7 +23,7 @@ bool CConfigurationManager::add(CConfiguration const& config)
     return false;
 }
 
-bool CConfigurationManager::update(CConfiguration const& oldConfig,CConfiguration const& newConfig)
+bool CConfigurationManager::update(CConfiguration const& oldConfig, CConfiguration const& newConfig)
 {
     //????
     //user can call remove and add
@@ -34,7 +34,7 @@ bool CConfigurationManager::update(CConfiguration const& oldConfig,CConfiguratio
 bool CConfigurationManager::remove(QString const& name)
 {
     m_configHash.remove(name);
-    QFile configFile(m_path+"/"+name+".json");
+    QFile configFile(m_path + "/" + name + CConfiguration::getFileFormat());
     if(configFile.exists())
         return configFile.remove();
      return false;
@@ -42,7 +42,7 @@ bool CConfigurationManager::remove(QString const& name)
 
 CConfiguration CConfigurationManager::getConfig(QString const& name)
 {
-    QDateTime lastModification = QFileInfo(m_path + "/" + name + ".json").lastModified();
+	QDateTime lastModification = QFileInfo(m_path + "/" + name + CConfiguration::getFileFormat()).lastModified();
     if(!m_configHash.contains(name) || !(lastModification == m_configHash.value(name).first))
     {
         CConfiguration config = load(name);
@@ -54,7 +54,7 @@ CConfiguration CConfigurationManager::getConfig(QString const& name)
 
 QStringList CConfigurationManager::getNames()const
 {
-    return QDir(m_path).entryList(QStringList() << "*.json");
+    return QDir(m_path).entryList(QStringList() << "*" + CConfiguration::getFileFormat());
 }
 
 void CConfigurationManager::init(QString const& path)
@@ -81,7 +81,7 @@ bool CConfigurationManager::save(CConfiguration const& configuration)
         if(!QDir().mkdir(m_path))
            return false;
     // Pass only path?
-    configuration.save(m_path+ "/" + configuration.getName() + CConfiguration::getFileFormat());
+    configuration.save(m_path + "/" + configuration.getName() + CConfiguration::getFileFormat());
     return true;
 }
 
