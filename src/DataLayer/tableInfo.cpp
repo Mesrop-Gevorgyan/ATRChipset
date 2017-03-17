@@ -16,11 +16,22 @@ Index TableInfo::GetColumnIndex(ColumnType type) const
 }
 
 /*
-*  Returns Column names of table
-*/
+ *  Returns @columnType of Column with corresponding @index
+ */
+ColumnType TableInfo::GetColumnType(Index index) const
+{
+	for (auto val : infoMap.values())
+	{
+		if (val == index)
+			return infoMap.key(val);
+	}
+	return ColumnType();
+}
+
+/*
+ *  Returns Column names of table
+ */
 ColumnList TableInfo::GetColumns() const
 {
 	return infoMap.keys();
 }
-
-

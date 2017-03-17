@@ -4,16 +4,18 @@
 #include <QHash>
 #include "VectorCollection.h"
 #include "global.h"
-#include "FileInfo.h"   
+#include "FileInfo.h"  
+#include "fileData.h"
 
 class DataStore
 {
 public:
 	DataStore();
-	void add(ID,CVectorCollection);
-	CVectorCollection GetSingleFileData(ID id) const;
+	void add(ID,FileData);
+	FileData GetSingleFileData(ID id) const;
+	bool contains(ID) const;
 private:
-	QHash<ID,CVectorCollection> m_data;
+	QHash<ID,FileData> m_data;
 };
 
 #endif //__DataStore__

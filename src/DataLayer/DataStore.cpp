@@ -2,15 +2,17 @@
 
 DataStore::DataStore(): m_data() {}
 
-void DataStore::add(ID id, CVectorCollection binData)
+void DataStore::add(ID id, FileData fileData)
 {
-	m_data.insert(id,binData);
+	m_data.insert(id,fileData);
 }
 
-CVectorCollection DataStore::GetSingleFileData(ID id) const
+FileData DataStore::GetSingleFileData(ID id) const
 {
-	if (m_data.contains(id))
-		return m_data[id];
-	else
-		return CVectorCollection();
+	return m_data[id];	
+}
+
+bool DataStore::contains(ID index) const
+{
+	return false;
 }
