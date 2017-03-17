@@ -51,16 +51,19 @@ enum DataType
 	DATETIME,
 };
 
-// Hardcode Lot,Wafer,Device literals
+// Hardcode Lot,Wafer,Device,Date literals
 #define LOT "Lot"
 #define WAFER "Wafer"
 #define DEVICE "Device"
 #define DATE "Date"
 
 typedef int ID;
+typedef int Index;
+typedef QString ColumnType;
 typedef QString Field;
 typedef QStringList FieldList;
 typedef QVariant Value;
+typedef QStringList ColumnList;
 typedef QPair<Value, FieldType>  FieldValue;
 typedef QList<int> IDList;
 typedef QSharedPointer<CIntData> CIntDataPtr;
