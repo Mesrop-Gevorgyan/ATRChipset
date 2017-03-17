@@ -3,7 +3,7 @@
 
 #include <QMap>
 #include "global.h"
-#include "QString"
+#include <QString>
 
 class TableInfo
 {
