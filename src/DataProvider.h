@@ -15,7 +15,6 @@ private:
     IDataDirectory* pDataDirectory;
     DataStore m_dataStore;
     CSelection m_selection;
-    CFileInfoList getContextsList();
 };
 
 #endif // DATAPROVIDER_H
