@@ -17,9 +17,9 @@ DataDirectory::DataDirectory(QString path)
 }
 
 
-IDList DataDirectory::GetIDList(QStringList pattern)
+IDList DataDirectory::GetIDList(const CSelection &oSelection)
 {
-    return m_dataIndex.GetIDList(pattern);
+    return m_dataIndex.GetIDList(oSelection);
 }
 
 FileInfo DataDirectory::GetFileInfo(ID id)
@@ -27,9 +27,9 @@ FileInfo DataDirectory::GetFileInfo(ID id)
     return m_dataIndex.GetFileInfo(id);
 }
 
-FieldList DataDirectory::GetFieldList(QStringList pattern, Field field)
+FieldList DataDirectory::GetFieldList(const CSelection &oSelection, Field field)
 {
-    return m_dataIndex.GetFieldList(pattern,field);
+    return m_dataIndex.GetFieldList(oSelection,field);
 }
 
 
@@ -52,11 +52,5 @@ bool operator==(const FileContext& context1,const FileContext& context2)
 
 QVariantList DataDirectory::GetFieldValues(Field const& oID)const
 {
-	return m_dataIndex.GetFieldValues(oID);
-}
-
-FileInfo DataDirectory::GetCompleteFileInfo(const FileInfo& fileInfo)const
-{
-    int index = m_files.count(fileInfo);
-    return m_files[index];
+    return m_dataIndex.GetFieldValues(oID);
 }
