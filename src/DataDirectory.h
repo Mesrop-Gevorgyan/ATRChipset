@@ -11,10 +11,9 @@ class DataDirectory: public IDataDirectory
 public:
     DataDirectory(QString);
     QVariantList GetFieldValues(Field const& oID)const;
-    IDList GetIDList(QStringList pattern);
+    IDList GetIDList(CSelection const& oSelection);
     FileInfo GetFileInfo(ID id);
-    FieldList GetFieldList(QStringList pattern, Field field);
-    FileInfo GetCompleteFileInfo(const FileInfo&) const;
+    FieldList GetFieldList(CSelection const& oSelection, Field field);
 private:
     CFileInfoList m_files;
     DataIndex m_dataIndex;
