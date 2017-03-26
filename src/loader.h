@@ -7,11 +7,11 @@
 class loader
 {
 public:
-    loader(DataStore* ptrDataStore);
+    loader(DataStorePtr ptrDataStore);
     //loaded data from files to datastore
-    void loadData(const CFileInfoList& fileList);
+    void loadData(const CFileInfoList &fileInfoList);
 private:
-    DataStore* pDataStore;
+    DataStorePtr pDataStore;
 };
 
 #endif // LOADER_H
