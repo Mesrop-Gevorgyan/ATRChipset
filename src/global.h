@@ -18,6 +18,7 @@ class CBoolData;
 class IVector;
 class ITable;
 class IDataDirectory;
+class DataStore;
 
 // Bin type
 enum class EBinType
@@ -78,5 +79,6 @@ typedef QSharedPointer<ITable> ITablePtr;
 
 typedef QSharedPointer<ITable> ITablePtr;
 typedef QSharedPointer<IDataDirectory> IDataDirectoryPtr;
+typedef QSharedPointer<DataStore> DataStorePtr;
 
 #endif // !GLOBAL_H
