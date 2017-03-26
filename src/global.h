@@ -17,25 +17,26 @@ class CDateTimeData;
 class CBoolData;
 class IVector;
 class ITable;
+class IDataDirectory;
 
 // Bin type
-enum class EBinType 
+enum class EBinType
 {
-	HBin, 
-	SBin 
+    HBin,
+    SBin
 };
 
 // Types of files,which will be used
 enum FileType
 {
-	BinData,
-	BinDefinition,
-	ParameterDefinition,
-	ParameterData,
-	ParameterLimits,
+    BinData,
+    BinDefinition,
+    ParameterDefinition,
+    ParameterData,
+    ParameterLimits,
 };
 
-// Represent Field type in FileContext  
+// Represent Field type in FileContext
 enum FieldType
 {
         Context,
@@ -45,11 +46,11 @@ enum FieldType
 // Represent Data Types for Vectors
 enum DataType
 {
-	INT,
-	DOUBLE,
-	STRING,
-	BOOL,
-	DATETIME,
+    INT,
+    DOUBLE,
+    STRING,
+    BOOL,
+    DATETIME,
 };
 
 // Hardcode Lot,Wafer,Device,Date literals
@@ -75,5 +76,7 @@ typedef QSharedPointer<CDateTimeData> CDateTimeDataPtr;
 typedef QSharedPointer<IVector> IVectorPtr;
 typedef QSharedPointer<ITable> ITablePtr;
 
-#endif // !GLOBAL_H
+typedef QSharedPointer<ITable> ITablePtr;
+typedef QSharedPointer<IDataDirectory> IDataDirectoryPtr;
 
+#endif // !GLOBAL_H
