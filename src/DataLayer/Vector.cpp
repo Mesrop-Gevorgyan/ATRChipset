@@ -29,6 +29,50 @@ QVariant CIntData::GetValue(unsigned index) const
 }
 
 // 
+// CIntDataGroup implementation
+//
+
+CIntDataGroup::CIntDataGroup(QVector<CIntDataPtr> vecs) : m_vecs(vecs) {}
+
+int CIntDataGroup::GetAt(unsigned index) const
+{
+	if (index >= this->GetCount())
+		throw std::out_of_range("Going out of range of Grouped vector\n");
+	
+	for (int i = 0; i< m_vecs.count(); ++i)
+	{
+		if (index < m_vecs[i]->GetCount())
+			return m_vecs[i]->GetAt(index);
+		else
+			index -= m_vecs[i]->GetCount();
+	}
+}
+
+QVariant CIntDataGroup::GetValue(unsigned index) const
+{
+	
+	if (index >= this->GetCount())
+		throw std::out_of_range("Going out of range of Grouped vector\n");
+
+	for (int i = 0; i< m_vecs.count(); ++i)
+	{
+		if (index < m_vecs[i]->GetCount())
+			return QVariant(m_vecs[i]->GetAt(index));
+		else
+			index -= m_vecs[i]->GetCount();
+	}	
+}
+int CIntDataGroup::GetCount() const
+{
+	int count = 0;
+
+	for (auto vec : m_vecs)
+		count += vec->GetCount();
+
+	return count;
+}
+
+// 
 // CDoubleData implementation
 //
 CDoubleData::CDoubleData() : m_arr_data() {}
@@ -53,6 +97,49 @@ DataType CDoubleData::GetType() const
 QVariant CDoubleData::GetValue(unsigned index) const 
 {
        return QVariant(m_arr_data[index]);
+}
+
+// 
+// CDoubleDataGroup implementation
+//
+CDoubleDataGroup::CDoubleDataGroup(QVector<CDoubleDataPtr> vecs) : m_vecs(vecs) {}
+
+double CDoubleDataGroup::GetAt(unsigned index) const
+{
+	if (index >= this->GetCount())
+		throw std::out_of_range("Going out of range of Grouped vector\n");
+
+	for (int i = 0; i< m_vecs.count(); ++i)
+	{
+		if (index < m_vecs[i]->GetCount())
+			return m_vecs[i]->GetAt(index);
+		else
+			index -= m_vecs[i]->GetCount();
+	}
+}
+
+QVariant CDoubleDataGroup::GetValue(unsigned index) const
+{
+
+	if (index >= this->GetCount())
+		throw std::out_of_range("Going out of range of Grouped vector\n");
+
+	for (int i = 0; i< m_vecs.count(); ++i)
+	{
+		if (index < m_vecs[i]->GetCount())
+			return QVariant(m_vecs[i]->GetAt(index));
+		else
+			index -= m_vecs[i]->GetCount();
+	}
+}
+int CDoubleDataGroup::GetCount() const
+{
+	int count = 0;
+
+	for (auto vec : m_vecs)
+		count += vec->GetCount();
+
+	return count;
 }
 
 //
@@ -82,6 +169,51 @@ QVariant CStringData::GetValue(unsigned index) const
 
         return QVariant(m_arr_data[index]);
 }
+
+// 
+// CStringDataGroup implementation
+//
+CStringDataGroup::CStringDataGroup(QVector<CStringDataPtr> vecs) : m_vecs(vecs) {}
+
+QString CStringDataGroup::GetAt(unsigned index) const
+{
+	if (index >= this->GetCount())
+		throw std::out_of_range("Going out of range of Grouped vector\n");
+
+	for (int i = 0; i< m_vecs.count(); ++i)
+	{
+		if (index < m_vecs[i]->GetCount())
+			return m_vecs[i]->GetAt(index);
+		else
+			index -= m_vecs[i]->GetCount();
+	}
+}
+
+QVariant CStringDataGroup::GetValue(unsigned index) const
+{
+
+	if (index >= this->GetCount())
+		throw std::out_of_range("Going out of range of Grouped vector\n");
+
+	for (int i = 0; i< m_vecs.count(); ++i)
+	{
+		if (index < m_vecs[i]->GetCount())
+			return QVariant(m_vecs[i]->GetAt(index));
+		else
+			index -= m_vecs[i]->GetCount();
+	}
+}
+
+int CStringDataGroup::GetCount() const
+{
+	int count = 0;
+
+	for (auto vec : m_vecs)
+		count += vec->GetCount();
+
+	return count;
+}
+
 //
 // CDateTimeData implementation
 //
@@ -109,6 +241,50 @@ QVariant CDateTimeData::GetValue(unsigned index) const
 	return QVariant(m_arr_data[index]);
 }
 
+// 
+// CDateTimeDataGroup implementation
+//
+CDateTimeDataGroup::CDateTimeDataGroup(QVector<CDateTimeDataPtr> vecs) : m_vecs(vecs) {}
+
+QDateTime CDateTimeDataGroup::GetAt(unsigned index) const
+{
+	if (index >= this->GetCount())
+		throw std::out_of_range("Going out of range of Grouped vector\n");
+
+	for (int i = 0; i< m_vecs.count(); ++i)
+	{
+		if (index < m_vecs[i]->GetCount())
+			return m_vecs[i]->GetAt(index);
+		else
+			index -= m_vecs[i]->GetCount();
+	}
+}
+
+QVariant CDateTimeDataGroup::GetValue(unsigned index) const
+{
+
+	if (index >= this->GetCount())
+		throw std::out_of_range("Going out of range of Grouped vector\n");
+
+	for (int i = 0; i< m_vecs.count(); ++i)
+	{
+		if (index < m_vecs[i]->GetCount())
+			return QVariant(m_vecs[i]->GetAt(index));
+		else
+			index -= m_vecs[i]->GetCount();
+	}
+}
+
+int CDateTimeDataGroup::GetCount() const
+{
+	int count = 0;
+
+	for (auto vec : m_vecs)
+		count += vec->GetCount();
+
+	return count;
+}
+
 //
 //CBoolData implementation
 //
@@ -134,4 +310,48 @@ DataType CBoolData::GetType() const
 QVariant CBoolData::GetValue(unsigned index) const
 {
        return QVariant(m_arr_data[index]);
+}
+
+// 
+// CBoolDataGroup implementation
+//
+CBoolDataGroup::CBoolDataGroup(QVector<CBoolDataPtr> vecs) : m_vecs(vecs) {}
+
+bool CBoolDataGroup::GetAt(unsigned index) const
+{
+	if (index >= this->GetCount())
+		throw std::out_of_range("Going out of range of Grouped vector\n");
+
+	for (int i = 0; i< m_vecs.count(); ++i)
+	{
+		if (index < m_vecs[i]->GetCount())
+			return m_vecs[i]->GetAt(index);
+		else
+			index -= m_vecs[i]->GetCount();
+	}
+}
+
+QVariant CBoolDataGroup::GetValue(unsigned index) const
+{
+
+	if (index >= this->GetCount())
+		throw std::out_of_range("Going out of range of Grouped vector\n");
+
+	for (int i = 0; i< m_vecs.count(); ++i)
+	{
+		if (index < m_vecs[i]->GetCount())
+			return QVariant(m_vecs[i]->GetAt(index));
+		else
+			index -= m_vecs[i]->GetCount();
+	}
+}
+
+int CBoolDataGroup::GetCount() const
+{
+	int count = 0;
+
+	for (auto vec : m_vecs)
+		count += vec->GetCount();
+
+	return count;
 }
