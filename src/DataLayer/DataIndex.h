@@ -13,9 +13,9 @@ public:
 	DataIndex();
 	void SetFileInfos(CFileInfoList);
 	void SetSelection(const CSelection&);
-	IDList GetIDList(QStringList pattern);
+	IDList GetIDList(QStringList );
 	FileInfo GetFileInfo(ID id);
-	FieldList GetFieldList(QStringList pattern, Field field);
+	QVariantList GetFieldList(CSelection,Field);
 	QVariantList GetFieldValues(Field field) const;
 	QVariantList GetFieldValuesCorrespondingToSelection(const Field& field)const;
 private:

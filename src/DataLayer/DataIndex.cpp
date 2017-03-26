@@ -162,20 +162,27 @@ FileInfo DataIndex::GetFileInfo(ID id)
 }
 
 /*
-*  Returns FieldList corresponding to @pattern
+*  Returns FieldList corresponding to @custom_selection
 *  If we pass as @field for example "Lot" ,it returns FieldList containing all Lots ,in selection
 */
-FieldList DataIndex::GetFieldList(QStringList pattern, Field field)
+QVariantList DataIndex::GetFieldList(CSelection custom_selection, Field field)
 {
-	IDList ids = this->GetIDList(pattern);
-	FieldList result;
-
-	for (auto id : ids)
+	const SFieldValueSelection& selection = custom_selection.getFieldValueSelection(field);
+	QVariantList result;
+	if (selection.aSelectedValues.size() == 0) //at first get selected values
 	{
-		if (m_infos[id].m_fileContext.contains(field))
-			result.push_back(m_infos[id].m_fileContext.GetValue(field).toString());
-
+		result = GetFieldValues(field);
+		if (selection.eSelectionType == ESelectionPattern::ValueSelection) //no selected values,any pattern
+		{
+			QRegExp pattern(selection.sPattern);
+			for (QVariantList::iterator it = result.begin(); it != result.end(); ++it)
+			{
+				if (pattern.exactMatch((*it).toString()) == false)
+					result.erase(it);//this does not match with pattern
+			}
+		}
 	}
-		
+	else
+		result = selection.aSelectedValues;
 	return result;
 }
