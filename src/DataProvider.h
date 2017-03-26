@@ -9,9 +9,8 @@
 class DataProvider:public IDataProvider
 {
 public:
-    void setSelection(CSelection const& oSelection);
-    void setDataDirectory(IDataDirectory* pDataDir);
-    ITablePtr GetData();
+	void init(CSelection const& selection, IDataDirectory* directory);
+	ITablePtr GetData();
 private:
     IDataDirectory* pDataDirectory;
     DataStore m_dataStore;

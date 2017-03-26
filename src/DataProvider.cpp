@@ -1,13 +1,9 @@
 #include "DataProvider.h"
 
-void DataProvider::setDataDirectory(IDataDirectory* pDataDir)
+void DataProvider::init(const CSelection& oSelection, IDataDirectory* pDataDir)
 {
-      pDataDirectory = pDataDir;
-}
-
-void DataProvider::setSelection(const CSelection &oSelection)
-{
-    m_selection = oSelection;
+	pDataDirectory = pDataDir;
+	m_selection = oSelection;
 }
 
 ITablePtr DataProvider::GetData()
@@ -18,14 +14,15 @@ ITablePtr DataProvider::GetData()
         for(int i = 0; i < fileInfo.count(); ++i)
         {
             FileInfo currentInfo = pDataDirectory->GetCompleteFileInfo(fileInfo[i]);
-            CVectorCollection currentData = m_dataStore.GetSingleFileData(currentInfo.ID);
-            if (currentData.size() == 0)
+            FileData currentData = m_dataStore.GetSingleFileData(currentInfo.ID);
+            if (currentData.GetTable().size() == 0)
             {
                 FilesForLoad.append(currentInfo);
             }
         }
         load.loadData(FilesForLoad);
         //?????????????????;
+	return ITablePtr();
 }
 
 CFileInfoList DataProvider::getContextsList()

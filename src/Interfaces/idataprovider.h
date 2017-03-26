@@ -5,13 +5,7 @@
 #include <QSharedPointer>
 #include "DataStore.h"
 #include "IDataDirectory.h"
-
-
-// This interface provide data which was selected and loaded
-class IFieldCollection;
-class ITable;
-
-typedef QSharedPointer<ITable> ITablePtr;
+#include "global.h"
 
 //
 // Interfaces IDataProvider
