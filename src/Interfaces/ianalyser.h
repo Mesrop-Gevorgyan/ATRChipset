@@ -15,7 +15,7 @@ public:
     //returns the configuration
     virtual CConfiguration getConfig()const = 0;
 	//returns the Provider
-	virtual IDataProvider* getProvider()const = 0;
+	virtual const IDataProvider* getProvider()const = 0;
     //runs the analyse
     virtual void run()const = 0;
 };
