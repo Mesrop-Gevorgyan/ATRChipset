@@ -6,7 +6,8 @@
 
 CAnalysisWidget::CAnalysisWidget() :QWidget()
 {
-    QListWidget * GrListWidg = new QListWidget();
+    //QListWidget * GrListWidg = new QListWidget();
+    GrListWidg = new QListWidget();
     QVector<QString> grItems{"Statistics", "Bin Pareto", "Histogram", "Wafer"};
 
     for (int i=0; i<grItems.size(); ++i)

@@ -21,6 +21,8 @@ CConfigWidget::CConfigWidget(): QWidget()
     stackedLayout->addWidget(histogram_config);
     stackedLayout->addWidget(wafer_config);
 
+    connect(analysis->GrListWidg, SIGNAL(currentRowChanged(int)), stackedLayout, SLOT(setCurrentIndex(int)));
+
     //connect(analysis, SIGNAL(itemClicked(QListWidgetItem *)), stackedLayout, SLOT(setCurrentIndex(int)));
 
     configLayout->addWidget(analysis);

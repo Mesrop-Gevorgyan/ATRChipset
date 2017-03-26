@@ -8,6 +8,7 @@ class CAnalysisWidget: public QWidget
 {
 public:
     CAnalysisWidget();
+    QListWidget * GrListWidg;
 };
 
 #endif // ANALYSIS_WIDGET_H
