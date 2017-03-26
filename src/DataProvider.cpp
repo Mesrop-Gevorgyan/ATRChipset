@@ -57,24 +57,3 @@ CFileInfoList DataProvider::getContextsList()
     return results;
 }
 
-QVariantList DataProvider::getFieldValuesCorrespondingToSelection(const Field& field)const
-{
-    const SFieldValueSelection& selection = m_selection.getFieldValueSelection(field);
-    QVariantList result;
-    if (selection.aSelectedValues.size() == 0) //at first get selected values
-    {
-        result = pDataDirectory->getFieldValues(field);
-        if (selection.eSelectionType == ESelectionPattern::ValueSelection) //no selected values,any pattern
-        {
-            QRegExp pattern(selection.sPattern);
-            for (QVariantList::iterator it = result.begin(); it != result.end(); ++it)
-            {
-                if ( pattern.exactMatch((*it).toString()) == false)
-                    result.erase(it);//this does not match with pattern
-            }
-        }
-    }
-    else
-        result = selection.aSelectedValues;
-    return result;
-}

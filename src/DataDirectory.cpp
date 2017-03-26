@@ -12,14 +12,6 @@ DataDirectory::DataDirectory(QString path)
         parser Parser(path +"/"+ NamesOfFiles.at(i));
         FileInfo file_info(Parser.scanner());
         m_files.append(file_info);
-        if (file_info.m_fileType == BinData ||
-                file_info.m_fileType == ParameterData)
-        {
-            m_wafers.insert(file_info.m_fileContext.GetValue(WAFER).toString());
-            m_lots.insert(file_info.m_fileContext.GetValue(LOT).toString());
-            m_dates.insert(file_info.m_date);
-        }
-        m_devices.insert(file_info.m_fileContext.GetValue(DEVICE).toString());
     }
     m_dataIndex.SetFileInfos(m_files);
 }
@@ -58,30 +50,9 @@ bool operator==(const FileContext& context1,const FileContext& context2)
     return false;
 }
 
-QVariantList DataDirectory::getFieldValues(Field const& oID)const
+QVariantList DataDirectory::GetFieldValues(Field const& oID)const
 {
-    QVariantList result;
-    if (oID == "Wafer")
-    {
-        for(QSet<QString>::const_iterator it = m_wafers.begin(); it != m_wafers.end(); ++it)
-            result.append(*it);
-    }
-    if (oID == "Device")
-    {
-        for(QSet<QString>::const_iterator it = m_devices.begin(); it != m_devices.end(); ++it)
-            result.append(*it);
-    }
-    if (oID == "Lot")
-    {
-        for(QSet<QString>::const_iterator it = m_lots.begin(); it != m_lots.end(); ++it)
-            result.append(*it);
-    }
-    if (oID == "Date")
-    {
-        for(QSet<QDateTime>::const_iterator it = m_dates.begin(); it != m_dates.end(); ++it)
-            result.append(*it);
-    }
-    return result;
+	return m_dataIndex.GetFieldValues(oID);
 }
 
 FileInfo DataDirectory::GetCompleteFileInfo(const FileInfo& fileInfo)const

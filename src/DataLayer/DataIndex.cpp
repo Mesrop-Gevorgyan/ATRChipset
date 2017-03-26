@@ -12,6 +12,50 @@ void DataIndex::SetFileInfos(CFileInfoList infos)
 	__indexation();
 }
 
+void DataIndex::SetSelection(const CSelection& selection)
+{
+	m_selection = selection;
+}
+
+QVariantList DataIndex::GetFieldValues(Field field) const
+{
+	QVariantList result;
+
+	if (field == LOT)
+		for (auto key : m_lots.keys())
+			result << key;
+
+	if (field == WAFER)
+		for (auto key : m_wafers.keys())
+			result << key;
+
+	if (field == DEVICE)
+		for (auto key : m_devices.keys())
+			result << key;
+	return result;
+}
+QVariantList DataIndex::GetFieldValuesCorrespondingToSelection(const Field& field)const
+{
+	const SFieldValueSelection& selection = m_selection.getFieldValueSelection(field);
+	QVariantList result;
+	if (selection.aSelectedValues.size() == 0) //at first get selected values
+	{
+		result = GetFieldValues(field);
+		if (selection.eSelectionType == ESelectionPattern::ValueSelection) //no selected values,any pattern
+		{
+			QRegExp pattern(selection.sPattern);
+			for (QVariantList::iterator it = result.begin(); it != result.end(); ++it)
+			{
+				if (pattern.exactMatch((*it).toString()) == false)
+					result.erase(it);//this does not match with pattern
+			}
+		}
+	}
+	else
+		result = selection.aSelectedValues;
+	return result;
+
+}
 
 /* Helper function,which adds all fileInfos to index */
 void DataIndex::__indexation()

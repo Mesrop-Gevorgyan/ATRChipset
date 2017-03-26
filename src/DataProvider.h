@@ -16,7 +16,6 @@ private:
     DataStore m_dataStore;
     CSelection m_selection;
     CFileInfoList getContextsList();
-    QVariantList getFieldValuesCorrespondingToSelection(const Field& field)const;
 };
 
 #endif // DATAPROVIDER_H
