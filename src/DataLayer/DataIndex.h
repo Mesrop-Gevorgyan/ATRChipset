@@ -13,13 +13,15 @@ public:
 	DataIndex();
 	void SetFileInfos(CFileInfoList);
 	void SetSelection(const CSelection&);
-	IDList GetIDList(QStringList );
+	IDList GetIDList();
+	IDList GetIDList(Field field);
 	FileInfo GetFileInfo(ID id);
 	QVariantList GetFieldList(CSelection,Field);
 	QVariantList GetFieldValues(Field field) const;
 	QVariantList GetFieldValuesCorrespondingToSelection(const Field& field)const;
 private:
 	void __indexation();
+	IDList __getIDList(QStringList);
 	IDList __getFileIDs(QString content);
 	IDList __mergeIDLists(QVector<IDList> list);
 	QMap <QString, IDList> m_lots;
@@ -27,6 +29,7 @@ private:
 	QMap <QString, IDList> m_devices;
 	CFileInfoList m_infos;
 	CSelection m_selection;
+	bool hasSelection;
 };
 
 #endif //__DATAINDEX__

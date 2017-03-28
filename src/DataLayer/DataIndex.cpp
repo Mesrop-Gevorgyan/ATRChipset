@@ -4,7 +4,9 @@
 
 
 DataIndex::DataIndex() :m_lots(), m_wafers(), m_devices(), m_infos()
-{}
+{	
+	hasSelection = false;
+}
 
 void DataIndex::SetFileInfos(CFileInfoList infos)
 {
@@ -15,8 +17,69 @@ void DataIndex::SetFileInfos(CFileInfoList infos)
 void DataIndex::SetSelection(const CSelection& selection)
 {
 	m_selection = selection;
+	hasSelection = true;
 }
 
+/*
+ *  Returns file ID list corresponding to  all @selection
+ */
+IDList DataIndex::GetIDList()
+{
+	if (hasSelection)
+	{
+		QStringList pattern;
+		for (int i = 0; i < m_selection.getCount(); ++i)
+		{
+			QVariantList result = m_selection.getAt(i).aSelectedValues;
+			for (auto field : result)
+				pattern << field.toString();
+		}
+		return __getIDList(pattern);
+	}
+
+	return IDList();
+}
+
+/*
+*  Returns file ID list corresponding to  @field of member @selection
+*/
+IDList DataIndex::GetIDList(Field field)
+{
+	if (hasSelection)
+	{
+		QStringList pattern;
+		const SFieldValueSelection& selection = m_selection.getFieldValueSelection(field);
+
+		QVariantList result;
+		if (selection.aSelectedValues.size() == 0) //at first get selected values
+		{
+			result = GetFieldValues(field);
+			if (selection.eSelectionType == ESelectionPattern::ValueSelection) //no selected values,any pattern
+			{
+				QRegExp pattern(selection.sPattern);
+				for (QVariantList::iterator it = result.begin(); it != result.end(); ++it)
+				{
+					if (pattern.exactMatch((*it).toString()) == false)
+						result.erase(it);//this does not match with pattern
+				}
+			}
+		}
+		else
+			result = selection.aSelectedValues;
+
+		for (auto field : result)
+			pattern << field.toString();
+
+		return __getIDList(pattern);
+	}
+
+	return IDList();
+}
+
+/*
+ *  Returns all @fields in data index 
+ *  If we pass "lot" , function returns all lots in DataIndex
+ */
 QVariantList DataIndex::GetFieldValues(Field field) const
 {
 	QVariantList result;
@@ -34,6 +97,12 @@ QVariantList DataIndex::GetFieldValues(Field field) const
 			result << key;
 	return result;
 }
+
+/*
+ *  Returns all @field values in selection
+ *  If we pass "lot" ,function returns all lots in selection
+ */
+
 QVariantList DataIndex::GetFieldValuesCorrespondingToSelection(const Field& field)const
 {
 	const SFieldValueSelection& selection = m_selection.getFieldValueSelection(field);
@@ -140,7 +209,7 @@ IDList DataIndex::__getFileIDs(QString content)
 /*
  *  Returns merged IDList with unique IDs, corresponding to @pattern  
  */
-IDList DataIndex::GetIDList(QStringList pattern)
+IDList DataIndex::__getIDList(QStringList pattern)
 {
 	QVector<IDList> allIDs;
 	
@@ -184,5 +253,6 @@ QVariantList DataIndex::GetFieldList(CSelection custom_selection, Field field)
 	}
 	else
 		result = selection.aSelectedValues;
+
 	return result;
 }
