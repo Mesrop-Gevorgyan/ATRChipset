@@ -182,10 +182,11 @@ FileInfo parser::scanner()
     return result;
 }
 
-CVectorCollection parser::loader(const FileType &fileType)
+FileData parser::loader(const FileType &fileType)
 {
-    QVector<IVector*> data;
+    QVector<IVectorPtr> data;
     QFile file(m_filePath);
+    TableInfo tableInfo;
     if (file.open(QIODevice::ReadOnly | QIODevice::Text))
     {
         QTextStream in(&file);
@@ -200,7 +201,13 @@ CVectorCollection parser::loader(const FileType &fileType)
                 in.readLine();
                 in>>word;
             }
+
             in.readLine();
+            for (int i = 0; i < 3; ++ i)
+            {
+                in>>word;
+                tableInfo.add(word.split(":")[0],i);
+            };
             in.readLine();
             while (!in.atEnd() )
             {
@@ -214,10 +221,10 @@ CVectorCollection parser::loader(const FileType &fileType)
                 else
                     PassFail.push_back(false);
             }
-            CStringData* bin = new CStringData(Bin);
-            CStringData* type = new CStringData(BinType);
-            CStringData*  name= new CStringData(BinName);
-            CBoolData* pass = new CBoolData(PassFail);
+            CStringDataPtr bin = CStringDataPtr(new CStringData(Bin));
+            CStringDataPtr type = CStringDataPtr(new CStringData(BinType));
+            CStringDataPtr  name= CStringDataPtr(new CStringData(BinName));
+            CBoolDataPtr pass = CBoolDataPtr(new CBoolData(PassFail));
             data.push_back(bin);
             data.push_back(type);
             data.push_back(name);
@@ -236,6 +243,11 @@ CVectorCollection parser::loader(const FileType &fileType)
                     in>>word;
                 }
                 in.readLine();
+                for (int i = 0; i < 3; ++ i)
+                {
+                    in>>word;
+                    tableInfo.add(word.split(":")[0],i);
+                };
                 in.readLine();
                 while (!in.atEnd() )
                 {
@@ -250,10 +262,10 @@ CVectorCollection parser::loader(const FileType &fileType)
                     Bin.push_back(words[0]);
                     BinType.push_back(words[1]);
                 }
-                CIntData* diex = new CIntData(DieX);
-                CIntData* diey = new CIntData(DieY);
-                CStringData* bin= new CStringData(Bin);
-                CStringData* bintype = new CStringData(BinType);
+                CIntDataPtr diex = CIntDataPtr(new CIntData(DieX));
+                CIntDataPtr diey = CIntDataPtr(new CIntData(DieY));
+                CStringDataPtr bin= CStringDataPtr(new CStringData(Bin));
+                CStringDataPtr bintype = CStringDataPtr(new CStringData(BinType));
                 data.push_back(diex);
                 data.push_back(diey);
                 data.push_back(bin);
@@ -272,6 +284,11 @@ CVectorCollection parser::loader(const FileType &fileType)
                         in>>word;
                     }
                     in.readLine();
+                    for (int i = 0; i < 2; ++ i)
+                    {
+                        in>>word;
+                        tableInfo.add(word.split(":")[0],i);
+                    };
                     in.readLine();
                     while (!in.atEnd() )
                     {
@@ -281,9 +298,9 @@ CVectorCollection parser::loader(const FileType &fileType)
                        TestNumber.push_back(words[1].toInt());
                        ParameterUnit.push_back(words[2]);
                     }
-                    CStringData* parameter= new CStringData(Parameter);
-                    CIntData* testnumber = new CIntData(TestNumber);
-                    CStringData* parameterunit = new CStringData(ParameterUnit);
+                    CStringDataPtr parameter= CStringDataPtr(new CStringData(Parameter));
+                    CIntDataPtr testnumber = CIntDataPtr(new CIntData(TestNumber));
+                    CStringDataPtr parameterunit = CStringDataPtr(new CStringData(ParameterUnit));
                     data.push_back(parameter);
                     data.push_back(testnumber);
                     data.push_back(parameterunit);
@@ -302,6 +319,11 @@ CVectorCollection parser::loader(const FileType &fileType)
                             in>>word;
                         }
                         in.readLine();
+                        for (int i = 0; i < 4; ++ i)
+                        {
+                            in>>word;
+                            tableInfo.add(word.split(":")[0],i);
+                        };
                         in.readLine();
                         while (!in.atEnd() )
                         {
@@ -322,11 +344,11 @@ CVectorCollection parser::loader(const FileType &fileType)
                             else
                                 TestPass.push_back(false);
                         }
-                        CIntData* diex = new CIntData(DieX);
-                        CIntData* diey = new CIntData(DieY);
-                        CIntData* testnumber = new CIntData(TestNumber);
-                        CDoubleData* last = new CDoubleData(Last);
-                        CBoolData* testpass = new CBoolData(TestPass);
+                        CIntDataPtr diex = CIntDataPtr(new CIntData(DieX));
+                        CIntDataPtr diey = CIntDataPtr(new CIntData(DieY));
+                        CIntDataPtr testnumber = CIntDataPtr(new CIntData(TestNumber));
+                        CDoubleDataPtr last = CDoubleDataPtr(new CDoubleData(Last));
+                        CBoolDataPtr testpass = CBoolDataPtr(new CBoolData(TestPass));
                         data.push_back(diex);
                         data.push_back(diey);
                         data.push_back(testnumber);
@@ -346,6 +368,11 @@ CVectorCollection parser::loader(const FileType &fileType)
                                     in>>word;
                                 }
                                 in.readLine();
+                                for (int i = 0; i < 3; ++ i)
+                                {
+                                    in>>word;
+                                    tableInfo.add(word.split(":")[0],i);
+                                };
                                 in.readLine();
                                 while (!in.atEnd() )
                                 {
@@ -361,10 +388,10 @@ CVectorCollection parser::loader(const FileType &fileType)
                                     in>>dv>>ch;
                                     Target.push_back(dv);
                                 }
-                                CIntData* testnumber = new CIntData(TestNumber);
-                                CDoubleData* lsl = new CDoubleData(LSL);
-                                CDoubleData* usl = new CDoubleData(USL);
-                                CDoubleData* target = new CDoubleData(Target);
+                                CIntDataPtr testnumber = CIntDataPtr(new CIntData(TestNumber));
+                                CDoubleDataPtr lsl = CDoubleDataPtr(new CDoubleData(LSL));
+                                CDoubleDataPtr usl = CDoubleDataPtr(new CDoubleData(USL));
+                                CDoubleDataPtr target = CDoubleDataPtr(new CDoubleData(Target));
                                 data.push_back(testnumber);
                                 data.push_back(lsl);
                                 data.push_back(usl);
@@ -372,5 +399,5 @@ CVectorCollection parser::loader(const FileType &fileType)
                         }
     }
     CVectorCollection result(data);
-    return result;
+    return FileData(result,tableInfo);
 }
