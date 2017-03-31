@@ -15,7 +15,7 @@ private:
 public:
     parser(const QString&);
     FileInfo scanner();
-    CVectorCollection loader(const FileType&);
+    FileData loader(const FileType&);
 };
 
 #endif // PARSER_H
