@@ -1,29 +1,38 @@
-#include "column.h"
+#include "Column.h"
 
-Column::Column(IVectorPtr data,QString name) : m_data(data),m_name(name) {}
+CColumn::CColumn(IVectorPtr data, QString name) : m_name(name) { m_data = data; }
 
-int Column::GetCount() const
+int CColumn::GetCount() const
 {
 	return m_data->GetCount();
 }
 
-DataType Column::GetType() const
+DataType CColumn::GetType() const
 {
 	return m_data->GetType();
 }
 
-QString Column::GetName() const
+QString CColumn::GetName() const
 {
 	return m_name;
 }
 
-IVectorPtr Column::GetData() const
+IVectorPtr CColumn::GetData() const
 {
 	switch (this->GetType())
 	{
 	case INT:
-		return (CIntDataPtr)m_data;
+		return QSharedPointer<CIntData>(dynamic_cast<CIntData*>(m_data.data()));
+	case DOUBLE:
+		return QSharedPointer<CDoubleData>(dynamic_cast<CDoubleData*>(m_data.data()));
+	case STRING:
+		return QSharedPointer<CStringData>(dynamic_cast<CStringData*>(m_data.data()));
+	case DATETIME:
+		return QSharedPointer<CDateTimeData>(dynamic_cast<CDateTimeData*>(m_data.data()));
+	case BOOL:
+		return QSharedPointer<CBoolData>(dynamic_cast<CBoolData*>(m_data.data()));
 	default:
+		return IVectorPtr();
 		break;
 	} 
 }

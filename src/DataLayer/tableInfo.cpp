@@ -8,7 +8,7 @@ void TableInfo::add(ColumnType type, Index index)
 }
 
 /*
- *  Returns @index of Column with corresponding type
+ *  Returns @index of CColumn with corresponding type
  */
 Index TableInfo::GetColumnIndex(ColumnType type) const
 {
@@ -16,7 +16,7 @@ Index TableInfo::GetColumnIndex(ColumnType type) const
 }
 
 /*
- *  Returns @columnType of Column with corresponding @index
+ *  Returns @columnType of CColumn with corresponding @index
  */
 ColumnType TableInfo::GetColumnType(Index index) const
 {
@@ -29,7 +29,7 @@ ColumnType TableInfo::GetColumnType(Index index) const
 }
 
 /*
- *  Returns Column names of table
+ *  Returns CColumn names of table
  */
 ColumnList TableInfo::GetColumns() const
 {

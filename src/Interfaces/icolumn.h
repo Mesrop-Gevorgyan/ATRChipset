@@ -15,11 +15,11 @@ class IColumn
 public:
 	// Returns type of the data
 	virtual DataType GetType() const = 0;
-	//Returns count of rows in column
+	//Returns count of rows in CColumn
 	virtual int GetCount() const = 0;
-	//Returns Column name
+	//Returns CColumn name
 	virtual QString GetName() const = 0;
-	//Returns whole column in IVectorPtr
+	//Returns whole CColumn in IVectorPtr
 	virtual IVectorPtr GetData() const = 0;
 
 };

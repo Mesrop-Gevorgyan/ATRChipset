@@ -5,10 +5,10 @@
 #include "global.h"
 #include "Vector.h"
 
-class Column : public IColumn
+class CColumn : public IColumn
 {
 public:
-	Column(IVectorPtr, QString);
+	CColumn(IVectorPtr, QString);
 	int GetCount() const;
 	DataType GetType() const;
 	QString GetName() const;
