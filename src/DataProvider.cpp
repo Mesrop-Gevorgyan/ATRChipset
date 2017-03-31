@@ -12,12 +12,8 @@ ITablePtr DataProvider::GetData(const FieldList&)
         CFileInfoList FilesForLoad;
         loader load(&m_dataStore);
         for(IDList::const_iterator it = idList.begin(); it != idList.end(); ++it)
-        {
-            FileInfo currentInfo = pDataDirectory->GetFileInfo(*it);
-            FileData currentData = m_dataStore.GetSingleFileData(*it);
-            if (currentData.GetTable().size() == 0)
-                FilesForLoad.append(currentInfo);
-        }
+            if (!m_dataStore.contains(*it))
+                FilesForLoad.append(pDataDirectory->GetFileInfo(*it));
         load.loadData(FilesForLoad);
         //?????????????????;
     return ITablePtr();
