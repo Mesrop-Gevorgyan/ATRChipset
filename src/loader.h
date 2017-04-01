@@ -3,15 +3,15 @@
 
 #include "DataDirectory.h"
 #include "DataStore.h"
-
-class loader
+#include "FileInfoList.h"
+class CLoader
 {
 public:
-    loader(DataStore* ptrDataStore);
+    CLoader(DataStore& DataStore);
     //loaded data from files to datastore
-    void loadData(const QList<QString>& fileList);
+    void loadData(const CFileInfoList &fileInfoList);
 private:
-    DataStore* pDataStore;
+    DataStore m_DataStore;
 };
 
 #endif // LOADER_H
