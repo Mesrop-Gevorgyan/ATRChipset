@@ -9,7 +9,7 @@ DataDirectory::DataDirectory(QString path)
         throw std::out_of_range("there is no any file");
     for (int i = 0; i < NamesOfFiles.size(); ++i)
     {
-        parser Parser(path +"/"+ NamesOfFiles.at(i));
+        CParser Parser(path +"/"+ NamesOfFiles.at(i));
         FileInfo file_info(Parser.scanner());
         m_files.append(file_info);
     }
@@ -17,9 +17,24 @@ DataDirectory::DataDirectory(QString path)
 }
 
 
-IDList DataDirectory::GetIDList(const CSelection &oSelection)
+void DataDirectory::SetFileInfos(CFileInfoList fileInfoList)
 {
-    return m_dataIndex.GetIDList(oSelection);
+    m_dataIndex.SetFileInfos(fileInfoList);
+}
+
+void DataDirectory::SetSelection(const CSelection& oSelection)
+{
+    m_dataIndex.SetSelection(oSelection);
+}
+
+IDList DataDirectory::GetIDList()
+{
+    return m_dataIndex.GetIDList();
+}
+
+IDList DataDirectory::GetIDList(Field field)
+{
+    return m_dataIndex.GetIDList(field);
 }
 
 FileInfo DataDirectory::GetFileInfo(ID id)
@@ -27,30 +42,17 @@ FileInfo DataDirectory::GetFileInfo(ID id)
     return m_dataIndex.GetFileInfo(id);
 }
 
-FieldList DataDirectory::GetFieldList(const CSelection &oSelection, Field field)
+QVariantList DataDirectory::GetFieldList(CSelection oSelection, Field field)
 {
     return m_dataIndex.GetFieldList(oSelection,field);
 }
 
-
-bool operator==(const FileContext& context1,const FileContext& context2)
+QVariantList DataDirectory::GetFieldValues(Field field) const
 {
-    if (context1.GetValue(LOT) == context2.GetValue(LOT))
-    {
-        if (context1.GetValue(WAFER) == context2.GetValue(WAFER))
-        {
-            if (context1.GetValue(DEVICE) == context2.GetValue(DEVICE))
-            {
-                return true;
-            }
-            return false;
-        }
-        return false;
-    }
-    return false;
+    return m_dataIndex.GetFieldValues(field);
+}
+QVariantList DataDirectory::GetFieldValuesCorrespondingToSelection(const Field& field)const
+{
+    return m_dataIndex.GetFieldValuesCorrespondingToSelection(field);
 }
 
-QVariantList DataDirectory::GetFieldValues(Field const& oID)const
-{
-    return m_dataIndex.GetFieldValues(oID);
-}
