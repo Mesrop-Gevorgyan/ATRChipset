@@ -10,10 +10,14 @@
 class IDataDirectory
 {
 public:
-    virtual QVariantList getFieldValues(Field const& oID) const = 0;
-    virtual IDList GetIDList(CSelection const& oSelection) = 0;
-    virtual FileInfo GetFileInfo(ID id)  =  0;
-    virtual FieldList GetFieldList(CSelection const& oSelection, Field field)  = 0;
+    virtual void SetFileInfos(CFileInfoList) = 0;
+    virtual void SetSelection(const CSelection&) = 0;
+    virtual IDList GetIDList() = 0;
+    virtual IDList GetIDList(Field field) = 0;
+    virtual FileInfo GetFileInfo(ID id) = 0;
+    virtual QVariantList GetFieldList(CSelection,Field) = 0;
+    virtual QVariantList GetFieldValues(Field field) const = 0;
+    virtual QVariantList GetFieldValuesCorrespondingToSelection(const Field& field)const = 0;
 };
 
 #endif //__IDATADIRECTORY__
