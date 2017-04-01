@@ -2,7 +2,7 @@
 #define DATADIRECTORY_H
 
 #include "idataDirectory.h"
-#include "parser.h"
+#include "Parser.h"
 #include <QDir>
 #include "fileInfoList.h"
 
@@ -10,10 +10,15 @@ class DataDirectory: public IDataDirectory
 {
 public:
     DataDirectory(QString);
-    QVariantList GetFieldValues(Field const& oID)const;
-    IDList GetIDList(CSelection const& oSelection);
+    void SetFileInfos(CFileInfoList);
+    void SetSelection(const CSelection&);
+    IDList GetIDList();
+    IDList GetIDList(Field field);
     FileInfo GetFileInfo(ID id);
-    FieldList GetFieldList(CSelection const& oSelection, Field field);
+    QVariantList GetFieldList(CSelection,Field);
+    QVariantList GetFieldValues(Field field) const;
+    QVariantList GetFieldValuesCorrespondingToSelection(const Field& field)const;
+
 private:
     CFileInfoList m_files;
     DataIndex m_dataIndex;
