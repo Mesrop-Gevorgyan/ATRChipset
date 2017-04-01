@@ -4,14 +4,14 @@
 #include "DataDirectory.h"
 #include "DataStore.h"
 #include "FileInfoList.h"
-class loader
+class CLoader
 {
 public:
-    loader(DataStorePtr ptrDataStore);
+    CLoader(DataStore& DataStore);
     //loaded data from files to datastore
     void loadData(const CFileInfoList &fileInfoList);
 private:
-    DataStorePtr pDataStore;
+    DataStore m_DataStore;
 };
 
 #endif // LOADER_H
