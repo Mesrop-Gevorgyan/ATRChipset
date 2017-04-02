@@ -1,20 +1,27 @@
 #ifndef DATAPROVIDER_H
 #define DATAPROVIDER_H
 
-#include "idataProvider.h"
-#include "loader.h"
+#include "IDataProvider.h"
+#include "Loader.h"
 #include <QRegExp>
-#include "fileInfoList.h"
+#include "FileInfoList.h"
+#include "table.h"
+#include "column.h"
+
+#include <QSet>
 
 class DataProvider:public IDataProvider
 {
 public:
-	void init(CSelection const& selection, IDataDirectory* directory);
-	ITablePtr GetData();
+    void init(CSelection const& oSelection, IDataDirectoryPtr pDataDir);
+    ITablePtr GetData(const FieldList& fieldList); //getBinData,,as arg FieldList
 private:
-    IDataDirectory* pDataDirectory;
+    IDataDirectoryPtr pDataDirectory;
     DataStore m_dataStore;
     CSelection m_selection;
+private:
+    QSet<FileType> getFileTypes(const FieldList& fields);
 };
 
 #endif // DATAPROVIDER_H
+
