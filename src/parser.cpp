@@ -154,8 +154,8 @@ FileData CParser::loader(const FileType &fileType)
 void CParser::loadBinDefinition(QTextStream& in, QVector<IVectorPtr>& data,
                                 TableInfo& tableInfo)
 {
-    QVector<QString>  Bin,BinType,BinName;
-    QVector<bool> PassFail;
+    QVector<QString>  v_Bin,v_BinType,v_BinName;
+    QVector<bool> v_PassFail;
     QString word;
     in>>word;
     while (word != "@Data")
@@ -175,18 +175,18 @@ void CParser::loadBinDefinition(QTextStream& in, QVector<IVectorPtr>& data,
     {
         in>>word;
         QStringList words = word.split(";");
-        Bin.push_back(words[0]);
-        BinType.push_back(words[1]);
-        BinName.push_back(words[2]);
+        v_Bin.push_back(words[0]);
+        v_BinType.push_back(words[1]);
+        v_BinName.push_back(words[2]);
         if (words[3] == "true")
-            PassFail.push_back(true);
+            v_PassFail.push_back(true);
         else
-            PassFail.push_back(false);
+            v_PassFail.push_back(false);
     }
-    CStringDataPtr bin = CStringDataPtr(new CStringData(Bin));
-    CStringDataPtr type = CStringDataPtr(new CStringData(BinType));
-    CStringDataPtr  name= CStringDataPtr(new CStringData(BinName));
-    CBoolDataPtr pass = CBoolDataPtr(new CBoolData(PassFail));
+    CStringDataPtr bin = CStringDataPtr(new CStringData(v_Bin));
+    CStringDataPtr type = CStringDataPtr(new CStringData(v_BinType));
+    CStringDataPtr  name= CStringDataPtr(new CStringData(v_BinName));
+    CBoolDataPtr pass = CBoolDataPtr(new CBoolData(v_PassFail));
     data.push_back(bin);
     data.push_back(type);
     data.push_back(name);
@@ -196,8 +196,8 @@ void CParser::loadBinDefinition(QTextStream& in, QVector<IVectorPtr>& data,
 void CParser::loadBinData(QTextStream& in, QVector<IVectorPtr>& data,
                           TableInfo& tableInfo)
 {
-    QVector<QString> Bin,BinType;
-    QVector<int> DieX,DieY;
+    QVector<QString> v_Bin,v_BinType;
+    QVector<int> v_DieX,v_DieY;
     QString word;
     in>>word;
     while (word != "@Data")
@@ -217,18 +217,18 @@ void CParser::loadBinData(QTextStream& in, QVector<IVectorPtr>& data,
         int x;
         char ch;
         in>>x>>ch;
-        DieX.push_back(x);
+        v_DieX.push_back(x);
         in>>x>>ch;
-        DieY.push_back(x);
+        v_DieY.push_back(x);
         in>>word;
         QStringList words = word.split(";");
-        Bin.push_back(words[0]);
-        BinType.push_back(words[1]);
+        v_Bin.push_back(words[0]);
+        v_BinType.push_back(words[1]);
     }
-    CIntDataPtr diex = CIntDataPtr(new CIntData(DieX));
-    CIntDataPtr diey = CIntDataPtr(new CIntData(DieY));
-    CStringDataPtr bin= CStringDataPtr(new CStringData(Bin));
-    CStringDataPtr bintype = CStringDataPtr(new CStringData(BinType));
+    CIntDataPtr diex = CIntDataPtr(new CIntData(v_DieX));
+    CIntDataPtr diey = CIntDataPtr(new CIntData(v_DieY));
+    CStringDataPtr bin= CStringDataPtr(new CStringData(v_Bin));
+    CStringDataPtr bintype = CStringDataPtr(new CStringData(v_BinType));
     data.push_back(diex);
     data.push_back(diey);
     data.push_back(bin);
@@ -238,8 +238,8 @@ void CParser::loadBinData(QTextStream& in, QVector<IVectorPtr>& data,
 void CParser::loadParameterDefinition(QTextStream& in, QVector<IVectorPtr>& data,
                                       TableInfo& tableInfo)
 {
-    QVector<QString> Parameter,ParameterUnit;
-    QVector<int> TestNumber;
+    QVector<QString> v_Parameter,v_ParameterUnit;
+    QVector<int> v_TestNumber;
     QString word;
     in>>word;
     while (word != "@Data")
@@ -258,13 +258,13 @@ void CParser::loadParameterDefinition(QTextStream& in, QVector<IVectorPtr>& data
     {
        in>>word;
        QStringList words = word.split(";");
-       Parameter.push_back(words[0]);
-       TestNumber.push_back(words[1].toInt());
-       ParameterUnit.push_back(words[2]);
+       v_Parameter.push_back(words[0]);
+       v_TestNumber.push_back(words[1].toInt());
+       v_ParameterUnit.push_back(words[2]);
     }
-    CStringDataPtr parameter= CStringDataPtr(new CStringData(Parameter));
-    CIntDataPtr testnumber = CIntDataPtr(new CIntData(TestNumber));
-    CStringDataPtr parameterunit = CStringDataPtr(new CStringData(ParameterUnit));
+    CStringDataPtr parameter= CStringDataPtr(new CStringData(v_Parameter));
+    CIntDataPtr testnumber = CIntDataPtr(new CIntData(v_TestNumber));
+    CStringDataPtr parameterunit = CStringDataPtr(new CStringData(v_ParameterUnit));
     data.push_back(parameter);
     data.push_back(testnumber);
     data.push_back(parameterunit);
@@ -273,9 +273,9 @@ void CParser::loadParameterDefinition(QTextStream& in, QVector<IVectorPtr>& data
 void CParser::loadParameterData(QTextStream& in, QVector<IVectorPtr>& data,
                                 TableInfo& tableInfo)
 {
-    QVector<int> DieX,DieY,TestNumber;
-    QVector<double> Last;
-    QVector<bool> TestPass;
+    QVector<int> v_DieX,v_DieY,v_TestNumber;
+    QVector<double> v_Last;
+    QVector<bool> v_TestPass;
     QString word;
     in>>word;
     while (word != "@Data")
@@ -296,24 +296,24 @@ void CParser::loadParameterData(QTextStream& in, QVector<IVectorPtr>& data,
         double dv;
         char ch;
         in>>iv>>ch;
-        DieX.push_back(iv);
+        v_DieX.push_back(iv);
         in>>iv>>ch;
-        DieY.push_back(iv);
+        v_DieY.push_back(iv);
         in>>iv>>ch;
-        TestNumber.push_back(iv);
+        v_TestNumber.push_back(iv);
         in>>dv>>ch;
-        Last.push_back(dv);
+        v_Last.push_back(dv);
         in>>word;
         if (word == "true")
-            TestPass.push_back(true);
+            v_TestPass.push_back(true);
         else
-            TestPass.push_back(false);
+            v_TestPass.push_back(false);
     }
-    CIntDataPtr diex = CIntDataPtr(new CIntData(DieX));
-    CIntDataPtr diey = CIntDataPtr(new CIntData(DieY));
-    CIntDataPtr testnumber = CIntDataPtr(new CIntData(TestNumber));
-    CDoubleDataPtr last = CDoubleDataPtr(new CDoubleData(Last));
-    CBoolDataPtr testpass = CBoolDataPtr(new CBoolData(TestPass));
+    CIntDataPtr diex = CIntDataPtr(new CIntData(v_DieX));
+    CIntDataPtr diey = CIntDataPtr(new CIntData(v_DieY));
+    CIntDataPtr testnumber = CIntDataPtr(new CIntData(v_TestNumber));
+    CDoubleDataPtr last = CDoubleDataPtr(new CDoubleData(v_Last));
+    CBoolDataPtr testpass = CBoolDataPtr(new CBoolData(v_TestPass));
     data.push_back(diex);
     data.push_back(diey);
     data.push_back(testnumber);
@@ -324,8 +324,8 @@ void CParser::loadParameterData(QTextStream& in, QVector<IVectorPtr>& data,
 void CParser::loadParameterLimits(QTextStream& in, QVector<IVectorPtr>& data,
                                   TableInfo& tableInfo)
 {
-    QVector<int> TestNumber;
-    QVector<double> LSL,USL,Target;
+    QVector<int> v_TestNumber;
+    QVector<double> v_lsl,v_usl,v_target;
     QString word;
     in>>word;
     while (word != "@Data")
@@ -346,18 +346,18 @@ void CParser::loadParameterLimits(QTextStream& in, QVector<IVectorPtr>& data,
         double dv;
         char ch;
         in>>iv>>ch;
-        TestNumber.push_back(iv);
+        v_TestNumber.push_back(iv);
         in>>dv>>ch;
-        LSL.push_back(dv);
+        v_lsl.push_back(dv);
         in>>dv>>ch;
-        USL.push_back(dv);
+        v_usl.push_back(dv);
         in>>dv>>ch;
-        Target.push_back(dv);
+        v_target.push_back(dv);
     }
-    CIntDataPtr testnumber = CIntDataPtr(new CIntData(TestNumber));
-    CDoubleDataPtr lsl = CDoubleDataPtr(new CDoubleData(LSL));
-    CDoubleDataPtr usl = CDoubleDataPtr(new CDoubleData(USL));
-    CDoubleDataPtr target = CDoubleDataPtr(new CDoubleData(Target));
+    CIntDataPtr testnumber = CIntDataPtr(new CIntData(v_TestNumber));
+    CDoubleDataPtr lsl = CDoubleDataPtr(new CDoubleData(v_lsl));
+    CDoubleDataPtr usl = CDoubleDataPtr(new CDoubleData(v_usl));
+    CDoubleDataPtr target = CDoubleDataPtr(new CDoubleData(v_target));
     data.push_back(testnumber);
     data.push_back(lsl);
     data.push_back(usl);
