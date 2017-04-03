@@ -46,13 +46,13 @@ enum FieldType
 };
 
 // Represent Data Types for Vectors
-enum DataType
+enum class DataType
 {
     INT,
     DOUBLE,
     STRING,
     BOOL,
-    DATETIME,
+    DATETIME
 };
 
 // Hardcode Lot,Wafer,Device,Date literals

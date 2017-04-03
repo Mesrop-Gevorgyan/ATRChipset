@@ -21,6 +21,16 @@ public:
 	virtual QString GetName() const = 0;
 	//Returns whole CColumn in IVectorPtr
 	virtual IVectorPtr GetData() const = 0;
+	//Returns whole CColumn in CIntDataPtr
+	virtual CIntDataPtr GetIntData() const = 0;
+	//Returns whole CColumn in CDoubleDataPtr
+	virtual CDoubleDataPtr GetDoubleData() const = 0;
+	//Returns whole CColumn in CStringDataPtr
+	virtual CStringDataPtr GetStringData() const = 0;
+	//Returns whole CColumn in CBoolDataPtr
+	virtual CBoolDataPtr GetBoolData() const = 0;
+	//Returns whole CColumn in CDateTimeDataPtr
+	virtual CDateTimeDataPtr GetDateTimeData() const = 0;
 
 };
 

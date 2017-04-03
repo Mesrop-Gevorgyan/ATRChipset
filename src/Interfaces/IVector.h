@@ -4,7 +4,7 @@
 class QVariant;
 class QString;
 class QDateTime;
-enum DataType;
+enum class DataType;
 
 // *
 //  Declaration of interfaces `

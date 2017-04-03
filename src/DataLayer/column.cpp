@@ -21,19 +21,61 @@ IVectorPtr CColumn::GetData() const
 {
 	switch (this->GetType())
 	{
-	case INT:
+	case DataType::INT:
 		return QSharedPointer<CIntData>(dynamic_cast<CIntData*>(m_data.data()));
-	case DOUBLE:
+	case DataType::DOUBLE:
 		return QSharedPointer<CDoubleData>(dynamic_cast<CDoubleData*>(m_data.data()));
-	case STRING:
+	case DataType::STRING:
 		return QSharedPointer<CStringData>(dynamic_cast<CStringData*>(m_data.data()));
-	case DATETIME:
+	case DataType::DATETIME:
 		return QSharedPointer<CDateTimeData>(dynamic_cast<CDateTimeData*>(m_data.data()));
-	case BOOL:
+	case DataType::BOOL:
 		return QSharedPointer<CBoolData>(dynamic_cast<CBoolData*>(m_data.data()));
 	default:
 		return IVectorPtr();
 		break;
 	} 
 }
+
+CIntDataPtr CColumn::GetIntData() const
+{
+	if (this->GetType() == DataType::INT)
+		return QSharedPointer<CIntData>(dynamic_cast<CIntData*>(m_data.data()));
+	else
+		return QSharedPointer<CIntData>(nullptr);
+}
+
+CDoubleDataPtr CColumn::GetDoubleData() const
+{
+	if (this->GetType() == DataType::DOUBLE)
+		return QSharedPointer<CDoubleData>(dynamic_cast<CDoubleData*>(m_data.data()));
+	else
+		return QSharedPointer<CDoubleData>(nullptr);
+}
+
+CStringDataPtr CColumn::GetStringData() const
+{
+	if (this->GetType() == DataType::STRING)
+		return QSharedPointer<CStringData>(dynamic_cast<CStringData*>(m_data.data()));
+	else
+		return QSharedPointer<CStringData>(nullptr);
+}
+
+CDateTimeDataPtr CColumn::GetDateTimeData() const
+{
+	if (this->GetType() == DataType::DATETIME)
+		return QSharedPointer<CDateTimeData>(dynamic_cast<CDateTimeData*>(m_data.data()));
+	else
+		return QSharedPointer<CDateTimeData>(nullptr);
+}
+
+CBoolDataPtr CColumn::GetBoolData() const
+{
+	if (this->GetType() == DataType::BOOL)
+		return QSharedPointer<CBoolData>(dynamic_cast<CBoolData*>(m_data.data()));
+	else
+		return QSharedPointer<CBoolData>(nullptr);
+}
+
+
 

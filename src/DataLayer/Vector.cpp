@@ -20,7 +20,7 @@ int CIntData::GetCount() const
 
 DataType CIntData::GetType() const
 {
-	return INT;
+	return DataType::INT;
 }
 
 QVariant CIntData::GetValue(unsigned index) const 
@@ -93,7 +93,7 @@ int CDoubleData::GetCount() const
 
 DataType CDoubleData::GetType() const
 {
-	return DOUBLE;
+	return DataType::DOUBLE;
 }
 
 QVariant CDoubleData::GetValue(unsigned index) const 
@@ -165,7 +165,7 @@ int CStringData::GetCount() const
 
 DataType CStringData::GetType() const
 {
-	return STRING;
+	return DataType::STRING;
 }
 
 QVariant CStringData::GetValue(unsigned index) const 
@@ -239,7 +239,7 @@ int CDateTimeData::GetCount() const
 
 DataType CDateTimeData::GetType() const
 {
-	return DATETIME;
+	return DataType::DATETIME;
 }
 
 QVariant CDateTimeData::GetValue(unsigned index) const 
@@ -312,7 +312,7 @@ int CBoolData::GetCount() const
 
 DataType CBoolData::GetType() const
 {
-	return BOOL;
+	return DataType::BOOL;
 }
 
 QVariant CBoolData::GetValue(unsigned index) const
