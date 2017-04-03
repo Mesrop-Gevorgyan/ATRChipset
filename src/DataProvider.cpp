@@ -45,84 +45,84 @@ ITablePtr DataProvider::GetData(const FieldList& fieldList)
             {
                 IVectorPtr p;
 
-		/* Create Group Vectors and construct CColumn from them */
+        /* Create Group Vectors and construct CColumn from them */
                 switch (columns[i][0]->GetType())
                 {
-		
-		case DataType::INT:
-		{
-			/* Collect CIntData pointers in temporary vector,for creating CIntDataGroup from them */
-			QVector<CIntDataPtr> temp;
-			for (auto ivecPtr : columns[i])
-			{
-				temp.push_back(QSharedPointer<CIntData>(dynamic_cast<CIntData*>(ivecPtr.data())));
-			}
-			CIntDataGroupPtr intGroupPtr = CIntDataGroupPtr(new CIntDataGroup(temp));
-			IVectorPtr p = QSharedPointer<IVector>(dynamic_cast<IVector*>(intGroupPtr.data()));
-			IColumnPtr column = IColumnPtr(new CColumn(p, fieldList[i]));
-			tb.addColumn(column);
-			break;
-		}
+
+        case DataType::INT:
+        {
+            /* Collect CIntData pointers in temporary vector,for creating CIntDataGroup from them */
+            QVector<CIntDataPtr> temp;
+            for (auto ivecPtr : columns[i])
+            {
+                temp.push_back(QSharedPointer<CIntData>(dynamic_cast<CIntData*>(ivecPtr.data())));
+            }
+            CIntDataGroupPtr intGroupPtr = CIntDataGroupPtr(new CIntDataGroup(temp));
+            IVectorPtr p = QSharedPointer<IVector>(dynamic_cast<IVector*>(intGroupPtr.data()));
+            IColumnPtr column = IColumnPtr(new CColumn(p, fieldList[i]));
+            tb.addColumn(column);
+            break;
+        }
 
                 case DataType::DOUBLE:
-		{
-			/* Collect CDoubleData pointers in temporary vector,for creating CDoubleDataGroup from them */
-			QVector<CDoubleDataPtr> temp;
-			for (auto ivecPtr : columns[i])
-			{
-				temp.push_back(QSharedPointer<CDoubleData>(dynamic_cast<CDoubleData*>(ivecPtr.data())));
-			}
-			CDoubleDataGroupPtr doubleGroupPtr = CDoubleDataGroupPtr(new CDoubleDataGroup(temp));
-			IVectorPtr p = QSharedPointer<IVector>(dynamic_cast<IVector*>(doubleGroupPtr.data()));
-			IColumnPtr column = IColumnPtr(new CColumn(p, fieldList[i]));
-			tb.addColumn(column);
-			break;
-		}
+        {
+            /* Collect CDoubleData pointers in temporary vector,for creating CDoubleDataGroup from them */
+            QVector<CDoubleDataPtr> temp;
+            for (auto ivecPtr : columns[i])
+            {
+                temp.push_back(QSharedPointer<CDoubleData>(dynamic_cast<CDoubleData*>(ivecPtr.data())));
+            }
+            CDoubleDataGroupPtr doubleGroupPtr = CDoubleDataGroupPtr(new CDoubleDataGroup(temp));
+            IVectorPtr p = QSharedPointer<IVector>(dynamic_cast<IVector*>(doubleGroupPtr.data()));
+            IColumnPtr column = IColumnPtr(new CColumn(p, fieldList[i]));
+            tb.addColumn(column);
+            break;
+        }
 
                 case DataType::STRING:
-		{
-			/* Collect CStringData pointers in temporary vector,for creating CStringDataGroup from them */
-			QVector<CStringDataPtr> temp;
-			for (auto ivecPtr : columns[i])
-			{
-				temp.push_back(QSharedPointer<CStringData>(dynamic_cast<CStringData*>(ivecPtr.data())));
-			}
-			CStringDataGroupPtr stringGroupPtr = CStringDataGroupPtr(new CStringDataGroup(temp));
-			IVectorPtr p = QSharedPointer<IVector>(dynamic_cast<IVector*>(stringGroupPtr.data()));
-			IColumnPtr column = IColumnPtr(new CColumn(p, fieldList[i]));
-			tb.addColumn(column);
-			break;
-		}
+        {
+            /* Collect CStringData pointers in temporary vector,for creating CStringDataGroup from them */
+            QVector<CStringDataPtr> temp;
+            for (auto ivecPtr : columns[i])
+            {
+                temp.push_back(QSharedPointer<CStringData>(dynamic_cast<CStringData*>(ivecPtr.data())));
+            }
+            CStringDataGroupPtr stringGroupPtr = CStringDataGroupPtr(new CStringDataGroup(temp));
+            IVectorPtr p = QSharedPointer<IVector>(dynamic_cast<IVector*>(stringGroupPtr.data()));
+            IColumnPtr column = IColumnPtr(new CColumn(p, fieldList[i]));
+            tb.addColumn(column);
+            break;
+        }
                 case DataType::BOOL:
-		{
-			/* Collect CBoolData pointers in temporary vector,for creating CBoolDataGroup from them */
-			QVector<CBoolDataPtr> temp;
-			for (auto ivecPtr : columns[i])
-			{
-				temp.push_back(QSharedPointer<CBoolData>(dynamic_cast<CBoolData*>(ivecPtr.data())));
-			}
-			CBoolDataGroupPtr boolGroupPtr = CBoolDataGroupPtr(new CBoolDataGroup(temp));
-			IVectorPtr p = QSharedPointer<IVector>(dynamic_cast<IVector*>(boolGroupPtr.data()));
-			IColumnPtr column = IColumnPtr(new CColumn(p, fieldList[i]));
-			tb.addColumn(column);
-			break;
-		}
-                
+        {
+            /* Collect CBoolData pointers in temporary vector,for creating CBoolDataGroup from them */
+            QVector<CBoolDataPtr> temp;
+            for (auto ivecPtr : columns[i])
+            {
+                temp.push_back(QSharedPointer<CBoolData>(dynamic_cast<CBoolData*>(ivecPtr.data())));
+            }
+            CBoolDataGroupPtr boolGroupPtr = CBoolDataGroupPtr(new CBoolDataGroup(temp));
+            IVectorPtr p = QSharedPointer<IVector>(dynamic_cast<IVector*>(boolGroupPtr.data()));
+            IColumnPtr column = IColumnPtr(new CColumn(p, fieldList[i]));
+            tb.addColumn(column);
+            break;
+        }
+
                 case DataType::DATETIME:
-		{
-			/* Collect CDateTimeData pointers in temporary vector,for creating CDateTimeDataGroup from them */
-			QVector<CDateTimeDataPtr> temp;
-			for (auto ivecPtr : columns[i])
-			{
-				temp.push_back(QSharedPointer<CDateTimeData>(dynamic_cast<CDateTimeData*>(ivecPtr.data())));
-			}
-			CDateTimeDataGroupPtr dateTimeGroupPtr = CDateTimeDataGroupPtr(new CDateTimeDataGroup(temp));
-			IVectorPtr p = QSharedPointer<IVector>(dynamic_cast<IVector*>(dateTimeGroupPtr.data()));
-			IColumnPtr column = IColumnPtr(new CColumn(p, fieldList[i]));
-			tb.addColumn(column);
-			break;
-		}
-                
+        {
+            /* Collect CDateTimeData pointers in temporary vector,for creating CDateTimeDataGroup from them */
+            QVector<CDateTimeDataPtr> temp;
+            for (auto ivecPtr : columns[i])
+            {
+                temp.push_back(QSharedPointer<CDateTimeData>(dynamic_cast<CDateTimeData*>(ivecPtr.data())));
+            }
+            CDateTimeDataGroupPtr dateTimeGroupPtr = CDateTimeDataGroupPtr(new CDateTimeDataGroup(temp));
+            IVectorPtr p = QSharedPointer<IVector>(dynamic_cast<IVector*>(dateTimeGroupPtr.data()));
+            IColumnPtr column = IColumnPtr(new CColumn(p, fieldList[i]));
+            tb.addColumn(column);
+            break;
+        }
+
                 }
             }
         }
@@ -135,36 +135,36 @@ QSet<FileType> DataProvider::getFileTypes(const FieldList& fields)
     QSet<FileType> result;
     for(FieldList::const_iterator it = fields.begin(); it != fields.end(); ++it)
     {
-        if (*it == "Bin" || *it == "BinType")
+        if (*it == Bin || *it == BinType)
         {
             result.insert(BinData);
             result.insert(BinDefinition);
         }
-        if (*it == "BinName" || *it == "PassFail")
+        if (*it == BinName || *it == PassFail)
         {
              result.insert(BinDefinition);
         }
-        if (*it == "DieX" || *it == "DieY")
+        if (*it == DieX || *it == DieY)
         {
             result.insert(BinData);
             result.insert(ParameterData);
         }
-        if (*it == "TestNumber")
+        if (*it == TestNumber)
         {
             result.insert(ParameterData);
             result.insert(ParameterDefinition);
             result.insert(ParameterLimits);
         }
-        if (*it == "Parameter" || *it == "ParameterUnit")
+        if (*it == Parameter || *it == ParameterUnit)
         {
             result.insert(ParameterDefinition);
         }
-        if (*it == "Last" || *it == "TestPass")
+        if (*it == Last || *it == TestPass)
         {
             result.insert(ParameterData);
             result.insert(ParameterLimits);
         }
-        if (*it == "LSL" || *it == "USL" || *it == "Target")
+        if (*it == LSL || *it == USL || *it == Target)
         {
             result.insert(ParameterLimits);
         }
