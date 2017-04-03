@@ -68,6 +68,22 @@ enum class DataType
 #define DEVICE "Device"
 #define DATE "Date"
 
+const QString Bin = "Bin";
+const QString BinType = "BinType";
+const QString BinName = "BinName";
+const QString PassFail = "PassFail";
+const QString DieX = "DieX";
+const QString DieY = "DieY";
+const QString TestNumber = "TestNumber";
+const QString Parameter = "Parameter";
+const QString ParameterUnit = "ParameterUnit";
+const QString Last = "Last";
+const QString TestPass = "TestPass";
+const QString LSL = "LSL";
+const QString USL = "USL";
+const QString Target = "Target";
+
+
 typedef int ID;
 typedef int Index;
 typedef QString ColumnType;
@@ -94,6 +110,6 @@ typedef QSharedPointer<IColumn> IColumnPtr;
 
 typedef QSharedPointer<ITable> ITablePtr;
 typedef QSharedPointer<IDataDirectory> IDataDirectoryPtr;
-typedef QSharedPointer<DataStore> DataStorePtr;
+
 
 #endif // !GLOBAL_H
