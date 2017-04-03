@@ -17,6 +17,7 @@ class CDateTimeData;
 class CBoolData;
 class IVector;
 class ITable;
+class IColumn;
 class IDataDirectory;
 class DataStore;
 
@@ -76,6 +77,7 @@ typedef QSharedPointer<CBoolData> CBoolDataPtr;
 typedef QSharedPointer<CDateTimeData> CDateTimeDataPtr;
 typedef QSharedPointer<IVector> IVectorPtr;
 typedef QSharedPointer<ITable> ITablePtr;
+typedef QSharedPointer<IColumn> IColumnPtr;
 
 typedef QSharedPointer<ITable> ITablePtr;
 typedef QSharedPointer<IDataDirectory> IDataDirectoryPtr;

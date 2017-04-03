@@ -30,9 +30,27 @@ IDList DataIndex::GetIDList()
 		QStringList pattern;
 		for (int i = 0; i < m_selection.getCount(); ++i)
 		{
-			QVariantList result = m_selection.getAt(i).aSelectedValues;
-			for (auto field : result)
-				pattern << field.toString();
+			if (m_selection.getAt(i).eType == ESelectionPattern::Value) {
+
+				QVariantList result = m_selection.getAt(i).aValues;
+				for (auto field : result)
+					pattern << field.toString();
+			}
+
+			if (m_selection.getAt(i).eType == ESelectionPattern::Pattern)
+			{
+				QVariantList result = GetFieldValues(m_selection.getAt(i).oFieldID);
+				QRegExp pattern_exp(m_selection.getAt(i).sPattern);
+
+				for (QVariantList::iterator it = result.begin(); it != result.end(); ++it)
+				{
+					if (pattern_exp.exactMatch((*it).toString()) == false)
+						result.erase(it);//this does not match with pattern
+				}
+
+				for (auto field : result)
+					pattern << field.toString();
+			}
 		}
 		return __getIDList(pattern);
 	}
@@ -48,31 +66,29 @@ IDList DataIndex::GetIDList(Field field)
 	if (hasSelection)
 	{
 		QStringList pattern;
-		const SFieldValueSelection& selection = m_selection.getFieldValueSelection(field);
-
+		SFieldValueSelection selection = m_selection.getFieldValueSelection(field);
 		QVariantList result;
-		if (selection.aSelectedValues.size() == 0) //at first get selected values
+
+		if (selection.eType == ESelectionPattern::Pattern) 
 		{
 			result = GetFieldValues(field);
-			if (selection.eSelectionType == ESelectionPattern::ValueSelection) //no selected values,any pattern
+			QRegExp pattern(selection.sPattern);
+			for (QVariantList::iterator it = result.begin(); it != result.end(); ++it)
 			{
-				QRegExp pattern(selection.sPattern);
-				for (QVariantList::iterator it = result.begin(); it != result.end(); ++it)
-				{
-					if (pattern.exactMatch((*it).toString()) == false)
-						result.erase(it);//this does not match with pattern
-				}
+				if (pattern.exactMatch((*it).toString()) == false)
+					result.erase(it);//this does not match with pattern
 			}
 		}
-		else
-			result = selection.aSelectedValues;
+		else {
+			if (selection.eType == ESelectionPattern::Value)
+				result = selection.aValues;
+		}	
 
 		for (auto field : result)
 			pattern << field.toString();
 
 		return __getIDList(pattern);
 	}
-
 	return IDList();
 }
 
@@ -105,23 +121,24 @@ QVariantList DataIndex::GetFieldValues(Field field) const
 
 QVariantList DataIndex::GetFieldValuesCorrespondingToSelection(const Field& field)const
 {
-	const SFieldValueSelection& selection = m_selection.getFieldValueSelection(field);
+	SFieldValueSelection selection = m_selection.getFieldValueSelection(field);
 	QVariantList result;
-	if (selection.aSelectedValues.size() == 0) //at first get selected values
+
+	if (selection.eType == ESelectionPattern::Pattern)
 	{
 		result = GetFieldValues(field);
-		if (selection.eSelectionType == ESelectionPattern::ValueSelection) //no selected values,any pattern
+		QRegExp pattern(selection.sPattern);
+		for (QVariantList::iterator it = result.begin(); it != result.end(); ++it)
 		{
-			QRegExp pattern(selection.sPattern);
-			for (QVariantList::iterator it = result.begin(); it != result.end(); ++it)
-			{
-				if (pattern.exactMatch((*it).toString()) == false)
-					result.erase(it);//this does not match with pattern
-			}
+			if (pattern.exactMatch((*it).toString()) == false)
+				result.erase(it);//this does not match with pattern
 		}
 	}
-	else
-		result = selection.aSelectedValues;
+	else {
+		if (selection.eType == ESelectionPattern::Value)
+			result = selection.aValues;
+	}
+
 	return result;
 
 }
@@ -238,21 +255,21 @@ QVariantList DataIndex::GetFieldList(CSelection custom_selection, Field field)
 {
 	const SFieldValueSelection& selection = custom_selection.getFieldValueSelection(field);
 	QVariantList result;
-	if (selection.aSelectedValues.size() == 0) //at first get selected values
+
+	if (selection.eType == ESelectionPattern::Pattern)
 	{
 		result = GetFieldValues(field);
-		if (selection.eSelectionType == ESelectionPattern::ValueSelection) //no selected values,any pattern
+		QRegExp pattern(selection.sPattern);
+		for (QVariantList::iterator it = result.begin(); it != result.end(); ++it)
 		{
-			QRegExp pattern(selection.sPattern);
-			for (QVariantList::iterator it = result.begin(); it != result.end(); ++it)
-			{
-				if (pattern.exactMatch((*it).toString()) == false)
-					result.erase(it);//this does not match with pattern
-			}
+			if (pattern.exactMatch((*it).toString()) == false)
+				result.erase(it);//this does not match with pattern
 		}
 	}
-	else
-		result = selection.aSelectedValues;
-
+	else {
+		if (selection.eType == ESelectionPattern::Value)
+			result = selection.aValues;
+	}
+		
 	return result;
 }

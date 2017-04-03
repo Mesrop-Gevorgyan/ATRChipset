@@ -7,6 +7,7 @@
 #include "FileInfoList.h"
 #include "table.h"
 #include "column.h"
+#include "global.h"
 
 #include <QSet>
 

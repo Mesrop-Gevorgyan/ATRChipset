@@ -46,6 +46,7 @@ int CIntDataGroup::GetAt(unsigned index) const
 		else
 			index -= m_vecs[i]->GetCount();
 	}
+	return -1;
 }
 
 QVariant CIntDataGroup::GetValue(unsigned index) const
@@ -61,6 +62,7 @@ QVariant CIntDataGroup::GetValue(unsigned index) const
 		else
 			index -= m_vecs[i]->GetCount();
 	}	
+	return QVariant();
 }
 int CIntDataGroup::GetCount() const
 {
@@ -116,6 +118,7 @@ double CDoubleDataGroup::GetAt(unsigned index) const
 		else
 			index -= m_vecs[i]->GetCount();
 	}
+	return -1;
 }
 
 QVariant CDoubleDataGroup::GetValue(unsigned index) const
@@ -131,6 +134,7 @@ QVariant CDoubleDataGroup::GetValue(unsigned index) const
 		else
 			index -= m_vecs[i]->GetCount();
 	}
+	return QVariant();
 }
 int CDoubleDataGroup::GetCount() const
 {
@@ -187,6 +191,7 @@ QString CStringDataGroup::GetAt(unsigned index) const
 		else
 			index -= m_vecs[i]->GetCount();
 	}
+	return QString();
 }
 
 QVariant CStringDataGroup::GetValue(unsigned index) const
@@ -202,6 +207,7 @@ QVariant CStringDataGroup::GetValue(unsigned index) const
 		else
 			index -= m_vecs[i]->GetCount();
 	}
+	return QVariant();
 }
 
 int CStringDataGroup::GetCount() const
@@ -258,6 +264,7 @@ QDateTime CDateTimeDataGroup::GetAt(unsigned index) const
 		else
 			index -= m_vecs[i]->GetCount();
 	}
+	return QDateTime();
 }
 
 QVariant CDateTimeDataGroup::GetValue(unsigned index) const
@@ -273,6 +280,7 @@ QVariant CDateTimeDataGroup::GetValue(unsigned index) const
 		else
 			index -= m_vecs[i]->GetCount();
 	}
+	return QVariant();
 }
 
 int CDateTimeDataGroup::GetCount() const
@@ -329,6 +337,7 @@ bool CBoolDataGroup::GetAt(unsigned index) const
 		else
 			index -= m_vecs[i]->GetCount();
 	}
+	return false;
 }
 
 QVariant CBoolDataGroup::GetValue(unsigned index) const
@@ -344,6 +353,7 @@ QVariant CBoolDataGroup::GetValue(unsigned index) const
 		else
 			index -= m_vecs[i]->GetCount();
 	}
+	return QVariant();
 }
 
 int CBoolDataGroup::GetCount() const
