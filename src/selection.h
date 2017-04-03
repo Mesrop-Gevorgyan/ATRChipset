@@ -51,7 +51,7 @@ struct SFieldValueSelection
 	
 	// Default constructor
 	SFieldValueSelection()
-		: eSelectionType(ESelectionPattern::Value)
+		: eType(ESelectionPattern::Value)
 	{
 	}
 
