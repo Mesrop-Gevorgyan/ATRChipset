@@ -34,22 +34,26 @@ struct SFieldInfo
 
 enum class ESelectionPattern
 {
-	// No selection
-	NoSelection,
-	// Default selection (all Field valus are selected)
-	All,
 	// Coustom selection
-	ValueSelection
+	Value,
+	// Select by pattern
+	Pattern,
 };
 
 
 // Value selection of one field
 struct SFieldValueSelection
 {
-	Field					oFieldID;
-	ESelectionPattern    	eSelectionType;
-	QString					sPattern;
-	QVariantList        	aSelectedValues;
+	Field			oFieldID;
+	ESelectionPattern    	eType;
+	QString			sPattern;
+	QVariantList        	aValues;
+	
+	// Default constructor
+	SFieldValueSelection()
+		: eSelectionType(ESelectionPattern::Value)
+	{
+	}
 
 	inline bool isValid() const
 	{
