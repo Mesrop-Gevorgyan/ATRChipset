@@ -33,4 +33,5 @@ int CTable::GetFieldIndex(const Field &field) const
     if (m_field_index.find(field) == m_field_index.end())
         return -1;
     return m_field_index[field];
+
 }

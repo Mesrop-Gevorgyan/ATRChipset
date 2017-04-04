@@ -32,101 +32,104 @@ ITablePtr DataProvider::GetData(const FieldList& fieldList)
                 columns[i].push_back(currentData.GetTable()[indexOfColumn]);
             }
         }
-        CTable tb;
+
+	CTable tb;
 
         for (int i = 0; i  < columns.size(); ++i)
         {
             if (columns[i].size() == 1)
             {
-                IColumnPtr p = IColumnPtr(new CColumn(columns[i][0],fieldList[i]));
+                IColumnPtr p(new CColumn(columns[i][0],fieldList[i]));
                 tb.addColumn(p);
             }
             else
             {
-                IVectorPtr p;
+               
 
-        /* Create Group Vectors and construct CColumn from them */
-                switch (columns[i][0]->GetType())
-                {
+		/* Create Group Vectors and construct CColumn from them */
+		switch (columns[i][0]->GetType())
+		{
 
-        case DataType::INT:
-        {
-            /* Collect CIntData pointers in temporary vector,for creating CIntDataGroup from them */
-            QVector<CIntDataPtr> temp;
-            for (auto ivecPtr : columns[i])
-            {
-                temp.push_back(QSharedPointer<CIntData>(dynamic_cast<CIntData*>(ivecPtr.data())));
+		case DataType::INT:
+		{
+		    /* Collect CIntData pointers in temporary vector,for creating CIntDataGroup from them */
+		    QVector<CIntDataPtr> temp;
+		    for (auto ivecPtr : columns[i])
+		    {
+			temp.push_back(QSharedPointer<CIntData>(dynamic_cast<CIntData*>(ivecPtr.data())));
+		    }
+		    CIntDataGroupPtr intGroupPtr = CIntDataGroupPtr(new CIntDataGroup(temp));
+		    IVectorPtr p = QSharedPointer<IVector>(dynamic_cast<IVector*>(intGroupPtr.data()));
+		    IColumnPtr column = IColumnPtr(new CColumn(p, fieldList[i]));
+		    tb.addColumn(column);
+		    break;
+		}
+
+		 case DataType::DOUBLE:
+		{
+		    /* Collect CDoubleData pointers in temporary vector,for creating CDoubleDataGroup from them */
+		    QVector<CDoubleDataPtr> temp;
+		    for (auto ivecPtr : columns[i])
+		    {
+			temp.push_back(QSharedPointer<CDoubleData>(dynamic_cast<CDoubleData*>(ivecPtr.data())));
+		    }
+		    CDoubleDataGroupPtr doubleGroupPtr = CDoubleDataGroupPtr(new CDoubleDataGroup(temp));
+		    IVectorPtr p = QSharedPointer<IVector>(dynamic_cast<IVector*>(doubleGroupPtr.data()));
+		    IColumnPtr column(new CColumn(p, fieldList[i]));
+		    tb.addColumn(column);
+		    break;
+		}
+
+		case DataType::STRING:
+		{
+		    /* Collect CStringData pointers in temporary vector,for creating CStringDataGroup from them */
+		    QVector<CStringDataPtr> temp;
+		    for (auto ivecPtr : columns[i])
+		    {
+			temp.push_back(QSharedPointer<CStringData>(dynamic_cast<CStringData*>(ivecPtr.data())));
+		    }
+		    CStringDataGroupPtr stringGroupPtr = CStringDataGroupPtr(new CStringDataGroup(temp));
+		    IVectorPtr p = QSharedPointer<IVector>(dynamic_cast<IVector*>(stringGroupPtr.data()));
+		    IColumnPtr column(new CColumn(p, fieldList[i]));
+		    tb.addColumn(column);
+		    break;
+		}
+
+		case DataType::BOOL:
+		{
+		    /* Collect CBoolData pointers in temporary vector,for creating CBoolDataGroup from them */
+		    QVector<CBoolDataPtr> temp;
+		    for (auto ivecPtr : columns[i])
+		    {
+			temp.push_back(QSharedPointer<CBoolData>(dynamic_cast<CBoolData*>(ivecPtr.data())));
+		    }
+		    CBoolDataGroupPtr boolGroupPtr = CBoolDataGroupPtr(new CBoolDataGroup(temp));
+		    IVectorPtr p = QSharedPointer<IVector>(dynamic_cast<IVector*>(boolGroupPtr.data()));
+		    IColumnPtr column(new CColumn(p, fieldList[i]));
+		    tb.addColumn(column);
+		    break;
+		}
+
+		case DataType::DATETIME:
+		{
+		    /* Collect CDateTimeData pointers in temporary vector,for creating CDateTimeDataGroup from them */
+		    QVector<CDateTimeDataPtr> temp;
+		    for (auto ivecPtr : columns[i])
+		    {
+			temp.push_back(QSharedPointer<CDateTimeData>(dynamic_cast<CDateTimeData*>(ivecPtr.data())));
+		    }
+		    CDateTimeDataGroupPtr dateTimeGroupPtr = CDateTimeDataGroupPtr(new CDateTimeDataGroup(temp));
+		    IVectorPtr p = QSharedPointer<IVector>(dynamic_cast<IVector*>(dateTimeGroupPtr.data()));
+		    IColumnPtr column(new CColumn(p, fieldList[i]));
+		    tb.addColumn(column);
+		    break;
+		}
+
+		}
             }
-            CIntDataGroupPtr intGroupPtr = CIntDataGroupPtr(new CIntDataGroup(temp));
-            IVectorPtr p = QSharedPointer<IVector>(dynamic_cast<IVector*>(intGroupPtr.data()));
-            IColumnPtr column = IColumnPtr(new CColumn(p, fieldList[i]));
-            tb.addColumn(column);
-            break;
         }
 
-                case DataType::DOUBLE:
-        {
-            /* Collect CDoubleData pointers in temporary vector,for creating CDoubleDataGroup from them */
-            QVector<CDoubleDataPtr> temp;
-            for (auto ivecPtr : columns[i])
-            {
-                temp.push_back(QSharedPointer<CDoubleData>(dynamic_cast<CDoubleData*>(ivecPtr.data())));
-            }
-            CDoubleDataGroupPtr doubleGroupPtr = CDoubleDataGroupPtr(new CDoubleDataGroup(temp));
-            IVectorPtr p = QSharedPointer<IVector>(dynamic_cast<IVector*>(doubleGroupPtr.data()));
-            IColumnPtr column = IColumnPtr(new CColumn(p, fieldList[i]));
-            tb.addColumn(column);
-            break;
-        }
-
-                case DataType::STRING:
-        {
-            /* Collect CStringData pointers in temporary vector,for creating CStringDataGroup from them */
-            QVector<CStringDataPtr> temp;
-            for (auto ivecPtr : columns[i])
-            {
-                temp.push_back(QSharedPointer<CStringData>(dynamic_cast<CStringData*>(ivecPtr.data())));
-            }
-            CStringDataGroupPtr stringGroupPtr = CStringDataGroupPtr(new CStringDataGroup(temp));
-            IVectorPtr p = QSharedPointer<IVector>(dynamic_cast<IVector*>(stringGroupPtr.data()));
-            IColumnPtr column = IColumnPtr(new CColumn(p, fieldList[i]));
-            tb.addColumn(column);
-            break;
-        }
-                case DataType::BOOL:
-        {
-            /* Collect CBoolData pointers in temporary vector,for creating CBoolDataGroup from them */
-            QVector<CBoolDataPtr> temp;
-            for (auto ivecPtr : columns[i])
-            {
-                temp.push_back(QSharedPointer<CBoolData>(dynamic_cast<CBoolData*>(ivecPtr.data())));
-            }
-            CBoolDataGroupPtr boolGroupPtr = CBoolDataGroupPtr(new CBoolDataGroup(temp));
-            IVectorPtr p = QSharedPointer<IVector>(dynamic_cast<IVector*>(boolGroupPtr.data()));
-            IColumnPtr column = IColumnPtr(new CColumn(p, fieldList[i]));
-            tb.addColumn(column);
-            break;
-        }
-
-                case DataType::DATETIME:
-        {
-            /* Collect CDateTimeData pointers in temporary vector,for creating CDateTimeDataGroup from them */
-            QVector<CDateTimeDataPtr> temp;
-            for (auto ivecPtr : columns[i])
-            {
-                temp.push_back(QSharedPointer<CDateTimeData>(dynamic_cast<CDateTimeData*>(ivecPtr.data())));
-            }
-            CDateTimeDataGroupPtr dateTimeGroupPtr = CDateTimeDataGroupPtr(new CDateTimeDataGroup(temp));
-            IVectorPtr p = QSharedPointer<IVector>(dynamic_cast<IVector*>(dateTimeGroupPtr.data()));
-            IColumnPtr column = IColumnPtr(new CColumn(p, fieldList[i]));
-            tb.addColumn(column);
-            break;
-        }
-
-                }
-            }
-        }
-    return ITablePtr(&tb);
+	return ITablePtr(&tb);
 }
 
 

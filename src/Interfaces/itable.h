@@ -7,7 +7,7 @@ class ITable
 {
 public:
 	// Returns CColumn from table by name
-	virtual IColumn* GetColumnData(Field const& field) const = 0;
+	virtual IColumnPtr GetColumnData(Field const& field) const = 0;
 	// Returns count of columns in table
 	virtual int GetCount() const = 0;
 	// Returns CColumn name by index in table
