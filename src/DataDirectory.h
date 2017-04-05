@@ -10,7 +10,6 @@ class DataDirectory: public IDataDirectory
 {
 public:
     DataDirectory(QString);
-    void SetFileInfos(CFileInfoList);
     void SetSelection(const CSelection&);
     IDList GetIDList();
     IDList GetIDList(Field field);
