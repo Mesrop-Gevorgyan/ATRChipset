@@ -10,7 +10,6 @@
 class IDataDirectory
 {
 public:
-    virtual void SetFileInfos(CFileInfoList) = 0;
     virtual void SetSelection(const CSelection&) = 0;
     virtual IDList GetIDList() = 0;
     virtual IDList GetIDList(Field field) = 0;
