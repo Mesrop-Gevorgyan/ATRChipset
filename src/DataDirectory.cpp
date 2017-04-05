@@ -16,12 +16,6 @@ DataDirectory::DataDirectory(QString path)
     m_dataIndex.SetFileInfos(m_files);
 }
 
-
-void DataDirectory::SetFileInfos(CFileInfoList fileInfoList)
-{
-    m_dataIndex.SetFileInfos(fileInfoList);
-}
-
 void DataDirectory::SetSelection(const CSelection& oSelection)
 {
     m_dataIndex.SetSelection(oSelection);
