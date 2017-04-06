@@ -9,10 +9,6 @@ void FileContext::add(Field fieldName, FieldValue value)
 	m_directory.insert(fieldName,value);
 }
 
-QVariant FileContext::GetValue(Field field) const 
-{
-	return m_directory[field].first;
-}
 
 FieldType FileContext::GetFieldType(Field field) const
 {

@@ -14,7 +14,7 @@ class IDataProvider
 {
 public:
 	// Init
-	virtual  void init(CSelection const&,IDataDirectory*) = 0;
+	virtual  void init(CSelection const&,IDataDirectoryPtr) = 0;
 	// Get Data corresponding of selection
 	virtual ITablePtr GetData(const FieldList& ) = 0;
 };

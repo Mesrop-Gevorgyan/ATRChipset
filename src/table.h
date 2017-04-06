@@ -5,7 +5,7 @@
 #include "global.h"
 #include "Vector.h"
 #include <QMap>
-#include <column.h>
+#include "column.h"
 
 class CTable:public ITable
 {
