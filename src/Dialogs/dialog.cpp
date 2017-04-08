@@ -6,32 +6,8 @@
 #include <QStackedLayout>
 #include <QLabel>
 #include "config_widget.h"
-
-class CSelection: public QWidget
-{
-public:
-    CSelection():QWidget()
-    {
-        QVBoxLayout * l = new QVBoxLayout();
-        QLabel * label = new QLabel("Selection");
-        l->addWidget(label);
-        this->setLayout(l);
-    }
-
-};
-
-class CConfig: public QWidget
-{
-public:
-    CConfig():QWidget()
-    {
-        QVBoxLayout * l = new QVBoxLayout();
-        QLabel * label = new QLabel("Config");
-        l->addWidget(label);
-        this->setLayout(l);
-    }
-
-};
+#include "analisys_selection.h"
+#include "selectiondatadialog.h"
 
 AppDialog::AppDialog(QWidget *parent) :
     QDialog(parent),
@@ -56,8 +32,8 @@ AppDialog::AppDialog(QWidget *parent) :
     buttons->addWidget(cancel);
     buttons->addWidget(finish);
 
-    content->addWidget(new CSelection);
-    content->addWidget(new CConfig);
+    content->addWidget(new SelectionDataDialog);
+    content->addWidget(new AnalisysSelection);
     content->addWidget(new CConfigWidget);
 
     content->setCurrentIndex(m_page_id);
