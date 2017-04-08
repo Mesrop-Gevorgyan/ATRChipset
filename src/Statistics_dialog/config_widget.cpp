@@ -1,6 +1,7 @@
 #include "config_widget.h"
 #include "statistics_config_page.h"
 #include "analysis_widget.h"
+#include "pareto_config_page.h"
 #include <QHBoxLayout>
 #include <QStackedLayout>
 
@@ -8,7 +9,7 @@ CConfigWidget::CConfigWidget(): QWidget()
 {
 
     CStatisticsConfigPage * st_config = new CStatisticsConfigPage();
-    QWidget * bin_pareto_config = new QWidget();
+    QWidget * bin_pareto_config = new CParetoConfigPage();
     QWidget * histogram_config  = new QWidget();
     QWidget * wafer_config  = new QWidget();
 
@@ -22,8 +23,6 @@ CConfigWidget::CConfigWidget(): QWidget()
     stackedLayout->addWidget(wafer_config);
 
     connect(analysis->GrListWidg, SIGNAL(currentRowChanged(int)), stackedLayout, SLOT(setCurrentIndex(int)));
-
-    //connect(analysis, SIGNAL(itemClicked(QListWidgetItem *)), stackedLayout, SLOT(setCurrentIndex(int)));
 
     configLayout->addWidget(analysis);
     configLayout->addLayout(stackedLayout);
