@@ -57,7 +57,7 @@ DrawParetoChart::DrawParetoChart(CPareto * p):QWidget()
     chart->addAxis(axisY2, Qt::AlignRight);
     chart->setAxisY(axisY2, lineSeries);
     axisY2->setRange(0,100);
-    axis->setRange(QString("5"), QString("1"));
+    //axis->setRange(QString("5"), QString("1"));
 
     chart->legend()->setVisible(true);
     chart->legend()->setAlignment(Qt::AlignBottom);
