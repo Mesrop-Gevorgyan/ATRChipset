@@ -13,11 +13,8 @@ int main(int argc, char *argv[])
     QVector<int> vec={1,3,2,1,1,4,4,3,4,5,4};
     CPareto * p =new CPareto();
     p->getChartData(vec);
-    //for(QVector<QPair<int,int>>::iterator i = p->chartValues.begin(); i!=p->chartValues.end(); ++i)
-    //{
-      // std::cout<<i->first<<" "<<i->second<<std::endl;
-    //}
-    DrawParetoChart * d = new DrawParetoChart();
+    p->getTrendLineData();
+    DrawParetoChart * d = new DrawParetoChart(p->chartValues,p->trendLineValues);
     d->show();
 
     return a.exec();

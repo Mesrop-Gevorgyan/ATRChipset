@@ -2,14 +2,16 @@
 #define PARETO_H
 
 #include <QVector>
+#include <QString>
 
 class CPareto
 {
 public:
     CPareto();
     void getChartData(const QVector<int> & binValues);
+    void getTrendLineData();
     ~CPareto();
-    //QVector<int> trendLineValues;
+    QVector<QPair<int,int>> trendLineValues;
     QVector<QPair<int,int>> chartValues;
 };
 
