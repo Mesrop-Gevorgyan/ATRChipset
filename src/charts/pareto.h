@@ -11,6 +11,7 @@ public:
     void getChartData(const QVector<int> & binValues);
     void getTrendLineData();
     ~CPareto();
+private:
     QVector<QPair<int,int>> trendLineValues;
     QVector<QPair<int,int>> chartValues;
 };
