@@ -8,7 +8,9 @@
 class DrawParetoChart: public QWidget
 {
 public:
-    DrawParetoChart(const QVector<QPair<int,int>> &chartValues, const QVector<QPair<int,int>> &);
+    DrawParetoChart(CPareto *);
+private:
+    CPareto * pareto;
 };
 
 #endif //DRAW_PARETO_H

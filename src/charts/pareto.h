@@ -7,11 +7,14 @@
 class CPareto
 {
 public:
-    CPareto();
-    void getChartData(const QVector<int> & binValues);
-    void getTrendLineData();
+    CPareto(const QVector<int> &);
+    void calculateChartData();
+    void calculateTrendLineData();
+    const QVector<QPair<int,int>> & getBarValues()const;
+    const QVector<QPair<int,int>> & getLineValues()const;
     ~CPareto();
 private:
+    QVector<int> binValues;
     QVector<QPair<int,int>> trendLineValues;
     QVector<QPair<int,int>> chartValues;
 };

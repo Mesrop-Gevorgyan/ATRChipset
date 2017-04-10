@@ -1,12 +1,12 @@
 #include "pareto.h"
 #include <iostream>
 
-CPareto::CPareto()
+CPareto::CPareto(const QVector<int> & bins):binValues(bins)
 {
 }
 
 
-void CPareto::getChartData(const QVector<int> & binValues)
+void CPareto::calculateChartData()
 {
     for(int i=0; i<binValues.size(); ++i)
     {
@@ -25,11 +25,10 @@ void CPareto::getChartData(const QVector<int> & binValues)
     qSort(chartValues.begin(), chartValues.end(), [] (const QPair<int,int> &first, const QPair<int,int> & second) {
         return first.second>second.second;
     } );
-    std::cout<<chartValues.size()<<std::endl;
 }
 
 
-void CPareto::getTrendLineData()
+void CPareto::calculateTrendLineData()
 {
     int allSum = 0;
     for(int i=0; i<chartValues.size(); ++i)
@@ -41,10 +40,15 @@ void CPareto::getTrendLineData()
     {
         sum+=chartValues[i].second;
         trendLineValues.push_back(qMakePair(i,sum*100/allSum));
-        std::cout<<chartValues[i].first<<" "<<sum*100/allSum<<std::endl;
      }
-   //qSort(trendLineValues.begin(), trendLineValues.end(), [] (const QPair<int,int> &first, const QPair<int,int> & second) {
-   //    return first.second<second.second;
-   // } );
-    std::cout<<trendLineValues.size()<<std::endl;
+}
+
+const QVector<QPair<int,int>> & CPareto::getBarValues()const
+{
+    return chartValues;
+}
+
+const QVector<QPair<int,int>> & CPareto::getLineValues()const
+{
+    return trendLineValues;
 }

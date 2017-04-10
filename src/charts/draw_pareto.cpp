@@ -15,15 +15,16 @@
 QT_CHARTS_USE_NAMESPACE
 
 
-DrawParetoChart::DrawParetoChart(const QVector<QPair<int,int>> & chartValues, const QVector<QPair<int,int>> & trendLineValues):QWidget()
+DrawParetoChart::DrawParetoChart(CPareto * p):QWidget()
 {
-
+    pareto = p;
+    pareto->calculateChartData();
+    pareto->calculateTrendLineData();
     QBarSet *set0 = new QBarSet("HBin");
-    for (int i=0; i<chartValues.size(); ++i)
+    for (int i=0; i<p->getBarValues().size(); ++i)
     {
-        set0->append(chartValues[i].second);
+        set0->append(p->getBarValues()[i].second);
     }
-    //*set0 << 6 << 5 << 4 << 3 << 2;
     QBarSeries *series = new QBarSeries();
     series->append(set0);
 
@@ -31,24 +32,21 @@ DrawParetoChart::DrawParetoChart(const QVector<QPair<int,int>> & chartValues, co
     chart->addSeries(series);
 
     QSplineSeries * lineSeries = new QSplineSeries();
-    for (int i=0; i<trendLineValues.size(); ++i)
+    for (int i=0; i<p->getLineValues().size(); ++i)
     {
-        lineSeries->append(trendLineValues[i].first,trendLineValues[i].second);
+        lineSeries->append(p->getLineValues()[i].first,p->getLineValues()[i].second);
     }
     lineSeries->setName("Trend Line");
     chart->addSeries(lineSeries);
     chart->setTitle("Pareto chart");
     chart->setAnimationOptions(QChart::SeriesAnimations);
     QStringList categories;
-    for (int i=0; i<chartValues.size(); ++i)
+    for (int i=0; i<p->getBarValues().size(); ++i)
     {
-        categories.append(QString::number(chartValues[i].first));
+        categories.append(QString::number(p->getBarValues()[i].first));
     }
-    //categories << "30" << "12" << "10" << "11" << "20" << "3";
     QBarCategoryAxis *axis = new QBarCategoryAxis();
     axis->append(categories);
-    //axis->append(lineSeries);
-    //chart->createDefaultAxes();
     chart->setAxisX(axis, series);
     chart->setAxisX(axis,lineSeries);
 
@@ -60,8 +58,6 @@ DrawParetoChart::DrawParetoChart(const QVector<QPair<int,int>> & chartValues, co
     chart->setAxisY(axisY2, lineSeries);
     axisY2->setRange(0,100);
     axis->setRange(QString("5"), QString("1"));
-
-    //axisY->setRange(0, 100);
 
     chart->legend()->setVisible(true);
     chart->legend()->setAlignment(Qt::AlignBottom);
