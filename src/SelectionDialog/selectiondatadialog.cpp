@@ -13,39 +13,39 @@ SelectionDataDialog::~SelectionDataDialog()
     delete ui;
 }
 
-void SelectionDataDialog::setAllDatesInWidget()
+void SelectionDataDialog::setAllDatesInWidget(QVariantList dates)
 {
-    m_dates = m_dataDirectory->getFieldValues("Date");
-    for (const auto date : m_dates)
+    //for the first time dates = m_dataDirectory->GetFieldValues("Date");
+    for (const auto date : dates)
     {
-        ui->listWidget_Dates->addItem(date.toString("yyyy.MM.dd"));
+        ui->listWidget_Dates->addItem(date.toString());
     }
 }
 
-void SelectionDataDialog::setAllWafersInWidget()
+void SelectionDataDialog::setAllWafersInWidget(QVariantList wafers)
 {
-    m_wafers = m_dataDirectory->getFieldValues("Wafer");
-    for (const auto wafer : m_wafers)
+    //for the first time wafers = m_dataDirectory->GetFieldValues("Wafer");
+    for (const auto wafer : wafers)
     {
-        ui->listWidget_Wafers->addItem(wafer);
+        ui->listWidget_Wafers->addItem(wafer.toString());
     }
 }
 
-void SelectionDataDialog::setAllDevicesInWidget()
+void SelectionDataDialog::setAllDevicesInWidget(QVariantList devices)
 {
-    m_devices = m_dataDirectory->getFieldValues("Device");
-    for (const auto device : m_devices)
+    //for the first time devices = m_dataDirectory->GetFieldValues("Device");
+    for (const auto device : devices)
     {
-        ui->listWidget_Devices->addItem(device);
+        ui->listWidget_Devices->addItem(device.toString());
     }
 }
 
-void SelectionDataDialog::setAllLotsInWidget()
+void SelectionDataDialog::setAllLotsInWidget(QVariantList lots)
 {
-    m_lots = m_dataDirectory->getFieldValues("Lot");
-    for (const auto lot : m_lots)
+    //for the first time lots = m_dataDirectory->GetFieldValues("Lot");
+    for (const auto lot : lots)
     {
-        ui->listWidget_Lots->addItem(lot);
+        ui->listWidget_Lots->addItem(lot.toString());
     }
 }
 
@@ -61,7 +61,15 @@ void SelectionDataDialog::on_pushButton_SelectAll_clicked()
 void SelectionDataDialog::on_listWidget_Dates_itemClicked(QListWidgetItem *item)
 {
     item->setBackgroundColor(Qt::lightGray);
-    m_selectedDates.push_back(item->text());
+
+    m_selectedDates << item->text();
+
+    SFieldValueSelection dateField;
+    dateField.oFieldID = "Date";
+    dateField.eType = ESelectionPattern::Value;
+    dateField.aValues = m_selectedDates;
+    m_selection.addFieldValueSelection(dateField);
+
     updateWafersColum();
     updateDevicesColum();
     updateLotsColum();
@@ -70,7 +78,15 @@ void SelectionDataDialog::on_listWidget_Dates_itemClicked(QListWidgetItem *item)
 void SelectionDataDialog::on_listWidget_Wafers_itemClicked(QListWidgetItem *item)
 {
     item->setBackgroundColor(Qt::lightGray);
-    m_selectedWafers.push_back(item->text());
+
+    m_selectedWafers << item->text();
+
+    SFieldValueSelection waferField;
+    waferField.oFieldID = "Wafer";
+    waferField.eType = ESelectionPattern::Value;
+    waferField.aValues = m_selectedWafers;
+    m_selection.addFieldValueSelection(waferField);
+
     updateDatesColum();
     updateDevicesColum();
     updateLotsColum();
@@ -79,7 +95,15 @@ void SelectionDataDialog::on_listWidget_Wafers_itemClicked(QListWidgetItem *item
 void SelectionDataDialog::on_listWidget_Devices_itemClicked(QListWidgetItem *item)
 {
     item->setBackgroundColor(Qt::lightGray);
-    m_selectedDevices.push_back(item->text());
+
+    m_selectedDevices << item->text();
+
+    SFieldValueSelection deviceField;
+    deviceField.oFieldID = "Device";
+    deviceField.eType = ESelectionPattern::Value;
+    deviceField.aValues = m_selectedDevices;
+    m_selection.addFieldValueSelection(deviceField);
+
     updateWafersColum();
     updateDatesColum();
     updateLotsColum();
@@ -88,7 +112,15 @@ void SelectionDataDialog::on_listWidget_Devices_itemClicked(QListWidgetItem *ite
 void SelectionDataDialog::on_listWidget_Lots_itemClicked(QListWidgetItem *item)
 {
     item->setBackgroundColor(Qt::lightGray);
-    m_selectedLots.push_back(item->text());
+
+    m_selectedLots << item->text();
+
+    SFieldValueSelection lotField;
+    lotField.oFieldID = "Lot";
+    lotField.eType = ESelectionPattern::Value;
+    lotField.aValues = m_selectedLots;
+    m_selection.addFieldValueSelection(lotField);
+
     updateWafersColum();
     updateDevicesColum();
     updateDatesColum();
@@ -96,25 +128,27 @@ void SelectionDataDialog::on_listWidget_Lots_itemClicked(QListWidgetItem *item)
 
 void SelectionDataDialog::updateLotsColum()
 {
-
+    ui->listWidget_Lots->clear();
+    setAllLotsInWidget(m_dataDirectory->GetFieldList(m_selection, "Lot"));
 }
 
 void SelectionDataDialog::updateWafersColum()
 {
-
+    ui->listWidget_Wafers->clear();
+    setAllWafersInWidget(m_dataDirectory->GetFieldList(m_selection, "Wafer"));
 }
 
 void SelectionDataDialog::updateDevicesColum()
 {
-
+    ui->listWidget_Devices->clear();
+    setAllDevicesInWidget(m_dataDirectory->GetFieldList(m_selection, "Device"));
 }
 
 void SelectionDataDialog::updateDatesColum()
 {
-
+    ui->listWidget_Dates->clear();
+    setAllDatesInWidget(m_dataDirectory->GetFieldList(m_selection, "Date"));
 }
-
-
 
 void SelectionDataDialog::clear()
 {
@@ -122,4 +156,14 @@ void SelectionDataDialog::clear()
     m_selectedWafers.clear();
     m_selectedDevices.clear();
     m_selectedLots.clear();
+}
+
+CSelection SelectionDataDialog::getSelection() const
+{
+    return m_selection;
+}
+
+void SelectionDataDialog::on_pushButton_Next_clicked()
+{
+
 }

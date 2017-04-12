@@ -4,7 +4,9 @@
 #include <QDialog>
 #include <QVector>
 #include "DataDirectory.h"
+#include "selection.h"
 #include <QListWidgetItem>
+
 
 namespace Ui {
 class SelectionDataDialog;
@@ -19,27 +21,24 @@ public:
     ~SelectionDataDialog();
 private:
     DataDirectory* m_dataDirectory;
-    QVariantList m_dates;
-    QVariantList m_wafers;
-    QVariantList m_devices;
-    QVariantList m_lots;
+    CSelection m_selection;
 
-    QVector<QString> m_selectedDates;
-    QVector<QString> m_selectedWafers;
-    QVector<QString> m_selectedDevices;
-    QVector<QString> m_selectedLots;
+    QVariantList m_selectedDates;
+    QVariantList m_selectedWafers;
+    QVariantList m_selectedDevices;
+    QVariantList m_selectedLots;
+
+    SFieldValueSelection m_dateField;
+    SFieldValueSelection m_waferField;
+    SFieldValueSelection m_deviceField;
+    SFieldValueSelection m_lotField;
 
 private:
-    void setAllDatesInWidget();
-    void setAllWafersInWidget();
-    void setAllDevicesInWidget();
-    void setAllLotsInWidget();
     void clear();
     void updateWafersColum();
     void updateDevicesColum();
     void updateDatesColum();
     void updateLotsColum();
-
 
 private slots:
     void on_pushButton_SelectAll_clicked();
@@ -47,6 +46,16 @@ private slots:
     void on_listWidget_Wafers_itemClicked(QListWidgetItem *item);
     void on_listWidget_Devices_itemClicked(QListWidgetItem *item);
     void on_listWidget_Lots_itemClicked(QListWidgetItem *item);
+
+    void on_pushButton_Next_clicked();
+
+public:
+    void setAllDatesInWidget(QVariantList dates);
+    void setAllWafersInWidget(QVariantList wafers);
+    void setAllDevicesInWidget(QVariantList devices);
+    void setAllLotsInWidget(QVariantList lots);
+
+    CSelection getSelection() const;
 
 private:
     Ui::SelectionDataDialog *ui;
