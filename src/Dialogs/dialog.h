@@ -5,6 +5,9 @@ class QPushButton;
 class QStackedLayout;
 
 #include <QDialog>
+#include "DataDirectory.h"
+#include "selection.h"
+#include "selectiondatadialog.h"
 
 enum class PageIds {selection=1, configuration=2, analysis=3};
 
@@ -20,7 +23,8 @@ public slots:
     void next_button_pressed();
     void previous_button_pressed();
 public:
-    explicit AppDialog(QWidget *parent = 0);
+    AppDialog(DataDirectory * dataDirectory, QWidget *parent = 0);
+    CSelection getSelection()const;
     ~AppDialog();
 
 private:
@@ -31,6 +35,8 @@ private:
     QPushButton * cancel;
     QPushButton * finish;
     QStackedLayout * content;
+    CSelection m_selection;
+    SelectionDataDialog * m_selection_widget;
 };
 
 #endif // DIALOG_H

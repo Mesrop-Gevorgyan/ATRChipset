@@ -9,7 +9,7 @@
 #include "analisys_selection.h"
 #include "selectiondatadialog.h"
 
-AppDialog::AppDialog(QWidget *parent) :
+AppDialog::AppDialog(DataDirectory * dataDirectory, QWidget *parent) :
     QDialog(parent),
     ui(new Ui::Dialog), m_page_id(0),next(new QPushButton("NEXT")),
     previous(new QPushButton("PREVIOUS")),
@@ -27,12 +27,16 @@ AppDialog::AppDialog(QWidget *parent) :
     connect(cancel, SIGNAL(clicked()), this, SLOT(close()));
     //finish = new QPushButton("FINISH");
     finish->setEnabled(false);
+    connect(finish, SIGNAL(clicked()), this, SLOT(close()));
+
     buttons->addWidget(previous);
     buttons->addWidget(next);
     buttons->addWidget(cancel);
     buttons->addWidget(finish);
 
-    content->addWidget(new SelectionDataDialog);
+    m_selection_widget = new SelectionDataDialog();
+    m_selection_widget->init(dataDirectory);
+    content->addWidget(m_selection_widget);
     content->addWidget(new AnalisysSelection);
     content->addWidget(new CConfigWidget);
 
@@ -49,11 +53,18 @@ AppDialog::~AppDialog()
     delete ui;
 }
 
+CSelection AppDialog::getSelection()const
+{
+    return m_selection;
+}
+
+
 void AppDialog::next_button_pressed()
 {
     switch(m_page_id)
     {
     case 0:
+        m_selection = m_selection_widget->getSelection();
         previous->setEnabled(true);
         break;
     case 1:
