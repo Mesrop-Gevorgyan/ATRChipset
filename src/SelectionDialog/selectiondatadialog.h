@@ -49,12 +49,14 @@ private slots:
 
     void on_pushButton_Next_clicked();
 
-public:
+private:
     void setAllDatesInWidget(QVariantList dates);
     void setAllWafersInWidget(QVariantList wafers);
     void setAllDevicesInWidget(QVariantList devices);
     void setAllLotsInWidget(QVariantList lots);
 
+public:
+    void init(DataDirectory* dataDirectory);
     CSelection getSelection() const;
 
 private:

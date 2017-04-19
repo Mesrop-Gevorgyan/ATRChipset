@@ -8,6 +8,16 @@ SelectionDataDialog::SelectionDataDialog(QWidget *parent) :
     ui->setupUi(this);
 }
 
+void SelectionDataDialog::init(DataDirectory* dataDirectory)
+{
+    m_dataDirectory = dataDirectory;
+
+    setAllDatesInWidget(m_dataDirectory->GetFieldValues("Date"));
+    setAllWafersInWidget(m_dataDirectory->GetFieldValues("Wafer"));
+    setAllDevicesInWidget(m_dataDirectory->GetFieldValues("Device"));
+    setAllLotsInWidget(m_dataDirectory->GetFieldValues("Lot"));
+}
+
 SelectionDataDialog::~SelectionDataDialog()
 {
     delete ui;
@@ -15,7 +25,6 @@ SelectionDataDialog::~SelectionDataDialog()
 
 void SelectionDataDialog::setAllDatesInWidget(QVariantList dates)
 {
-    //for the first time dates = m_dataDirectory->GetFieldValues("Date");
     for (const auto date : dates)
     {
         ui->listWidget_Dates->addItem(date.toString());
@@ -24,7 +33,6 @@ void SelectionDataDialog::setAllDatesInWidget(QVariantList dates)
 
 void SelectionDataDialog::setAllWafersInWidget(QVariantList wafers)
 {
-    //for the first time wafers = m_dataDirectory->GetFieldValues("Wafer");
     for (const auto wafer : wafers)
     {
         ui->listWidget_Wafers->addItem(wafer.toString());
@@ -33,7 +41,6 @@ void SelectionDataDialog::setAllWafersInWidget(QVariantList wafers)
 
 void SelectionDataDialog::setAllDevicesInWidget(QVariantList devices)
 {
-    //for the first time devices = m_dataDirectory->GetFieldValues("Device");
     for (const auto device : devices)
     {
         ui->listWidget_Devices->addItem(device.toString());
@@ -42,7 +49,6 @@ void SelectionDataDialog::setAllDevicesInWidget(QVariantList devices)
 
 void SelectionDataDialog::setAllLotsInWidget(QVariantList lots)
 {
-    //for the first time lots = m_dataDirectory->GetFieldValues("Lot");
     for (const auto lot : lots)
     {
         ui->listWidget_Lots->addItem(lot.toString());
