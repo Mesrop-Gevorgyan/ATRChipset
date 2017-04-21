@@ -12,7 +12,7 @@ class CSummary: public IAnalyser
 public:
     CSummary();
 
-    virtual void init(const IDataProvider* ,
+    virtual void init(DataProvider* ,
                       const CConfiguration&) override;
     //returns the configuration
     virtual CConfiguration getConfig()const override;
@@ -23,7 +23,7 @@ public:
 
 private:
     CConfiguration m_config;
-    const IDataProvider* m_data_provider;
+    DataProvider* m_data_provider;
 };
 
 #endif // SUMMARY_H
