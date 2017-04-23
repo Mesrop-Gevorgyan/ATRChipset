@@ -22,9 +22,24 @@ QVariant StatisticsTable::data(const QModelIndex & index, int role) const
         return QVariant();
 
     QString col_name = m_table->GetColumnName(index.column());
-    if (col_name == "Parameter")
+    QVariant val;
+    /*if (col_name == "Parameter")
         return  m_table->GetColumnData(col_name)->GetStringData()->GetAt(index.row());
-    return  m_table->GetColumnData(col_name)->GetDoubleData()->GetAt(index.row());
+    return  m_table->GetColumnData(col_name)->GetDoubleData()->GetAt(index.row());*/
+
+    switch(m_table->GetColumnData(col_name)->GetType())
+    {
+    case DataType::INT:
+        val = m_table->GetColumnData(col_name)->GetIntData()->GetAt(index.row());
+        break;
+    case DataType::DOUBLE:
+        val = m_table->GetColumnData(col_name)->GetDoubleData()->GetAt(index.row());
+        break;
+    case DataType::STRING:
+        val = m_table->GetColumnData(col_name)->GetStringData()->GetAt(index.row());
+        break;
+    }
+    return val;
 }
 
 QVariant StatisticsTable::headerData(int section, Qt::Orientation orientation, int role) const

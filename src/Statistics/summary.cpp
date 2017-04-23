@@ -7,6 +7,7 @@
 #include "global.h"
 #include "statistics_table_model.h"
 #include <QTableView>
+#include "summary_bin_yield.h"
 
 #include <QVector>
 
@@ -17,55 +18,6 @@ CSummary::CSummary(): m_result_table(Q_NULLPTR)
 
 void CSummary::run()const
 {
-    //FieldList fileds;
-    /*if (!m_config.isContained("summary"))
-        throw std::logic_error("No any parameter for summary");
-
-    QString parameter = m_config.getParameter("summary").toString();
-    QStringList ParamList = QStringList(parameter);
-    IFieldCollectionPtr oFieldCollectionPtr = m_data_provider.GetData(ParamList);*/
-    /*IFieldCollectionPtr oFieldCollectionPtr;
-    IFieldCollection * oFieldCollection = oFieldCollectionPtr.data();
-
-    int iFieldCount = oFieldCollection->GetCount();
-    for (int i=0; i<iFieldCount; ++i)
-    {
-        IFieldData * summaryData = oFieldCollection->GetFieldData(oFieldCollection->GetField(i));
-        CDoubleData summaryDoubleData = summaryData->GetDoubleData();
-        CStatistics my_sum;
-        QMap<EFunction, QVariant> m;
-//will be changed
-        m[EFunction::Max] = QVariant(0);
-        m[EFunction::Min] = QVariant(0);
-        m[EFunction::Median] = QVariant(0);
-        m[EFunction::Average] = QVariant(0);
-        m[EFunction::StandardDeviation] = QVariant(0);
-        m[EFunction::Skewness] = QVariant(0);
-        m[EFunction::Kurtosis] = QVariant(0);
-
-        QMap<EFunction, double> result = my_sum.run(summaryDoubleData, m);
-    }*/
-
-    //ITablePtr* table = m_data_provider->GetData("Parameter");
-    /*QVector<QVector<QVariant>> result_table;
-    QVector<QVariant> vec;
-    vec.append("parameter");
-    result_table.append(vec);
-    vec[0] = "Max";
-    result_table.append(vec);
-    vec[0] = "Min";
-    result_table.append(vec);
-    vec[0] = "Median";
-    result_table.append(vec);
-    vec[0] = "Average";
-    result_table.append(vec);
-    vec[0] = "StandardDeviation";
-    result_table.append(vec);
-    vec[0] = "Skewness";
-    result_table.append(vec);
-    vec[0] = "Kurtosis";
-    result_table.append(vec);*/
-
     QVector<QString> param_val;
     QVector<double> max_val;
     QVector<double> min_val;
@@ -356,6 +308,221 @@ void CSummary::run()const
         }
 
     }
+    else
+        if(m_config.getType() == "Bin/Yield")
+        {
+            FieldList fieldList;
+            fieldList.append("Bin");
+            fieldList.append("BinType");
+            fieldList.append("BinName");
+            fieldList.append("PassFail");
+            //ITablePtr table = m_data_provider->GetData(fieldList);
+            ITablePtr table;
+
+            /*-------------------------  hard coded table */
+
+            CTable * tb = new CTable;
+            QVector<int> vec_1;
+            vec_1.append(1);
+            vec_1.append(1);
+            vec_1.append(1);
+            vec_1.append(1);
+            vec_1.append(1);
+            vec_1.append(1);
+            vec_1.append(1);
+            vec_1.append(1);
+            vec_1.append(1);
+            vec_1.append(2);
+            vec_1.append(2);
+            vec_1.append(2);
+            vec_1.append(2);
+            vec_1.append(2);
+            vec_1.append(2);
+            vec_1.append(2);
+            vec_1.append(2);
+            vec_1.append(2);
+            vec_1.append(3);
+            vec_1.append(3);
+            vec_1.append(3);
+            vec_1.append(3);
+            vec_1.append(3);
+            vec_1.append(3);
+            vec_1.append(3);
+            vec_1.append(3);
+            vec_1.append(3);
+            IVectorPtr vec_ptr_1 = static_cast<IVectorPtr>(new CIntData(vec_1));
+            IColumnPtr col_1 = static_cast<IColumnPtr>(new CColumn(vec_ptr_1, "Wafer"));
+            tb->addColumn(col_1);
+
+            QVector<int> vec_2;
+            vec_2.append(1);
+            vec_2.append(1);
+            vec_2.append(1);
+            vec_2.append(2);
+            vec_2.append(2);
+            vec_2.append(2);
+            vec_2.append(3);
+            vec_2.append(3);
+            vec_2.append(3);
+            vec_2.append(1);
+            vec_2.append(1);
+            vec_2.append(1);
+            vec_2.append(2);
+            vec_2.append(2);
+            vec_2.append(2);
+            vec_2.append(3);
+            vec_2.append(3);
+            vec_2.append(3);
+            vec_2.append(1);
+            vec_2.append(1);
+            vec_2.append(1);
+            vec_2.append(2);
+            vec_2.append(2);
+            vec_2.append(2);
+            vec_2.append(3);
+            vec_2.append(3);
+            vec_2.append(3);
+            IVectorPtr vec_ptr_2 = static_cast<IVectorPtr>(new CIntData(vec_2));
+            IColumnPtr col_2 = static_cast<IColumnPtr>(new CColumn(vec_ptr_2, "Lot"));
+            tb->addColumn(col_2);
+
+            QVector<int> vec_3;
+            vec_3.append(1);
+            vec_3.append(2);
+            vec_3.append(3);
+            vec_3.append(1);
+            vec_3.append(2);
+            vec_3.append(3);
+            vec_3.append(1);
+            vec_3.append(2);
+            vec_3.append(3);
+            vec_3.append(1);
+            vec_3.append(2);
+            vec_3.append(3);
+            vec_3.append(1);
+            vec_3.append(2);
+            vec_3.append(3);
+            vec_3.append(1);
+            vec_3.append(2);
+            vec_3.append(3);
+            vec_3.append(1);
+            vec_3.append(2);
+            vec_3.append(3);
+            vec_3.append(1);
+            vec_3.append(2);
+            vec_3.append(3);
+            vec_3.append(1);
+            vec_3.append(2);
+            vec_3.append(3);
+            IVectorPtr vec_ptr_3 = static_cast<IVectorPtr>(new CIntData(vec_3));
+            IColumnPtr col_3 = static_cast<IColumnPtr>(new CColumn(vec_ptr_3, "Device"));
+            tb->addColumn(col_3);
+
+            QVector<int> vec_4;
+            vec_4.append(0);
+            vec_4.append(2);
+            vec_4.append(3);
+            vec_4.append(1);
+            vec_4.append(0);
+            vec_4.append(0);
+            vec_4.append(0);
+            vec_4.append(3);
+            vec_4.append(2);
+            vec_4.append(3);
+            vec_4.append(2);
+            vec_4.append(1);
+            vec_4.append(0);
+            vec_4.append(3);
+            vec_4.append(1);
+            vec_4.append(3);
+            vec_4.append(0);
+            vec_4.append(3);
+            vec_4.append(3);
+            vec_4.append(1);
+            vec_4.append(1);
+            vec_4.append(2);
+            vec_4.append(0);
+            vec_4.append(2);
+            vec_4.append(2);
+            vec_4.append(0);
+            vec_4.append(1);
+            IVectorPtr vec_ptr_4 = static_cast<IVectorPtr>(new CIntData(vec_4));
+            IColumnPtr col_4 = static_cast<IColumnPtr>(new CColumn(vec_ptr_4, "Bin"));
+            tb->addColumn(col_4);
+
+            QVector<QString> vec_6;
+            vec_6.append("HBIN");
+            vec_6.append("SBIN");
+            vec_6.append("HBIN");
+            vec_6.append("SBIN");
+            vec_6.append("HBIN");
+            vec_6.append("SBIN");
+            vec_6.append("HBIN");
+            vec_6.append("SBIN");
+            vec_6.append("HBIN");
+            vec_6.append("SBIN");
+            vec_6.append("HBIN");
+            vec_6.append("SBIN");
+            vec_6.append("HBIN");
+            vec_6.append("SBIN");
+            vec_6.append("HBIN");
+            vec_6.append("SBIN");
+            vec_6.append("HBIN");
+            vec_6.append("SBIN");
+            vec_6.append("HBIN");
+            vec_6.append("SBIN");
+            vec_6.append("HBIN");
+            vec_6.append("SBIN");
+            vec_6.append("HBIN");
+            vec_6.append("SBIN");
+            vec_6.append("HBIN");
+            vec_6.append("SBIN");
+            vec_6.append("HBIN");
+            IVectorPtr vec_ptr_6 = static_cast<IVectorPtr>(new CStringData(vec_6));
+            IColumnPtr col_6 = static_cast<IColumnPtr>(new CColumn(vec_ptr_6, "BinType"));
+            tb->addColumn(col_6);
+
+            QVector<QString> vec_5;
+            vec_5.append("true");
+            vec_5.append("true");
+            vec_5.append("false");
+            vec_5.append("false");
+            vec_5.append("true");
+            vec_5.append("true");
+            vec_5.append("true");
+            vec_5.append("false");
+            vec_5.append("true");
+            vec_5.append("false");
+            vec_5.append("true");
+            vec_5.append("false");
+            vec_5.append("true");
+            vec_5.append("false");
+            vec_5.append("false");
+            vec_5.append("false");
+            vec_5.append("true");
+            vec_5.append("false");
+            vec_5.append("false");
+            vec_5.append("false");
+            vec_5.append("false");
+            vec_5.append("true");
+            vec_5.append("true");
+            vec_5.append("true");
+            vec_5.append("true");
+            vec_5.append("true");
+            vec_5.append("false");
+            IVectorPtr vec_ptr_5 = static_cast<IVectorPtr>(new CStringData(vec_5));
+            IColumnPtr col_5 = static_cast<IColumnPtr>(new CColumn(vec_ptr_5, "PassFail"));
+            tb->addColumn(col_5);
+
+            table = static_cast<ITablePtr>(tb);
+            //m_result_table = ITablePtr(table);
+
+
+            /* ------------------------- */
+
+            BinSummary b;
+            m_result_table = ITablePtr(b.run(table, m_config));
+        }
 }
 
 
