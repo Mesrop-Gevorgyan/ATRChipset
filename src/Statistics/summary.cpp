@@ -85,37 +85,37 @@ void CSummary::run()const
         result_table->append(CColumn(CStringData(), "Parameter"));*/
 
         auto n_s = m_config.getParameter("Max").LastType;
-        if (m_config.getParameter("Max").Int)
+        if (m_config.getParameter("Max").toInt())
         {
             m[EFunction::Max] = QVariant(0);
             //result_table->.append(CColumn(CDoubleData(), "Max"));
         }
-        if (m_config.getParameter("Min").Int)
+        if (m_config.getParameter("Min").toInt())
         {
             m[EFunction::Min] = QVariant(0);
             //result_table->.append(CColumn(CDoubleData(), "Min"));
         }
-        if (m_config.getParameter("Median").Int)
+        if (m_config.getParameter("Median").toInt())
         {
             m[EFunction::Median] = QVariant(0);
             //result_table->append(CColumn(CDoubleData(), "Median"));
         }
-        if (m_config.getParameter("Average").Int)
+        if (m_config.getParameter("Average").toInt())
         {
             m[EFunction::Average] = QVariant(0);
             //result_table->append(CColumn(CDoubleData(), "Average"));
         }
-        if (m_config.getParameter("StandardDeviation").Int)
+        if (m_config.getParameter("StandardDeviation").toInt())
         {
             m[EFunction::StandardDeviation] = QVariant(0);
             //result_table->append(CColumn(CDoubleData(), "StandardDeviation"));
         }
-        if (m_config.getParameter("Skewness").Int)
+        if (m_config.getParameter("Skewness").toInt())
         {
             m[EFunction::Skewness] = QVariant(0);
             //result_table->append(CColumn(CDoubleData(), "Skewness"));
         }
-        if (m_config.getParameter("Kurtosis").Int)
+        if (m_config.getParameter("Kurtosis").toInt())
         {
             m[EFunction::Kurtosis] = QVariant(0);
             //result_table->append(CColumn(CDoubleData(), "Kurtosis"));
@@ -137,7 +137,7 @@ void CSummary::run()const
         //ITablePtr table2 = m_data_provider->GetData(fieldList2);
         ITablePtr table2;
 
-/*-------------------------*/
+/*-------------------------  hard coded table */
         CTable * tb1 = new CTable;
         QVector<QString> vec_param_name;
         vec_param_name.append("Param_1");
