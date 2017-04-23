@@ -352,7 +352,7 @@ void CSummary::run()const
             }
 
             m_result_table = ITablePtr(param_sum_result);
-            view_results(m_result_table);
+            //view_results(m_result_table);
         }
 
     }
@@ -375,16 +375,18 @@ const IDataProvider* CSummary::getProvider()const
     return  m_data_provider;
 }
 
-/*void CSummary::view_results() const
+
+/*void CSummary::view_results(ITablePtr table) const
 {
-    StatisticsTable * tableModel = new StatisticsTable(m_result_table);
+    StatisticsTable * tableModel = new StatisticsTable(table);
     QTableView * tableView = new QTableView;
     tableView->setModel(tableModel);
     tableView->show();
 }*/
 
-void CSummary::view_results(ITablePtr table) const
+void CSummary::view_results() const
 {
+    ITablePtr table(m_result_table);
     StatisticsTable * tableModel = new StatisticsTable(table);
     QTableView * tableView = new QTableView;
     tableView->setModel(tableModel);

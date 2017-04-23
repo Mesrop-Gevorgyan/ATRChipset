@@ -22,8 +22,8 @@ public:
     virtual const IDataProvider* getProvider()const override;
     //runs the analyse
     virtual void run()const override;
-    //void view_results() const;
-    void view_results(ITablePtr) const;
+    void view_results() const;
+    //void view_results(ITablePtr) const;
 
 private:
     CConfiguration m_config;
