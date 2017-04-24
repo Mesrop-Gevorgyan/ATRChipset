@@ -4,7 +4,7 @@
 #include <QListWidgetItem>
 #include <QBoxLayout>
 
-CGrouping::CGrouping(): QWidget()
+CGrouping::CGrouping(): QWidget(), m_items(QMap<QString,QListWidgetItem *>())
 {
     QListWidget * GrListWidg = new QListWidget();
     GrListWidg->addItem("Grouping:");
@@ -13,6 +13,7 @@ CGrouping::CGrouping(): QWidget()
     for (int i=0; i<grItems.size(); ++i)
     {
         QListWidgetItem *listItem = new QListWidgetItem(grItems[i]);
+        m_items[grItems[i]] = listItem;
         listItem->setCheckState(Qt::Unchecked);
         GrListWidg->addItem(listItem);
     }
@@ -20,4 +21,10 @@ CGrouping::CGrouping(): QWidget()
     QLayout * l = new QVBoxLayout();
     l->addWidget(GrListWidg);
     QWidget::setLayout(l);
+}
+
+
+QMap<QString,QListWidgetItem *> CGrouping::getItems()const
+{
+    return m_items;
 }
