@@ -24,11 +24,16 @@ public:
     virtual void run()const override;
     void view_results() const;
     //void view_results(ITablePtr) const;
+    ITablePtr getStatisticsTable()const;
+    ITablePtr getBinTable()const;
+    ITablePtr getYieldTable()const;
+
 
 private:
     CConfiguration m_config;
     DataProvider* m_data_provider;
     mutable ITablePtr m_result_table;
+    mutable ITablePtr m_result_table1;
 };
 
 #endif // SUMMARY_H

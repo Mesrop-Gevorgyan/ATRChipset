@@ -13,7 +13,7 @@
 
 #include <QVariant>
 
-CSummary::CSummary(): m_result_table(Q_NULLPTR)
+CSummary::CSummary(): m_result_table(Q_NULLPTR), m_result_table1(Q_NULLPTR)
 {}
 
 void CSummary::run()const
@@ -515,13 +515,16 @@ void CSummary::run()const
             tb->addColumn(col_5);
 
             table = static_cast<ITablePtr>(tb);
-            //m_result_table = ITablePtr(table);
-
 
             /* ------------------------- */
 
             BinSummary b;
-            m_result_table = ITablePtr(b.run(table, m_config));
+            ITablePtr bin_res = ITablePtr(b.run(table, m_config));
+            m_result_table = ITablePtr(bin_res);
+            view_results();
+            YieldSummary y;
+            m_result_table1 = ITablePtr(y.run(bin_res, m_config));
+
         }
 }
 
@@ -542,15 +545,6 @@ const IDataProvider* CSummary::getProvider()const
     return  m_data_provider;
 }
 
-
-/*void CSummary::view_results(ITablePtr table) const
-{
-    StatisticsTable * tableModel = new StatisticsTable(table);
-    QTableView * tableView = new QTableView;
-    tableView->setModel(tableModel);
-    tableView->show();
-}*/
-
 void CSummary::view_results() const
 {
     ITablePtr table(m_result_table);
@@ -558,4 +552,16 @@ void CSummary::view_results() const
     QTableView * tableView = new QTableView;
     tableView->setModel(tableModel);
     tableView->show();
+}
+ITablePtr CSummary::getStatisticsTable()const
+{
+    return m_result_table;
+}
+ITablePtr CSummary::getBinTable()const
+{
+    return m_result_table;
+}
+ITablePtr CSummary::getYieldTable()const
+{
+    return m_result_table1;
 }

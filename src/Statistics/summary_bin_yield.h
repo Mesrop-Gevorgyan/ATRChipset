@@ -16,4 +16,11 @@ public:
     ITablePtr run(ITablePtr table, const CConfiguration & config);
 };
 
+class YieldSummary
+{
+public:
+    YieldSummary();
+    ITablePtr run(ITablePtr table, const CConfiguration & config);
+};
+
 #endif // SUMMARY_BIN_YIELD_H

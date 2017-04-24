@@ -22,7 +22,7 @@ ITablePtr BinSummary::run(ITablePtr table, const CConfiguration & config)
     CIntDataPtr devices = table->GetColumnData("Device")->GetIntData();
 
     //bin_count is map where key is lot wafer device number with vector and value is bins count
-    //value[0] is HBin count and value[1] is SBin count
+    //value[0] is HBin count and value[1] is SBin count, value[2] is passFail flag
     QMap<QVector<int>, QVector<int>> bin_count;
 
     for (int row_index = 0; row_index < bin->GetCount(); ++row_index)
@@ -143,3 +143,125 @@ ITablePtr BinSummary::run(ITablePtr table, const CConfiguration & config)
     return ITablePtr(result_table);
 
 }
+
+
+
+
+
+YieldSummary::YieldSummary()
+{}
+ITablePtr YieldSummary::run(ITablePtr table, const CConfiguration & config)
+{
+    bool bLot = config.getParameter("Lot").toInt();
+    bool bWafer = config.getParameter("Wafer").toInt();
+    bool bDevice = config.getParameter("Device").toInt();
+    bool bHbin = config.getParameter("HBin").toInt();
+    bool bSbin = config.getParameter("SBin").toInt();
+
+    CStringDataPtr passFail = table->GetColumnData("PassFail")->GetStringData();
+    CIntDataPtr wafers;
+    if (bWafer)
+        wafers = table->GetColumnData("Wafer")->GetIntData();
+    CIntDataPtr lots;
+    if (bLot)
+        lots = table->GetColumnData("Lot")->GetIntData();
+    CIntDataPtr devices;
+    if (bDevice)
+        devices = table->GetColumnData("Device")->GetIntData();
+    CIntDataPtr hbins;
+    if (bHbin)
+        hbins = table->GetColumnData("HBIN")->GetIntData();
+    CIntDataPtr sbins;
+    if (bSbin)
+        sbins = table->GetColumnData("SBIN")->GetIntData();
+
+    QMap<QVector<int>, QVector<int>> yield;
+    for (int row_index = 0; row_index < passFail->GetCount(); ++row_index)
+    {
+        QVector<int> current_key;
+        if (bWafer)
+            current_key.append(wafers->GetAt(row_index));
+        if (bLot)
+            current_key.append(lots->GetAt(row_index));
+        if (bDevice)
+            current_key.append(devices->GetAt(row_index));
+
+        int bins_count = 0;
+        if (bHbin)
+            bins_count += hbins->GetAt(row_index);
+        if (bSbin)
+            bins_count += sbins->GetAt(row_index);
+
+        int type = passFail->GetAt(row_index) == "True";
+
+        int good_bins_count = bins_count * type;
+
+        if (yield.find(current_key) == yield.end())
+            yield.insert(current_key, QVector<int>{good_bins_count, bins_count});
+        else
+        {
+            yield[current_key][0] += good_bins_count;
+            yield[current_key][1] += bins_count;
+        }
+    }
+
+    QVector<int> result_wafers;
+    QVector<int> result_lots;
+    QVector<int> result_devices;
+    QVector<double> result_yields;
+
+
+    for (auto iter = yield.begin(); iter != yield.end(); ++iter)
+    {
+        QVector<int> current_key = iter.key();
+        if (bWafer)
+        {
+            result_wafers.append(current_key[0])  ;
+            current_key.pop_front();
+        }
+        if (bLot)
+        {
+            result_lots.append(current_key[0])  ;
+            current_key.pop_front();
+        }
+        if (bDevice)
+        {
+            result_devices.append(current_key[0])  ;
+            current_key.pop_front();
+        }
+
+        QVector<int> current_value = iter.value();
+        result_yields.append((double(current_value[0])/current_value[1])*100);
+    }
+
+    CTable * result_table = new CTable;
+    if (result_wafers.size())
+    {
+        IVectorPtr vec_ptr_wafer = static_cast<IVectorPtr>(new CIntData(result_wafers));
+        IColumnPtr col_wafer = static_cast<IColumnPtr>(new CColumn(vec_ptr_wafer, "Wafer"));
+        result_table->addColumn(col_wafer);
+    }
+    if (result_lots.size())
+    {
+        IVectorPtr vec_ptr_lot = static_cast<IVectorPtr>(new CIntData(result_lots));
+        IColumnPtr col_lot = static_cast<IColumnPtr>(new CColumn(vec_ptr_lot, "Lot"));
+        result_table->addColumn(col_lot);
+
+    }
+    if (result_devices.size())
+    {
+        IVectorPtr vec_ptr_device = static_cast<IVectorPtr>(new CIntData(result_devices));
+        IColumnPtr col_device = static_cast<IColumnPtr>(new CColumn(vec_ptr_device, "Device"));
+        result_table->addColumn(col_device);
+
+    }
+    if (result_yields.size())
+    {
+        IVectorPtr vec_ptr_yield = static_cast<IVectorPtr>(new CDoubleData(result_yields));
+        IColumnPtr col_yield = static_cast<IColumnPtr>(new CColumn(vec_ptr_yield, "Yield"));
+        result_table->addColumn(col_yield);
+    }
+    return ITablePtr(result_table);
+
+}
+
