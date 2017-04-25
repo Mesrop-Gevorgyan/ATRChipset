@@ -146,13 +146,20 @@ QVariantList DataIndex::GetFieldValuesCorrespondingToSelection(const Field& fiel
 /* Helper function,which adds all fileInfos to index */
 void DataIndex::__indexation()
 {
+	
 	for (int i =0;i<m_infos.count();++i)
 	{	
 		/* Get Context string list of specified fileInfo */
-		FieldList context_list = m_infos[i].m_fileContext.GetFields(Context);
+		QVariantList context = m_infos[i].m_fileContext.GetValues(Context);
+		FieldList context_list;
+
+		for (auto v : context)
+			context_list << v.toString();
 
 		for (auto context : context_list)
 		{
+			std::cout << "Context = " << context.toStdString() << std::endl;
+
 			/* indexation of Files containig  info about Lots */
 			if (context.contains(LOT))
 			{
@@ -168,28 +175,44 @@ void DataIndex::__indexation()
 			/* indexation of Files containig  info about Wafers */
 			if (context.contains(WAFER))
 			{
-				if (m_lots.find(context) != m_lots.end())
-					m_lots[context].push_back(i);
+				if (m_wafers.find(context) != m_wafers.end())
+					m_wafers[context].push_back(i);
 				else {
 					IDList idList;
 					idList.push_back(i);
-					m_lots[context] = idList;
+					m_wafers[context] = idList;
 				}
 			}
 
 			/* indexation of Files containig  info about Devices */
 			if (context.contains(DEVICE))
 			{
-				if (m_lots.find(context) != m_lots.end())
-					m_lots[context].push_back(i);
+				if (m_devices.find(context) != m_devices.end())
+					m_devices[context].push_back(i);
 				else {
 					IDList idList;
 					idList.push_back(i);
-					m_lots[context] = idList;
+					m_devices[context] = idList;
 				}
 			}
 		}
+		std::cout << std::endl;
 	}
+	
+	for (int i = 0; i < m_lots.keys().count(); ++i)
+		std::cout <<"Lots " <<m_lots.keys().at(i).toStdString() << std::endl;
+
+	std::cout << std::endl;
+
+	for (int i = 0; i < m_wafers.keys().count(); ++i)
+		std::cout << "Wafer " << m_wafers.keys().at(i).toStdString() << std::endl;
+
+	std::cout << std::endl;
+
+	for (int i = 0; i < m_devices.keys().count(); ++i)
+		std::cout << "Devices " << m_devices.keys().at(i).toStdString() << std::endl;
+	
+	std::cout << std::endl;
 }
 
 /*
