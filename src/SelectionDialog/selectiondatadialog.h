@@ -34,7 +34,8 @@ private:
     SFieldValueSelection m_lotField;
 
 private:
-    void clear();
+    void clearWidgets();
+    void clearSelectedLists();
     void updateWafersColum();
     void updateDevicesColum();
     void updateDatesColum();
@@ -48,6 +49,8 @@ private slots:
     void on_listWidget_Lots_itemClicked(QListWidgetItem *item);
 
     void on_pushButton_Next_clicked();
+
+    void on_pushButton_Cancel_clicked();
 
 private:
     void setAllDatesInWidget(QVariantList dates);

@@ -11,11 +11,19 @@ SelectionDataDialog::SelectionDataDialog(QWidget *parent) :
 void SelectionDataDialog::init(DataDirectory* dataDirectory)
 {
     m_dataDirectory = dataDirectory;
+ /* for testing setAllDATAInWidget functions
+  *
+    QVariantList testDate{"Date1","Date2","Date3","Date4","Date5","Date6","Date7" };
+    QVariantList testWafer{"Wafer1","Wafer2","Wafer3","Wafer4","Wafer5","Wafer6","Wafer7" };
+    QVariantList testlot{"lot1","lot2","lot3","lot4","lot5","lot6","lot7" };
+    QVariantList testDevice{"Device1","Device2","Device3","Device4","Device5","Device6","Device7" };
+  *
+ */
+    setAllDatesInWidget(/*testDate);//*/ m_dataDirectory->GetFieldValues("Date"));
+    setAllWafersInWidget(/*testWafer);//*/ m_dataDirectory->GetFieldValues("Wafer"));
 
-    setAllDatesInWidget(m_dataDirectory->GetFieldValues("Date"));
-    setAllWafersInWidget(m_dataDirectory->GetFieldValues("Wafer"));
-    setAllDevicesInWidget(m_dataDirectory->GetFieldValues("Device"));
-    setAllLotsInWidget(m_dataDirectory->GetFieldValues("Lot"));
+    setAllDevicesInWidget(/*testDevice);//*/ m_dataDirectory->GetFieldValues("Device"));
+    setAllLotsInWidget(/*testlot);//*/ m_dataDirectory->GetFieldValues("Lot"));
 }
 
 SelectionDataDialog::~SelectionDataDialog()
@@ -25,6 +33,7 @@ SelectionDataDialog::~SelectionDataDialog()
 
 void SelectionDataDialog::setAllDatesInWidget(QVariantList dates)
 {
+    ui->listWidget_Dates->addItem("size = " + QString::number(dates.size()));
     for (const auto date : dates)
     {
         ui->listWidget_Dates->addItem(date.toString());
@@ -33,6 +42,7 @@ void SelectionDataDialog::setAllDatesInWidget(QVariantList dates)
 
 void SelectionDataDialog::setAllWafersInWidget(QVariantList wafers)
 {
+    ui->listWidget_Wafers->addItem("size = " + QString::number(wafers.size()));
     for (const auto wafer : wafers)
     {
         ui->listWidget_Wafers->addItem(wafer.toString());
@@ -41,6 +51,7 @@ void SelectionDataDialog::setAllWafersInWidget(QVariantList wafers)
 
 void SelectionDataDialog::setAllDevicesInWidget(QVariantList devices)
 {
+    ui->listWidget_Devices->addItem("size = " + QString::number(devices.size()));
     for (const auto device : devices)
     {
         ui->listWidget_Devices->addItem(device.toString());
@@ -49,6 +60,7 @@ void SelectionDataDialog::setAllDevicesInWidget(QVariantList devices)
 
 void SelectionDataDialog::setAllLotsInWidget(QVariantList lots)
 {
+    ui->listWidget_Lots->addItem("size = " + QString::number(lots.size()));
     for (const auto lot : lots)
     {
         ui->listWidget_Lots->addItem(lot.toString());
@@ -62,7 +74,6 @@ void SelectionDataDialog::on_pushButton_SelectAll_clicked()
     ui->listWidget_Devices->selectAll();
     ui->listWidget_Lots->selectAll();
 }
-
 
 void SelectionDataDialog::on_listWidget_Dates_itemClicked(QListWidgetItem *item)
 {
@@ -156,7 +167,15 @@ void SelectionDataDialog::updateDatesColum()
     setAllDatesInWidget(m_dataDirectory->GetFieldList(m_selection, "Date"));
 }
 
-void SelectionDataDialog::clear()
+void SelectionDataDialog::clearWidgets()
+{
+    ui->listWidget_Dates->clear();
+    ui->listWidget_Devices->clear();
+    ui->listWidget_Wafers->clear();
+    ui->listWidget_Lots->clear();
+}
+
+void SelectionDataDialog::clearSelectedLists()
 {
     m_selectedDates.clear();
     m_selectedWafers.clear();
@@ -171,5 +190,19 @@ CSelection SelectionDataDialog::getSelection() const
 
 void SelectionDataDialog::on_pushButton_Next_clicked()
 {
+    clearWidgets();
+    setAllDatesInWidget(m_selectedDates);
+    setAllWafersInWidget(m_selectedWafers);
+    setAllDevicesInWidget(m_selectedDevices);
+    setAllLotsInWidget(m_selectedLots);
 
+    clearSelectedLists();
+}
+
+void SelectionDataDialog::on_pushButton_Cancel_clicked()
+{
+    clearWidgets();
+    clearSelectedLists();
+
+    init(m_dataDirectory);
 }
