@@ -113,8 +113,8 @@ QVariantList DataIndex::GetFieldValues(Field field) const
 			result << key;
 
 	if (field == DATE)
-		for (auto key : m_dates.keys())
-			result << key;
+		for (int i = 0; i < m_infos.count(); ++i)
+			result.push_back(m_infos[i].m_date);
 
 	return result;
 }
@@ -199,18 +199,6 @@ void DataIndex::__indexation()
 					m_devices[context] = idList;
 				}
 			}
-
-			/* indexation of Files containig  info about Dates */
-			if (context.contains(DATE))
-			{
-				if (m_dates.find(context) != m_dates.end())
-					m_dates[context].push_back(i);
-				else {
-					IDList idList;
-					idList.push_back(i);
-					m_dates[context] = idList;
-				}
-			}
 		}
 	}
 }
@@ -244,8 +232,7 @@ IDList DataIndex::__getFileIDs(QString content)
 		return m_lots[content];
 
 	if (content.contains(DATE))
-		return m_dates[content];
-
+		return m_infos.getIDList();
 
 	return IDList();
 }

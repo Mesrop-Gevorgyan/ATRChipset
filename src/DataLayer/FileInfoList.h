@@ -13,6 +13,7 @@ public:
         const FileInfo& at(unsigned) const;
         int count(const FileInfo&) const;
         int count() const;
+	IDList getIDList() const;
 	int indexof(const FileInfo&) const;
         bool contains(const FileInfo&) const; 
         bool isEmpty() const;

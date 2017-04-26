@@ -40,6 +40,15 @@ int CFileInfoList::count() const
         return m_infos.count();
 }
 
+ IDList CFileInfoList::getIDList() const
+ {
+	 IDList result;
+	 for (auto info : m_infos)
+		 result.push_back(info.ID);
+
+	 return result;
+ }
+
 int CFileInfoList::indexof(const FileInfo& info) const
 {
 	return m_infos.indexOf(info);
