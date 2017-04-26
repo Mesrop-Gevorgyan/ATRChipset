@@ -111,6 +111,12 @@ QVariantList DataIndex::GetFieldValues(Field field) const
 	if (field == DEVICE)
 		for (auto key : m_devices.keys())
 			result << key;
+
+	if (field == DATE)
+		for (int i = 0; i < m_infos.count(); ++i)
+			if(m_infos[i].m_date != QDateTime())
+				result.push_back(m_infos[i].m_date);
+
 	return result;
 }
 
@@ -158,7 +164,6 @@ void DataIndex::__indexation()
 
 		for (auto context : context_list)
 		{
-			std::cout << "Context = " << context.toStdString() << std::endl;
 
 			/* indexation of Files containig  info about Lots */
 			if (context.contains(LOT))
@@ -196,23 +201,7 @@ void DataIndex::__indexation()
 				}
 			}
 		}
-		std::cout << std::endl;
 	}
-	
-	for (int i = 0; i < m_lots.keys().count(); ++i)
-		std::cout <<"Lots " <<m_lots.keys().at(i).toStdString() << std::endl;
-
-	std::cout << std::endl;
-
-	for (int i = 0; i < m_wafers.keys().count(); ++i)
-		std::cout << "Wafer " << m_wafers.keys().at(i).toStdString() << std::endl;
-
-	std::cout << std::endl;
-
-	for (int i = 0; i < m_devices.keys().count(); ++i)
-		std::cout << "Devices " << m_devices.keys().at(i).toStdString() << std::endl;
-	
-	std::cout << std::endl;
 }
 
 /*
@@ -242,6 +231,9 @@ IDList DataIndex::__getFileIDs(QString content)
 
 	if (content.contains(DEVICE))
 		return m_lots[content];
+
+	if (content.contains(DATE))
+		return m_infos.getIDList();
 
 	return IDList();
 }
