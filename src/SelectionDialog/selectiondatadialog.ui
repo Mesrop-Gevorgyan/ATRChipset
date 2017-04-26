@@ -14,7 +14,7 @@
    <string>Dialog</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
-   <item row="0" column="0">
+   <item row="1" column="0">
     <layout class="QVBoxLayout" name="verticalLayout">
      <item>
       <layout class="QHBoxLayout" name="horizontalLayout_3">
@@ -77,16 +77,28 @@
       </layout>
      </item>
      <item>
-      <layout class="QHBoxLayout" name="horizontalLayout">
+      <layout class="QHBoxLayout" name="horizontalLayout_4">
        <item>
-        <widget class="QPushButton" name="pushButton_SelectAll">
-         <property name="text">
-          <string>Select All</string>
-         </property>
-        </widget>
+        <widget class="QLineEdit" name="lineEdit_Date"/>
        </item>
        <item>
+        <widget class="QLineEdit" name="lineEdit_Wafer"/>
+       </item>
+       <item>
+        <widget class="QLineEdit" name="lineEdit_Device"/>
+       </item>
+       <item>
+        <widget class="QLineEdit" name="lineEdit_Lot"/>
+       </item>
+      </layout>
+     </item>
+     <item>
+      <layout class="QHBoxLayout" name="horizontalLayout">
+       <item>
         <widget class="QPushButton" name="pushButton_Cancel">
+         <property name="focusPolicy">
+          <enum>Qt::NoFocus</enum>
+         </property>
          <property name="text">
           <string>Cancel</string>
          </property>
@@ -107,6 +119,9 @@
        </item>
        <item>
         <widget class="QPushButton" name="pushButton_Next">
+         <property name="focusPolicy">
+          <enum>Qt::NoFocus</enum>
+         </property>
          <property name="text">
           <string>Next</string>
          </property>

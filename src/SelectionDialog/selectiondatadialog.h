@@ -23,6 +23,12 @@ private:
     DataDirectory* m_dataDirectory;
     CSelection m_selection;
 
+    QVariantList m_getedDates;
+    QVariantList m_getedWafers;
+    QVariantList m_getedDevices;
+    QVariantList m_getedLots;
+
+
     QVariantList m_selectedDates;
     QVariantList m_selectedWafers;
     QVariantList m_selectedDevices;
@@ -33,9 +39,18 @@ private:
     SFieldValueSelection m_deviceField;
     SFieldValueSelection m_lotField;
 
+    QString m_datePattern;
+    QString m_waferPattern;
+    QString m_devicePattern;
+    QString m_lotPattern;
+
 private:
     void clearWidgets();
     void clearSelectedLists();
+    void clearLineEdits();
+
+    void initPointersToLineEdit();
+
     void updateWafersColum();
     void updateDevicesColum();
     void updateDatesColum();
@@ -49,8 +64,21 @@ private slots:
     void on_listWidget_Lots_itemClicked(QListWidgetItem *item);
 
     void on_pushButton_Next_clicked();
-
     void on_pushButton_Cancel_clicked();
+
+    void on_lineEdit_Wafer_textChanged(const QString &waferPattern);
+
+    void on_lineEdit_Device_textChanged(const QString &devicePattern);
+
+    void on_lineEdit_Lot_textChanged(const QString &lotPattern);
+
+    void on_lineEdit_Date_returnPressed();
+
+    void on_lineEdit_Wafer_returnPressed();
+
+    void on_lineEdit_Device_returnPressed();
+
+    void on_lineEdit_Lot_returnPressed();
 
 private:
     void setAllDatesInWidget(QVariantList dates);

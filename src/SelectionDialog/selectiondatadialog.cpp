@@ -6,6 +6,26 @@ SelectionDataDialog::SelectionDataDialog(QWidget *parent) :
     ui(new Ui::SelectionDataDialog)
 {
     ui->setupUi(this);
+
+    initPointersToLineEdit();
+}
+
+void SelectionDataDialog::initPointersToLineEdit()
+{
+    ui->lineEdit_Date->insert("*");
+    ui->lineEdit_Wafer->insert("*");
+    ui->lineEdit_Device->insert("*");
+    ui->lineEdit_Lot->insert("*");
+}
+
+void SelectionDataDialog::clearLineEdits()
+{
+    ui->lineEdit_Date->clear();
+    ui->lineEdit_Wafer->clear();
+    ui->lineEdit_Device->clear();
+    ui->lineEdit_Lot->clear();
+
+    initPointersToLineEdit();
 }
 
 void SelectionDataDialog::init(DataDirectory* dataDirectory)
@@ -33,7 +53,8 @@ SelectionDataDialog::~SelectionDataDialog()
 
 void SelectionDataDialog::setAllDatesInWidget(QVariantList dates)
 {
-    ui->listWidget_Dates->addItem("size = " + QString::number(dates.size()));
+    m_getedDates = dates;
+
     for (const auto date : dates)
     {
         ui->listWidget_Dates->addItem(date.toString());
@@ -42,7 +63,8 @@ void SelectionDataDialog::setAllDatesInWidget(QVariantList dates)
 
 void SelectionDataDialog::setAllWafersInWidget(QVariantList wafers)
 {
-    ui->listWidget_Wafers->addItem("size = " + QString::number(wafers.size()));
+    m_getedWafers = wafers;
+
     for (const auto wafer : wafers)
     {
         ui->listWidget_Wafers->addItem(wafer.toString());
@@ -51,7 +73,8 @@ void SelectionDataDialog::setAllWafersInWidget(QVariantList wafers)
 
 void SelectionDataDialog::setAllDevicesInWidget(QVariantList devices)
 {
-    ui->listWidget_Devices->addItem("size = " + QString::number(devices.size()));
+   m_getedDevices = devices;
+
     for (const auto device : devices)
     {
         ui->listWidget_Devices->addItem(device.toString());
@@ -60,7 +83,8 @@ void SelectionDataDialog::setAllDevicesInWidget(QVariantList devices)
 
 void SelectionDataDialog::setAllLotsInWidget(QVariantList lots)
 {
-    ui->listWidget_Lots->addItem("size = " + QString::number(lots.size()));
+    m_getedLots = lots;
+
     for (const auto lot : lots)
     {
         ui->listWidget_Lots->addItem(lot.toString());
@@ -203,6 +227,105 @@ void SelectionDataDialog::on_pushButton_Cancel_clicked()
 {
     clearWidgets();
     clearSelectedLists();
+    clearLineEdits();
 
     init(m_dataDirectory);
+}
+
+void SelectionDataDialog::on_lineEdit_Wafer_textChanged(const QString &waferPattern)
+{
+    m_waferPattern = waferPattern;
+}
+
+void SelectionDataDialog::on_lineEdit_Device_textChanged(const QString &devicePattern)
+{
+    m_devicePattern = devicePattern;
+}
+
+void SelectionDataDialog::on_lineEdit_Lot_textChanged(const QString &lotPattern)
+{
+    m_lotPattern = lotPattern;
+}
+
+void SelectionDataDialog::on_lineEdit_Date_returnPressed()
+{
+
+    m_datePattern = ui->lineEdit_Date->text();
+    ui->listWidget_Dates->clear();
+
+    for (const auto date : m_getedDates)
+    {
+        bool b = date.toString().contains(m_datePattern);
+        ui->listWidget_Dates->clear();
+
+        if (m_datePattern == "*")
+        {
+            ui->listWidget_Dates->addItem(date.toString());
+        }
+        else if (b && date.toString().indexOf(m_datePattern) == 0)
+        {
+            ui->listWidget_Dates->addItem(date.toString());
+        }
+    }
+}
+
+void SelectionDataDialog::on_lineEdit_Wafer_returnPressed()
+{
+    m_waferPattern = ui->lineEdit_Wafer->text();
+
+    for (const auto wafer : m_getedWafers)
+    {
+        bool b = wafer.toString().contains(m_waferPattern);
+        ui->listWidget_Wafers->clear();
+
+        if (m_waferPattern == "*")
+        {
+            ui->listWidget_Wafers->addItem(wafer.toString());
+        }
+        else if (b && wafer.toString().indexOf(m_waferPattern) == 0)
+        {
+            ui->listWidget_Wafers->addItem(wafer.toString());
+        }
+    }
+}
+
+void SelectionDataDialog::on_lineEdit_Device_returnPressed()
+{
+    m_devicePattern = ui->lineEdit_Device->text();
+
+    for (const auto device : m_getedDevices)
+    {
+        bool b = device.toString().contains(m_devicePattern);
+        ui->listWidget_Devices->clear();
+
+        if (m_devicePattern == "*")
+        {
+            ui->listWidget_Devices->addItem(device.toString());
+        }
+        else if (b && device.toString().indexOf(m_devicePattern) == 0)
+        {
+            ui->listWidget_Devices->addItem(device.toString());
+        }
+    }
+}
+
+void SelectionDataDialog::on_lineEdit_Lot_returnPressed()
+{
+    m_lotPattern = ui->lineEdit_Lot->text();
+    QVariantList lotPatternsList;
+
+    for (const auto lot : m_getedLots)
+    {
+        bool b = lot.toString().contains(m_lotPattern);
+        ui->listWidget_Lots->clear();
+
+        if (m_lotPattern == "*")
+        {
+            ui->listWidget_Lots->addItem(lot.toString());
+        }
+        else if (b && lot.toString().indexOf(m_lotPattern) == 0)
+        {
+            ui->listWidget_Lots->addItem(lot.toString());
+        }
+    }
 }
