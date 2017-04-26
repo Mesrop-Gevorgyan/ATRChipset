@@ -111,6 +111,11 @@ QVariantList DataIndex::GetFieldValues(Field field) const
 	if (field == DEVICE)
 		for (auto key : m_devices.keys())
 			result << key;
+
+	if (field == DATE)
+		for (auto key : m_dates.keys())
+			result << key;
+
 	return result;
 }
 
@@ -194,6 +199,18 @@ void DataIndex::__indexation()
 					m_devices[context] = idList;
 				}
 			}
+
+			/* indexation of Files containig  info about Dates */
+			if (context.contains(DATE))
+			{
+				if (m_dates.find(context) != m_dates.end())
+					m_dates[context].push_back(i);
+				else {
+					IDList idList;
+					idList.push_back(i);
+					m_dates[context] = idList;
+				}
+			}
 		}
 	}
 }
@@ -225,6 +242,10 @@ IDList DataIndex::__getFileIDs(QString content)
 
 	if (content.contains(DEVICE))
 		return m_lots[content];
+
+	if (content.contains(DATE))
+		return m_dates[content];
+
 
 	return IDList();
 }

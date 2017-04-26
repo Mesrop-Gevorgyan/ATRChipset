@@ -27,6 +27,7 @@ private:
 	QMap <QString, IDList> m_lots;
 	QMap <QString, IDList> m_wafers;
 	QMap <QString, IDList> m_devices;
+	QMap <QString, IDList> m_dates;
 	CFileInfoList m_infos;
 	CSelection m_selection;
 	bool hasSelection;
