@@ -2,7 +2,7 @@
 #define PARSER_H
 
 #include <QString>
-#include <DataStore.h>
+#include "DataStore.h"
 #include "vector.h"
 #include <QFile>
 #include <QTextStream>
