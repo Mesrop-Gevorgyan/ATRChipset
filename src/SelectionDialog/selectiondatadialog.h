@@ -57,27 +57,16 @@ private:
     void updateLotsColum();
 
 private slots:
-    void on_pushButton_SelectAll_clicked();
     void on_listWidget_Dates_itemClicked(QListWidgetItem *item);
     void on_listWidget_Wafers_itemClicked(QListWidgetItem *item);
     void on_listWidget_Devices_itemClicked(QListWidgetItem *item);
     void on_listWidget_Lots_itemClicked(QListWidgetItem *item);
 
-    void on_pushButton_Next_clicked();
     void on_pushButton_Cancel_clicked();
 
-    void on_lineEdit_Wafer_textChanged(const QString &waferPattern);
-
-    void on_lineEdit_Device_textChanged(const QString &devicePattern);
-
-    void on_lineEdit_Lot_textChanged(const QString &lotPattern);
-
     void on_lineEdit_Date_returnPressed();
-
     void on_lineEdit_Wafer_returnPressed();
-
     void on_lineEdit_Device_returnPressed();
-
     void on_lineEdit_Lot_returnPressed();
 
 private:
