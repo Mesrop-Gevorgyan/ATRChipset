@@ -114,7 +114,8 @@ QVariantList DataIndex::GetFieldValues(Field field) const
 
 	if (field == DATE)
 		for (int i = 0; i < m_infos.count(); ++i)
-			result.push_back(m_infos[i].m_date);
+			if(m_infos[i].m_date != QDateTime())
+				result.push_back(m_infos[i].m_date);
 
 	return result;
 }

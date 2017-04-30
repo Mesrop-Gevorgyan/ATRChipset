@@ -3,6 +3,7 @@
 
 #include <QList>
 #include <QSharedPointer>
+#include <iostream>
 
 // Forword declarations
 class QString;
